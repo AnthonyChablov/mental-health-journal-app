@@ -9,23 +9,45 @@ export async function getJournalController(req: Request, res:Response, next:Next
     res.send('123');
 }
 
-export async function createJournalController(req: Request, res:Response, next:NextFunction){
-    try{
-        // create new Journal
-        const newJournal = new JournalModel({
-            title: req.body.title,
-            description: req.body.description,
-            startDate: req.body.startDate,
-            dueDate: req.body.dueDate,
-            isDone: req.body.isDone,
-        });
-
-        // persist to db 
-        const createdJournal = await newJournal.save();
-        // send created todo back to user
-        res.json(createdJournal);
-
-    }catch(error){
-        next(error);
+export async function createJournalController(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+        
+      // Extract relevant data from the request body
+      const {
+        user_id,
+        title,
+        content,
+        date,
+        mood,
+        location,
+        tags,
+        attachments,
+        privacy,
+      } = req.body;
+  
+      // Create a new journal entry
+      const newJournal = new JournalModel({
+        user_id,
+        title,
+        content,
+        date,
+        mood,
+        location,
+        tags,
+        attachments,
+        privacy,
+      });
+  
+      // Persist the new journal entry to the database
+      const createdJournal = await newJournal.save();
+  
+      // Send the created journal entry back to the user
+      res.json(createdJournal);
+    } catch (error) {
+      next(error);
     }
-}
+  }
