@@ -1,4 +1,4 @@
-import { AiTwotoneCalendar, AiOutlineHome, AiOutlineUser} from 'react-icons/ai';
+import { AiTwotoneCalendar, AiOutlineHome, AiOutlineUser, AiOutlinePlayCircle} from 'react-icons/ai';
 
 
   interface IIcons {
@@ -15,6 +15,7 @@ import { AiTwotoneCalendar, AiOutlineHome, AiOutlineUser} from 'react-icons/ai';
             home : <AiOutlineHome size={size} color={color}/>,
             journal : <AiTwotoneCalendar size = {size} color = {color}/>,
             user : <AiOutlineUser size = {size} color = {color}/>,
+            courses: <AiOutlinePlayCircle size={size} color={color}/>,
           }[type]
         }
       </div>

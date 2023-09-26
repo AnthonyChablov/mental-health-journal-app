@@ -1,13 +1,17 @@
 import React from 'react';
-import DashboardNav from './DashboardNav';
+import AppNav from '../Common/Navigation/AppNav';
+import Container from '../Common/Utils/Container';
+import Hero from '../Common/Hero/Hero';
 
 const DashboardLayout = () => {
   return (
-    <div>
-        123
-        <DashboardNav/>
-    </div>
+    <main>
+        <Container>
+          <Hero/>
+        </Container>
+        <AppNav/>
+    </main>
   )
 }
 
-export default DashboardLayout
+export default DashboardLayout;
