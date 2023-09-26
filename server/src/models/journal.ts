@@ -27,9 +27,6 @@ const journalSchema = new mongoose.Schema({
   tags: {
     type: [String],
   },
-  attachments: {
-    type: [String],
-  },
   privacy: {
     type: String,
     enum: ['Public', 'Private'], // Assuming two privacy options
