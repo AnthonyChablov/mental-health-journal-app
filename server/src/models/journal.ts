@@ -16,6 +16,5 @@ const journalSchema = new mongoose.Schema({
 });
 
 // Create a model based on the schema
-const Journal = mongoose.model('Journal', journalSchema);
+export const JournalModel = mongoose.model('Journal', journalSchema);
 
-module.exports = Journal;
