@@ -1,21 +1,22 @@
 import express from "express";
 import mongoose from "mongoose";
 import journalRoutes from "./routes/journalRoutes";
+import cors from "express";
+const passport = require("passport");
 
 // App config
 require("dotenv").config();
 const app = express();
 const port = 3000;
 
-// Home
+/* Middleware */
+app.use(express.json());
+app.use(cors()); // Enable CORS for all routes
+
+// Routes
 app.get("/", (req, res) => {
   res.send("Hello, Express with TypeScript!");
 });
-
-/* Middleware */
-app.use(express.json());
-
-// journal routes
 app.use("/api/journal", journalRoutes);
 
 // Connect to your MongoDB database

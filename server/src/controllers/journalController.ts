@@ -56,7 +56,7 @@ export async function getJournalController(
 ) {
   try {
     // Use Mongoose's findOne method to retrieve a single journal by its unique identifier
-    const journalId = req.params.journalId; // Assuming you have a route parameter named 'id' for the journal's unique identifier
+    const journalId = req.params.journalId;
     const journal = await JournalModel.findOne({ _id: journalId }).exec();
 
     if (!journal) {
@@ -68,6 +68,59 @@ export async function getJournalController(
     res.status(200).json(journal);
   } catch (error) {
     console.error("Error fetching journal: ", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+}
+
+/* Update a Journal */
+export async function updateJournalController(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const journalId = req.params.journalId;
+    const updateData = req.body;
+
+    // Use Mongoose to update the journal entry
+    const updatedJournal = await JournalModel.findByIdAndUpdate(
+      journalId,
+      updateData,
+      { new: true }
+    );
+
+    if (!updatedJournal) {
+      return res.status(404).json({ message: "Journal entry not found" });
+    }
+
+    res.status(200).json({
+      message: "Journal entry updated successfully",
+      updatedJournal,
+    });
+  } catch (error) {
+    console.error("Error Updating journal: ", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+}
+
+/* Delete a Journal */
+export async function deleteJournalController(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const journalId = req.params.journalId;
+    const journal = await JournalModel.findOneAndDelete({
+      _id: journalId,
+    }).exec();
+
+    /* Return successfully deleted journal */
+    res.status(200).json({
+      message: "Journal entry successfully deleted.",
+    });
+  } catch (error) {
+    console.error("Error deleting journal: ", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 }

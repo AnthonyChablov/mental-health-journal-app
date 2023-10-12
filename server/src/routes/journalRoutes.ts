@@ -3,6 +3,8 @@ import {
   createJournalController,
   getJournalsController,
   getJournalController,
+  deleteJournalController,
+  updateJournalController,
 } from "../controllers/journalController";
 
 const router = express.Router();
@@ -11,5 +13,7 @@ const router = express.Router();
 router.get("/", getJournalsController);
 router.get("/:journalId", getJournalController);
 router.post("/", createJournalController);
+router.delete("/:journalId", deleteJournalController);
+router.put("/:journalId", updateJournalController);
 
 export default router;
