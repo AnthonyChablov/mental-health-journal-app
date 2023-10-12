@@ -1,23 +1,23 @@
-import express from 'express';
+import express from "express";
 import mongoose from "mongoose";
-import journalRoutes from './routes/journalRoutes';
+import journalRoutes from "./routes/journalRoutes";
 
 // App config
 require("dotenv").config();
 const app = express();
 const port = 3000;
 
-// Home 
-app.get('/', (req, res) => {
-  res.send('Hello, Express with TypeScript!');
+// Home
+app.get("/", (req, res) => {
+  res.send("Hello, Express with TypeScript!");
 });
 
 // journal routes
-app.use('/api/journal', journalRoutes);
+app.use("/api/journal", journalRoutes);
 
 // Connect to your MongoDB database
 mongoose
-  .connect(process.env.MONGO_URI as string)
+  .connect(String(process.env.MONGO_URI))
   .then(() => {
     console.log("Connected to MongoDB");
   })
