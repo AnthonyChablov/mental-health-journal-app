@@ -12,6 +12,9 @@ app.get("/", (req, res) => {
   res.send("Hello, Express with TypeScript!");
 });
 
+/* Middleware */
+app.use(express.json());
+
 // journal routes
 app.use("/api/journal", journalRoutes);
 

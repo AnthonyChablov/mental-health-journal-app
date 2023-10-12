@@ -9,17 +9,16 @@ export async function createJournalController(
 ) {
   try {
     // Extract relevant data from the request body
-    const { user_id, title, content, date, mood, tags, attachments, privacy } =
-      req.body;
+    const { user_id, title, content, date, mood, tags, privacy } = req.body;
 
     // Create a new journal entry
     const newJournal = new JournalModel({
+      user_id,
       title,
       content,
       date,
       mood,
       tags,
-      attachments,
       privacy,
     });
 
@@ -57,7 +56,7 @@ export async function getJournalController(
 ) {
   try {
     // Use Mongoose's findOne method to retrieve a single journal by its unique identifier
-    const journalId = req.params.id; // Assuming you have a route parameter named 'id' for the journal's unique identifier
+    const journalId = req.params.journalId; // Assuming you have a route parameter named 'id' for the journal's unique identifier
     const journal = await JournalModel.findOne({ _id: journalId }).exec();
 
     if (!journal) {
@@ -65,6 +64,7 @@ export async function getJournalController(
       return res.status(404).json({ error: "Journal not found" });
     }
 
+    /* Return the contents of the created journal */
     res.status(200).json(journal);
   } catch (error) {
     console.error("Error fetching journal: ", error);
