@@ -41,12 +41,12 @@ export default function NavBar() {
             </Link>
           </NavbarItem>
           <NavbarItem isActive>
-            <Link href="#" aria-current="page">
+            <Link href="features" aria-current="page">
               Features
             </Link>
           </NavbarItem>
           <NavbarItem className="">
-            <Link color="foreground" href="/AboutUs" as={NextLink}>
+            <Link color="foreground" href="/about" as={NextLink}>
               About Us
             </Link>
           </NavbarItem>

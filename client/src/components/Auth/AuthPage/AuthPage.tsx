@@ -14,6 +14,8 @@ interface IAuthenticationPage {
 }
 
 export default function AuthenticationPage({ mode }: IAuthenticationPage) {
+  const isRegisterMode = mode === "register";
+
   return (
     <>
       <div className="md:hidden">
@@ -34,14 +36,14 @@ export default function AuthenticationPage({ mode }: IAuthenticationPage) {
       </div>
       <div className="container relative hidden h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <Link
-          href="/login"
+          href={isRegisterMode ? "/login" : "/register"}
           className={"absolute right-4 top-4 md:right-8 md:top-8"}
         >
-          Login
+          {isRegisterMode ? "Login" : "Register"}
         </Link>
         <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
           <div className="absolute inset-0 bg-gradient-to-tr from-red-300 via-red-350 via-red-400 to-yellow-400" />
-          <div className="relative z-20 flex items-center text-lg font-medium">
+          <div className="relative z-20 flex items-center text-lg font-medium ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="100"
@@ -49,29 +51,42 @@ export default function AuthenticationPage({ mode }: IAuthenticationPage) {
               viewBox="0 0 100 100"
               fill="none"
               stroke="currentColor"
-              stroke-width="3"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="3"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className="mr-2 h-6 w-6"
             >
               <circle cx="50" cy="50" r="40" />
               <line x1="20" y1="50" x2="80" y2="50" />
               <line x1="50" y1="20" x2="50" y2="80" />
             </svg>
-            Harmony Helper
+            <p className="text-white">Harmony Helper</p>
           </div>
         </div>
         <div className="lg:p-8">
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
             <div className="flex flex-col space-y-2 text-center">
-              <h1 className="text-2xl font-semibold tracking-tight">
-                Create an account
-              </h1>
-              <p className="text-sm text-muted-foreground">
-                Enter your email below to create your account
-              </p>
+              {isRegisterMode ? (
+                <>
+                  <h1 className="text-2xl font-semibold tracking-tight">
+                    Create an account
+                  </h1>
+                  <p className="text-sm text-muted-foreground">
+                    Enter your email below to create your account
+                  </p>
+                </>
+              ) : (
+                <>
+                  <h1 className="text-2xl font-semibold tracking-tight">
+                    Log in to your account
+                  </h1>
+                  <p className="text-sm text-muted-foreground">
+                    Enter your email and password to log in
+                  </p>
+                </>
+              )}
             </div>
-            <UserAuthForm />
+            <UserAuthForm isRegisterMode={isRegisterMode} />
             <p className="px-8 text-center text-sm text-muted-foreground">
               By clicking continue, you agree to our{" "}
               <Link
