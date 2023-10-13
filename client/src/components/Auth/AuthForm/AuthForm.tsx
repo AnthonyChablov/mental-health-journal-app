@@ -1,7 +1,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Icons } from "@/components/Common/Icons";
+import { Icons } from "@/components/Common/Icons/Icons";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "@/components/ui/input";
 
