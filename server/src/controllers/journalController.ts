@@ -1,119 +1,126 @@
-import {Request, Response} from 'express';
-import { NextFunction } from 'express';
-import { JournalModel } from '../models/Journal';
+import { Request, Response } from "express";
+import { NextFunction } from "express";
+import { JournalModel } from "../models/journal";
 
-// Create 
 export async function createJournalController(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) {
-    try {
-      // Extract relevant data from the request body
-      const {
-        user_id,
-        title,
-        content,
-        date,
-        mood,
-        location,
-        tags,
-        attachments,
-        privacy,
-      } = req.body;
-  
-      // Create a new journal entry
-      const newJournal = new JournalModel({
-        user_id,
-        title,
-        content,
-        date,
-        mood,
-        location,
-        tags,
-        attachments,
-        privacy,
-      });
-  
-      // Persist the new journal entry to the database
-      const createdJournal = await newJournal.save();
-  
-      // Send the created journal entry back to the user
-      res.json(createdJournal);
-    } catch (error) {
-      next(error);
-    }
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    // Extract relevant data from the request body
+    const { user_id, title, content, date, mood, tags, privacy } = req.body;
+
+    // Create a new journal entry
+    const newJournal = new JournalModel({
+      user_id,
+      title,
+      content,
+      date,
+      mood,
+      tags,
+      privacy,
+    });
+
+    // Persist the new journal entry to the database
+    const createdJournal = await newJournal.save();
+
+    // Send the created journal entry back to the user
+    res.json(createdJournal);
+  } catch (error) {
+    next(error);
   }
-
-// Rear
-// Get ALL journals
-export async function getJournalsController(req: Request, res:Response, next:NextFunction){
-    try{
-        //const authenticatedUserId = req.session.userId;
-    
-        // const todos = await TodoModel.find({userId: authenticatedUserId}); 
-    
-        /* if (!todos){
-            return res.status(400).send('No tasks exist');
-        }
-        res.json(todos); */
-    } catch(error){
-        next(error)
-    }
-}
-// Get ONE journal
-export async function getJournalController(req: Request, res:Response, next:NextFunction){
-    try{
-        const journalId = req.params.journalId;
-        const journal = await JournalModel.findById(journalId);
-        if (!journal){
-            return res.status(400).send('No task of this id exists');
-        }
-        res.json(journal);
-    }catch(error){
-        next(error);
-    }
 }
 
-// Update Journal
-export async function updateTodoController(req: Request, res:Response, next:NextFunction){
-    try {
-        const journalId = req.params.journalId;
-        const journal = await JournalModel.findById(journalId);
-
-        if (!journal){
-            return res.status(400).send('No task of this id exists');
-        }
-
-        // update journal elems
-        journal.title = req.body.title;
-        journal.content = req.body.content;
-        journal.date = req.body.date;
-        journal.mood = req.body.mood;
-        journal.location = req.body.location;
-        journal.tags = req.body.tags;
-        journal.privacy = req.body.privacy;
-
-        await journal.save();
-        res.json(journal);
-    } catch(error){
-        next(error);
-    }
+/* Get All Journals */
+export async function getJournalsController(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    // Use Mongoose's find method to retrieve all journals
+    const journals = await JournalModel.find(); // Fetch all journals from the database
+    res.status(200).json(journals);
+  } catch (error) {
+    console.error("Error fetching journals: ", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 }
 
-// Delete Journal Model
-export async function deleteTodoController(req: Request, res:Response, next:NextFunction){
+/* Get Single Journal */
+export async function getJournalController(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    // Use Mongoose's findOne method to retrieve a single journal by its unique identifier
+    const journalId = req.params.journalId;
+    const journal = await JournalModel.findOne({ _id: journalId }).exec();
 
-    try{
-        // get the todo id
-        const todoId = req.params.todoId;
-
-        // go into db and find that id then delete
-        const todo = await JournalModel.findByIdAndDelete(todoId);
-
-        // return deleted todo to user
-        res.json(todo);
-    } catch(error){
-        next(error);
+    if (!journal) {
+      // If no journal is found, return a 404 Not Found response
+      return res.status(404).json({ error: "Journal not found" });
     }
+
+    /* Return the contents of the created journal */
+    res.status(200).json(journal);
+  } catch (error) {
+    console.error("Error fetching journal: ", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+}
+
+/* Update a Journal */
+export async function updateJournalController(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const journalId = req.params.journalId;
+    const updateData = req.body;
+
+    // Use Mongoose to update the journal entry
+    const updatedJournal = await JournalModel.findByIdAndUpdate(
+      journalId,
+      updateData,
+      { new: true }
+    );
+
+    if (!updatedJournal) {
+      return res.status(404).json({ message: "Journal entry not found" });
+    }
+
+    res.status(200).json({
+      message: "Journal entry updated successfully",
+      updatedJournal,
+    });
+  } catch (error) {
+    console.error("Error Updating journal: ", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+}
+
+/* Delete a Journal */
+export async function deleteJournalController(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const journalId = req.params.journalId;
+    const journal = await JournalModel.findOneAndDelete({
+      _id: journalId,
+    }).exec();
+
+    /* Return successfully deleted journal */
+    res.status(200).json({
+      message: "Journal entry successfully deleted.",
+    });
+  } catch (error) {
+    console.error("Error deleting journal: ", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 }

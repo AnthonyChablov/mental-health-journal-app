@@ -21,19 +21,15 @@ const journalSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  location: {
-    type: String,
-  },
   tags: {
     type: [String],
   },
   privacy: {
     type: String,
-    enum: ['Public', 'Private'], // Assuming two privacy options
-    default: 'Private', // Default to Private if not specified
+    enum: ["Public", "Private"], // Assuming two privacy options
+    default: "Private", // Default to Private if not specified
   },
 });
 
 // Create a model based on the schema
-export const JournalModel = mongoose.model('Journal', journalSchema);
-
+export const JournalModel = mongoose.model("Journal", journalSchema);
