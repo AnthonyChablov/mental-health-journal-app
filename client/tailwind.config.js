@@ -1,12 +1,33 @@
 import type { Config } from "tailwindcss";
 const { nextui } = require("@nextui-org/theme");
-const config: Config = {
+
+const config1: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./node_modules/@nextui-org/theme/dist/components/(button|snippet|code|input|navbar).js",
   ],
+  theme: {
+    extend: {
+      backgroundImage: {
+        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+        "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      },
+    },
+  },
+  darkMode: "class",
+  plugins: [nextui()],
+};
+
+const config2 = {
+  darkMode: ["class"],
+  content: [
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
+  },
   theme: {
     container: {
       center: true,
@@ -58,26 +79,21 @@ const config: Config = {
       },
       keyframes: {
         "accordion-down": {
-          from: { height: "0 " },
+          from: { height: 0 },
           to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
           from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
+          to: { height: 0 },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      },
     },
   },
-  darkMode: "class",
-  plugins: [nextui(), require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate")],
 };
-export default config;
+
+export default { ...config1, ...config2 };

@@ -1,10 +1,12 @@
-import Image from "next/image";
+import React from "react";
 import HomeLayout from "@/components/Home/HomeLayout";
 
-export default function Home() {
+const page = () => {
   return (
-    <main>
+    <>
       <HomeLayout />
-    </main>
+    </>
   );
-}
+};
+
+export default page;
