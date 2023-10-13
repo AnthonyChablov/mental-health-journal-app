@@ -2,6 +2,6 @@
 node_modules
 package-lock.json
 
-// keys
+secret 
 id_rsa_priv.pem
 id_rsa_pub.pem

@@ -4,7 +4,7 @@ import { UserModel } from "../models/user";
 import { Error } from "mongoose";
 import { Strategy, ExtractJwt } from "passport-jwt";
 
-const pathToKey = path.join(__dirname, "..", "id_rsa_pub.pem");
+const pathToKey = path.join(__dirname, "../secret/", "id_rsa_pub.pem");
 const PUB_KEY = fs.readFileSync(pathToKey, "utf8");
 
 /* Authorization: Bearer <token> */ // for our bearer token expects this exact syntax

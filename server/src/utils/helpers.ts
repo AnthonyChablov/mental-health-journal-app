@@ -4,7 +4,7 @@ const jsonwebtoken = require("jsonwebtoken");
 const fs = require("fs");
 const path = require("path");
 
-const pathToKey: string = path.join(__dirname, "..", "id_rsa_priv.pem");
+const pathToKey: string = path.join(__dirname, "../secret/", "id_rsa_priv.pem");
 const PRIV_KEY: string = fs.readFileSync(pathToKey, "utf8");
 
 /**
