@@ -5,4 +5,5 @@ const UserSchema = new mongoose.Schema({
   hash: String,
   salt: String,
 });
-mongoose.model("User", UserSchema);
+// Create a model based on the schema
+export const UserModel = mongoose.model("User", UserSchema);
