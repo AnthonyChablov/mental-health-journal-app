@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import journalRoutes from "./routes/journalRoutes";
 import userRoutes from "./routes/userRoutes";
 import cors from "express";
+import { authenticateJwt } from "./middleware/authenticateJwt";
 
 //passport
 const passport = require("passport");
@@ -24,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   res.send("Hello, Express with TypeScript!");
 });
-app.use("/api/journal", journalRoutes);
+app.use("/api/journal", authenticateJwt, journalRoutes);
 app.use("/users", userRoutes);
 
 // Connect to your MongoDB database
