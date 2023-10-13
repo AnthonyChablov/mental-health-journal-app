@@ -21,10 +21,10 @@ function genKeyPair() {
   });
 
   // Create the public key file
-  fs.writeFileSync(__dirname + "../secret/id_rsa_pub.pem", keyPair.publicKey);
+  fs.writeFileSync(__dirname + "/../secret/id_rsa_pub.pem", keyPair.publicKey);
 
   // Create the private key file
-  fs.writeFileSync(__dirname + "../secret/id_rsa_priv.pem", keyPair.privateKey);
+  fs.writeFileSync(__dirname + "/../secret/id_rsa_priv.pem", keyPair.privateKey);
 }
 
 // Generate the keypair
