@@ -1,7 +1,12 @@
 import React from "react";
+import AuthenticationPage from "../AuthPage/AuthPage";
 
 const RegisterLayout = () => {
-  return <div>Layout</div>;
+  return (
+    <>
+      <AuthenticationPage mode="register" />
+    </>
+  );
 };
 
 export default RegisterLayout;
