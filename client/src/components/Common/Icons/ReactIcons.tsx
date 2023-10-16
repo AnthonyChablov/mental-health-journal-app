@@ -3,7 +3,9 @@ import {
   AiOutlineHome,
   AiOutlineUser,
   AiOutlinePlayCircle,
+  AiOutlineMenu,
 } from "react-icons/ai";
+import { RiMenu4Line } from "react-icons/ri";
 
 interface IIcons {
   type: string;
@@ -20,6 +22,7 @@ const ReactIcons = ({ type, size, color }: IIcons) => {
           journal: <AiTwotoneCalendar size={size} color={color} />,
           user: <AiOutlineUser size={size} color={color} />,
           courses: <AiOutlinePlayCircle size={size} color={color} />,
+          menu: <RiMenu4Line size={size} color={color} />,
         }[type]
       }
     </div>

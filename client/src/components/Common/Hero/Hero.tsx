@@ -1,34 +1,41 @@
 "use client";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Container from "../Utils/Container";
+import { Button } from "@/components/ui/button";
+import ReactIcons from "../Icons/ReactIcons";
 
 interface IHero {
- /*  title: string;
+  /*  title: string;
   date: string; */
 }
 
-
-function getDate(){
+function getDate() {
   const today = new Date();
-  const month = today.getMonth() +1;
+  const month = today.getMonth() + 1;
   const year = today.getFullYear();
   const date = today.getDate();
-  return `${month}/${date}/${year}`; 
+  return `${month}/${date}/${year}`;
 }
 
-const Hero = ({}:IHero) => {
-
+const Hero = ({}: IHero) => {
   const [currentDate, setCurrentDate] = useState(getDate());
-    
+
   return (
-    <section className="text-black bg-gradient-to-bl from-indigo-600 via-purple-800 to-indigo-900  rounded-b-2xl shadow-lg animate-gradientAnimation duration-3000 h-fit">
+    <section className="text-black bg-gradient-to-tr from-red-300 via-red-350 via-red-400 to-yellow-400  rounded-b-2xl shadow-lg animate-gradientAnimation duration-3000 h-36">
       {/* Apply the animation class here */}
       <Container>
-        <div className="pt-10 xs:pt-12 text-center">
-          <h1 className="text-white text-3xl font-bold">Welcome name</h1>
-          <p className="text-white text-sm md:text-lg mt-3 pb-28">
-            {currentDate}
-          </p>
+        <div className="text-left flex flex-col items-start">
+          <Button
+            size="icon"
+            className="roudned-full bg-transparent shadow-none rounded-full absolute top-2 left-1 hover:bg-gray-100"
+          >
+            <ReactIcons type="menu" size={22} color="white" />
+          </Button>
+          <div className="pt-12">
+            <h1 className="text-white text-2xl font-bold">
+              Hello, {"Anthony"}
+            </h1>
+          </div>
         </div>
       </Container>
     </section>
