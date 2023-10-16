@@ -1,29 +1,72 @@
-import * as React from "react";
+import React, { FormEvent, ReactEventHandler, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Icons } from "@/components/Common/Icons/Icons";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "@/components/ui/input";
+import { loginUser, registerUser } from "@/api/userAuthentication";
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
+interface UserAuthFormProps {
   isRegisterMode: boolean; // Add a prop to determine the mode
 }
 
 export function UserAuthForm({ isRegisterMode }: UserAuthFormProps) {
+  // State
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  async function onSubmit(event: React.SyntheticEvent) {
-    event.preventDefault();
+  async function onSubmitLogin(e: FormEvent) {
+    e.preventDefault();
     setIsLoading(true);
 
-    setTimeout(() => {
+    try {
+      // Make an Axios POST request to your login endpoint
+      const response = await loginUser({
+        email,
+        password,
+      });
+      // Assuming the API returns an authentication token upon successful login
+      const authToken = response.data;
+      // Handle the successful login, e.g., store the token in local storage
+      localStorage.setItem("authorizationToken", authToken);
       setIsLoading(false);
-    }, 3000);
+      // Redirect to the user's dashboard or any other page
+      // You can use react-router-dom for navigation
+    } catch (error) {
+      // Handle login error, e.g., display an error message
+      console.error("Login failed:", error);
+      setIsLoading(false);
+    }
+  }
+
+  async function onSubmitRegister(e: FormEvent) {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      // Make an Axios POST request to your login endpoint
+      const response = await loginUser({
+        email,
+        password,
+      });
+      // Assuming the API returns an authentication token upon successful login
+      const authToken = response.data;
+      // Handle the successful login, e.g., store the token in local storage
+      localStorage.setItem("authToken", authToken);
+      setIsLoading(false);
+      // Redirect to the user's dashboard or any other page
+      // You can use react-router-dom for navigation
+    } catch (error) {
+      // Handle login error, e.g., display an error message
+      console.error("Login failed:", error);
+      setIsLoading(false);
+    }
   }
 
   return (
     <div className={cn("grid gap-6")}>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={isRegisterMode ? onSubmitRegister : onSubmitLogin}>
         <div className="grid gap-2">
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">

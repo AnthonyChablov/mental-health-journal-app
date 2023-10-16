@@ -24,7 +24,7 @@ const NewJournalLayout = () => {
   return (
     <div>
       <Container>
-        <ToggleHeader />
+        <ToggleHeader title="Add A New Journal" />
         <Card className="max-w-xl mx-auto mt-16">
           <CardHeader>
             <CardTitle className="text-center w-full">
