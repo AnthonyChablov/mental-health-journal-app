@@ -1,12 +1,11 @@
-import React from 'react'
-import AppNav from '../Common/Navigation/AppNav';
-
+import React from "react";
+import NavBar from "../Common/Navigation/NavBar";
 const HomeLayout = () => {
   return (
-    <div>
-      <AppNav/>
-    </div>
-  )
-}
+    <>
+      <NavBar />
+    </>
+  );
+};
 
 export default HomeLayout;

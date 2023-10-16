@@ -1,9 +1,10 @@
-import Image from 'next/image'
+import Image from "next/image";
+import HomeLayout from "@/components/Home/HomeLayout";
 
 export default function Home() {
   return (
-    <main >
-      homepage
+    <main>
+      <HomeLayout />
     </main>
-  )
+  );
 }
