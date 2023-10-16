@@ -2,7 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import journalRoutes from "./routes/journalRoutes";
 import userRoutes from "./routes/userRoutes";
-import cors from "express";
+import cors from "cors";
 import { authenticateJwt } from "./middleware/authenticateJwt";
 
 //passport
@@ -17,9 +17,17 @@ const port = 5000;
 
 /* Middleware */
 app.use(express.json());
-app.use(cors()); // Enable CORS for all routes
 app.use(passport.initialize()); // initialize the passport object on every request
 app.use(express.urlencoded({ extended: true }));
+app.use(
+  cors({
+    allowedHeaders: ["authorization", "Content-Type"], // you can change the headers
+    exposedHeaders: ["authorization"], // you can change the headers
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: false,
+  })
+); // Enable CORS for all routes'
 
 // Routes
 app.get("/", (req, res) => {
