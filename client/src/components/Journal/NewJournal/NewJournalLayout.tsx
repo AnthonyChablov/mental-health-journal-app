@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Container from "@/components/Common/Utils/Container";
 import { Button } from "@/components/ui/button";
+import ToggleHeader from "@/components/Common/Header/ToggleHeader";
 
 const moodObject = [
   { name: "happy", emoji: "😄" },
@@ -23,7 +24,8 @@ const NewJournalLayout = () => {
   return (
     <div>
       <Container>
-        <Card className="max-w-xl mx-auto">
+        <ToggleHeader />
+        <Card className="max-w-xl mx-auto mt-16">
           <CardHeader>
             <CardTitle className="text-center w-full">
               How Are You Feeling Today?
