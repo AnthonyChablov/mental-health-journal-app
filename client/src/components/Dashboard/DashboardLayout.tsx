@@ -6,14 +6,14 @@ import Hero from "../Common/Hero/Hero";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import Drawer from "../Common/Drawer/Drawer";
 
 const moodObject = [
   { name: "sad", emoji: "😞" },
   { name: "verySad", emoji: "😢" },
-
   { name: "angry", emoji: "😡" },
-  { name: "happy", emoji: "😄" },
-  { name: "veryHappy", emoji: "😃" },
+  { name: "happy", emoji: "😃" },
+  { name: "veryHappy", emoji: "😄" },
 ];
 
 const DashboardLayout = () => {
@@ -43,22 +43,34 @@ const DashboardLayout = () => {
               return (
                 <Button
                   key={mood.name}
-                  className=" text-2xl md:text-4xl rounded-full bg-red-300 hover:bg-red-500 text-white 
-                  py-3 px-4 transition duration-300 ease-in-out transform hover:scale-105 place-content-around flex items-center justify-center"
+                  className=" text-3xl md:text-4xl rounded-full bg-transparent  text-white 
+                  py-3 px-4 transition duration-300 ease-in-out transform hover:scale-110 place-content-around flex items-center justify-center"
                   onClick={() => setMood(mood.name)}
                   size="icon"
                   asChild
                 >
-                  <Link className="" href="/login">
-                    {mood.emoji}
-                  </Link>
+                  <Link href="/dashboard/journal/newJournal">{mood.emoji}</Link>
                 </Button>
               );
             })}
           </CardContent>
         </Card>
+        <Card className="mt-36">
+          <div className="flex justify-between items-center">
+            <CardTitle className="text-md font-semibold text-left text-gray-800 p-4">
+              Mood Insights
+            </CardTitle>
+            <Link
+              href={"/"}
+              className="text-sm font-regular text-left text-red-500 p-4"
+            >
+              View Report
+            </Link>
+          </div>
+        </Card>
       </Container>
       <AppNav />
+      <Drawer />
     </main>
   );
 };

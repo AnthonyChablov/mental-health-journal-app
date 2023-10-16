@@ -27,10 +27,8 @@ const Hero = ({}: IHero) => {
         <div className="text-left flex flex-col items-start">
           <Button
             size="icon"
-            className="roudned-full bg-transparent shadow-none rounded-full absolute top-2 left-1 hover:bg-gray-100"
-          >
-            <ReactIcons type="menu" size={22} color="white" />
-          </Button>
+            className=" bg-transparent shadow-none rounded-full absolute top-2 left-1 hover:bg-gray-100"
+          ></Button>
           <div className="pt-12">
             <h1 className="text-white text-2xl font-bold">
               Hello, {"Anthony"}
