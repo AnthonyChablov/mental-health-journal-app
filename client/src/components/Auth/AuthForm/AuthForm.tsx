@@ -1,10 +1,15 @@
-import React, { FormEvent, ReactEventHandler, useState } from "react";
+import React, { FormEvent, useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Icons } from "@/components/Common/Icons/Icons";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "@/components/ui/input";
-import { loginUser, registerUser } from "@/api/userAuthentication";
+import {
+  loginUser,
+  registerUser,
+  isUserLoggedIn,
+} from "@/api/userAuthentication";
 
 interface UserAuthFormProps {
   isRegisterMode: boolean; // Add a prop to determine the mode
@@ -13,8 +18,10 @@ interface UserAuthFormProps {
 export function UserAuthForm({ isRegisterMode }: UserAuthFormProps) {
   // State
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const router = useRouter();
 
   async function onSubmitLogin(e: FormEvent) {
     e.preventDefault();
@@ -23,13 +30,13 @@ export function UserAuthForm({ isRegisterMode }: UserAuthFormProps) {
     try {
       // Make an Axios POST request to your login endpoint
       const response = await loginUser({
-        email,
+        username,
         password,
       });
       // Assuming the API returns an authentication token upon successful login
-      const authToken = response.data;
+
       // Handle the successful login, e.g., store the token in local storage
-      localStorage.setItem("authorizationToken", authToken);
+      localStorage.setItem("authorizationToken", response.token);
       setIsLoading(false);
       // Redirect to the user's dashboard or any other page
       // You can use react-router-dom for navigation
@@ -47,13 +54,12 @@ export function UserAuthForm({ isRegisterMode }: UserAuthFormProps) {
     try {
       // Make an Axios POST request to your login endpoint
       const response = await loginUser({
-        email,
+        username,
         password,
       });
-      // Assuming the API returns an authentication token upon successful login
-      const authToken = response.data;
+
       // Handle the successful login, e.g., store the token in local storage
-      localStorage.setItem("authToken", authToken);
+      localStorage.setItem("authorizationToken", response.token);
       setIsLoading(false);
       // Redirect to the user's dashboard or any other page
       // You can use react-router-dom for navigation
@@ -63,6 +69,13 @@ export function UserAuthForm({ isRegisterMode }: UserAuthFormProps) {
       setIsLoading(false);
     }
   }
+
+  useEffect(() => {
+    if (isUserLoggedIn()) {
+      console.log("User is logged In");
+      router.push("/dashboard", { scroll: false });
+    }
+  }, []);
 
   return (
     <div className={cn("grid gap-6")}>
@@ -80,6 +93,9 @@ export function UserAuthForm({ isRegisterMode }: UserAuthFormProps) {
               autoComplete="email"
               autoCorrect="off"
               disabled={isLoading}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setUsername(e.target.value)
+              }
             />
             {!isRegisterMode && ( // Conditionally render password input for registration
               <>
@@ -94,6 +110,9 @@ export function UserAuthForm({ isRegisterMode }: UserAuthFormProps) {
                   autoComplete="password"
                   autoCorrect="off"
                   disabled={isLoading}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setPassword(e.target.value)
+                  }
                 />
               </>
             )}
