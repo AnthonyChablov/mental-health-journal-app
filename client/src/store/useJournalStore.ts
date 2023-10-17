@@ -3,25 +3,40 @@ import { IJournalEntry } from "@/models/journalModels";
 
 // Define the existing state and actions
 type State = {
-  journalEntry: IJournalEntry;
+  userId: string;
+  title: string;
+  content: string;
+  date: Date | undefined;
+  mood: string;
+  tags: string[];
+  privacy: string;
 };
 
 type Actions = {
-  setJournalEntry: (newJournalEntry: IJournalEntry) => void;
+  setUserId: (newUserId: string) => void;
+  setTitle: (newTitle: string) => void;
+  setContent: (newContent: string) => void;
+  setDate: (newDate: Date | undefined) => void;
+  setMood: (newMood: string) => void;
+  setTags: (newTags: string[]) => void;
+  setPrivacy: (newPrivacy: string) => void;
 };
 
 // Extend the state and actions with the new models
-export const useJournalStore = create<
-  State & Actions & { journalEntry: IJournalEntry }
->((set) => ({
-  setJournalEntry: (newJournalEntry) => set({ journalEntry: newJournalEntry }),
-  journalEntry: {
-    user_id: "",
-    title: "",
-    content: "",
-    date: "",
-    mood: "",
-    tags: [],
-    privacy: "",
-  },
+export const useJournalStore = create<State & Actions>((set) => ({
+  userId: "", // Initialize with default values or leave them empty
+  title: "",
+  content: "",
+  date: undefined,
+  mood: "",
+  tags: [""],
+  privacy: "",
+
+  setUserId: (newUserId: string) => set({ userId: newUserId }),
+  setTitle: (newTitle: string) => set({ title: newTitle }),
+  setContent: (newContent: string) => set({ content: newContent }),
+  setDate: (newDate: Date | undefined) => set({ date: newDate }),
+  setMood: (newMood: string) => set({ mood: newMood }),
+  setTags: (newTags: string[]) => set({ tags: newTags }),
+  setPrivacy: (newPrivacy: string) => set({ privacy: newPrivacy }),
 }));
