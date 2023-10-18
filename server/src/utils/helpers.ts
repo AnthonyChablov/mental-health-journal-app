@@ -52,7 +52,11 @@ function genPassword(password: string): { salt: string; hash: string } {
 /**
  * @param {object} user - The user object.  We need this to set the JWT `sub` payload property to the MongoDB user ID
  */
-function issueJWT(user: { _id: string }): { token: string; expires: string } {
+function issueJWT(user: { _id: string }): {
+  token: string;
+  expires: string;
+  userId: string;
+} {
   const _id = user._id;
 
   const expiresIn = "1d";
@@ -70,6 +74,7 @@ function issueJWT(user: { _id: string }): { token: string; expires: string } {
   return {
     token: "Bearer " + signedToken,
     expires: expiresIn,
+    userId: _id,
   };
 }
 

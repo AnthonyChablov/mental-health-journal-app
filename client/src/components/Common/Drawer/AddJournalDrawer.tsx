@@ -17,41 +17,29 @@ import Container from "../Utils/Container";
 import { Input } from "@/components/ui/input";
 import DatePicker from "../DatePicker/DatePicker";
 import PlainHeader from "../Headers/PlainHeader";
+import { Textarea } from "@/components/ui/textarea";
+import { addJournal } from "@/api/journalData";
+import { TagInput } from "../Inputs/TagInput";
+import { Form } from "@/components/ui/form";
+import AddJournalForm from "../Forms/AddJournalForm/AddJournalForm";
 
 const AddJournalDrawer = () => {
-  //State
-  const {
-    userId,
-    title,
-    content,
-    date,
-    mood,
-    tags,
-    privacy,
-    setUserId,
-    setTitle,
-    setContent,
-    setDate,
-    setMood,
-    setTags,
-    setPrivacy,
-  } = useJournalStore();
   return (
     <Sheet>
-      <SheetTrigger
-        asChild
-        className={
-          "absolute top-64 sm:top-72 lg:top-80 left-1/2 transform -translate-x-1/2 -translate-y-1/2 "
-        }
-      >
-        <div className="w-full text-center">
-          <Button className="bg-dark-purple hover:bg-dark-purple-brown text-md rounded-full p-6 ">
-            <p>+ New Entry</p>
-          </Button>
-        </div>
-      </SheetTrigger>
+      <div className="absolute top-64 sm:top-72 lg:top-80 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full">
+        <SheetTrigger asChild className={"w-fit mx-auto"}>
+          <div className=" text-center">
+            <Button className="bg-dark-purple hover:bg-dark-purple-brown text-md rounded-full p-6 w-fit">
+              <p>+ New Entry</p>
+            </Button>
+          </div>
+        </SheetTrigger>
+      </div>
       <Container>
-        <SheetContent side={"bottom"} className="h-screen bg-white">
+        <SheetContent
+          side={"bottom"}
+          className="h-screen bg-white overflow-auto"
+        >
           <div className="max-w-3xl mx-auto">
             <SheetHeader className="">
               <SheetTitle className="text-2xl">Add a New Journal</SheetTitle>
@@ -65,28 +53,7 @@ const AddJournalDrawer = () => {
               </SheetDescription>
             </SheetHeader>
             <Separator className="my-4" />
-            <form action=""></form>
-            <PlainHeader title="Journal Title" buttonText="Edit" />
-            <div className="text-slate-500 text-sm">
-              {"Enter Journal Title here "}
-            </div>
-            <PlainHeader title="Entry Text" buttonText="Edit" />
-            <div className="text-slate-500 text-sm">
-              {"Enter Journal Title here "}
-            </div>
-            <PlainHeader title="Date" buttonText="Edit" />
-
-            <div className="text-slate-500 text-sm w-full">
-              <DatePicker />
-            </div>
-            <PlainHeader title="Tags" buttonText="Edit" />
-            <div className="text-slate-500 text-sm">
-              {"Enter Journal Title here "}
-            </div>
-            <PlainHeader title="Mood" buttonText="Edit" />
-            <div className="text-slate-500 text-sm">
-              {"Enter Journal Title here "}
-            </div>
+            <AddJournalForm />
           </div>
         </SheetContent>{" "}
       </Container>

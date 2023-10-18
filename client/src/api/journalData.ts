@@ -20,3 +20,18 @@ async function handleRequest<T>(
 export async function fetchData(url: string): Promise<any> {
   return handleRequest(axios.get(url));
 }
+
+export async function addJournal(quizData: IJournalEntry) {
+  const url = `${API_BASE_URL}/journal`;
+
+  try {
+    await handleRequest(
+      axios.post(url, quizData, {
+        headers: { "Content-Type": "application/json" },
+      })
+    );
+    console.log("Quiz added successfully");
+  } catch (error) {
+    console.error("An error occurred:", error);
+  }
+}

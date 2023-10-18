@@ -30,6 +30,7 @@ export async function loginUserController(
           success: true,
           token: tokenObject.token,
           expiresIn: tokenObject.expires,
+          user: user._id,
         });
       } else {
         res
@@ -71,6 +72,7 @@ export async function registerUserController(
     .catch((err: Error) => next(err));
 }
 
+// TODO
 export async function getLoggedInUserController(
   req: Request,
   res: Response,
