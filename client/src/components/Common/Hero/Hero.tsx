@@ -2,37 +2,63 @@
 import React, { useState } from "react";
 import Container from "../Utils/Container";
 import { Button } from "@/components/ui/button";
-import ReactIcons from "../Icons/ReactIcons";
+import { useDrawerStore } from "@/store/useDrawerStore";
 
+/* import ReactIcons from "../Icons/ReactIcons";
+import Link from "next/link";
+ */
 interface IHero {
   /*  title: string;
   date: string; */
 }
 
-function getDate() {
-  const today = new Date();
-  const month = today.getMonth() + 1;
-  const year = today.getFullYear();
-  const date = today.getDate();
-  return `${month}/${date}/${year}`;
+function getCurrentFormattedDate() {
+  const daysOfWeek = ["SUN", "MON", "TUE", "WED", "THUR", "FRI", "SAT"];
+  const months = [
+    "JANY",
+    "FEB",
+    "MAR",
+    "APR",
+    "MAY",
+    "JUN",
+    "JUL",
+    "AUG",
+    "SEPT",
+    "OCT",
+    "NOV",
+    "DEC",
+  ];
+
+  const now = new Date();
+  const dayOfWeek = daysOfWeek[now.getDay()];
+  const month = months[now.getMonth()];
+  const day = now.getDate();
+  const year = now.getFullYear();
+
+  const formattedDate = `${dayOfWeek}, ${month} ${day}, ${year}`;
+  return formattedDate;
 }
 
 const Hero = ({}: IHero) => {
-  const [currentDate, setCurrentDate] = useState(getDate());
+  // State
+  const [currentDate, setCurrentDate] = useState(getCurrentFormattedDate());
+  const { setOpenDrawer } = useDrawerStore();
 
   return (
-    <section className="text-black bg-gradient-to-tr from-red-300 via-red-350 via-red-400 to-yellow-400  rounded-b-2xl shadow-lg animate-gradientAnimation duration-3000 h-36">
+    <section className="text-black animate-gradientAnimation duration-3000 h-fit text-center">
       {/* Apply the animation class here */}
       <Container>
-        <div className="text-left flex flex-col items-start">
-          <Button
-            size="icon"
-            className=" bg-transparent shadow-none rounded-full absolute top-2 left-1 hover:bg-gray-100"
-          ></Button>
-          <div className="pt-12">
-            <h1 className="text-white text-2xl font-bold">
-              Hello, {"Anthony"}
+        <div className="">
+          <div className="py-12">
+            <p className="mt-4 text-center text-sm font-semibold text-light-brown">
+              {currentDate}
+            </p>
+            <h1 className="pt-2 text-4xl md:text-5xl lg:text-6xl text-center font-semibold text-dark-purple max-w-xs md:max-w-lg mx-auto">
+              How Do You Feel Today?
             </h1>
+            <p className="pt-2 text-center text-sm font-semibold text-light-brown capitalize">
+              Welcome back Anthony!
+            </p>
           </div>
         </div>
       </Container>

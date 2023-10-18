@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Container from "@/components/Common/Utils/Container";
 import { Button } from "@/components/ui/button";
-import ToggleHeader from "@/components/Common/Header/ToggleHeader";
+import ToggleHeader from "@/components/Common/Headers/ToggleHeader";
 import { useJournalStore } from "@/store/useJournalStore";
 import DatePicker from "@/components/Common/DatePicker/DatePicker";
 import { Input } from "@/components/ui/input";
@@ -41,7 +41,7 @@ const NewJournalLayout = () => {
     console.log(title, content, date, mood, tags, privacy);
   }, [title, content, date, mood, tags, privacy]);
   return (
-    <div>
+    <section className="bg-skin">
       <Container>
         <ToggleHeader title="Add A New Journal" />
         <Card className="max-w-xl mx-auto mt-16 shadow-md">
@@ -55,7 +55,7 @@ const NewJournalLayout = () => {
               {moodObject.map((mood) => (
                 <Button
                   key={mood.name}
-                  className="text-xl md:text-2xl rounded-full bg-slate-200 shadow-lg"
+                  className="text-xl md:text-2xl rounded-full bg-slate-200 shadow-2xl "
                   onClick={() => setMood(mood.name)}
                 >
                   {mood.emoji}
@@ -69,7 +69,7 @@ const NewJournalLayout = () => {
           </CardContent>
         </Card>
       </Container>
-    </div>
+    </section>
   );
 };
 

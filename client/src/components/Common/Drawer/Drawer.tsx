@@ -17,9 +17,9 @@ const Drawer = () => {
       <SheetTrigger asChild className={"fixed top-2 left-3"}>
         <Button
           size="icon"
-          className="bg-transparent shadow-none hover:bg-red-500"
+          className="bg-transparent shadow-none hover:bg-dark-purple hover:text-white"
         >
-          <ReactIcons type="menu" size={22} color="white" />
+          <ReactIcons type="menu" size={22} color="purple" />
         </Button>
       </SheetTrigger>
       <SheetContent side={"left"}>
