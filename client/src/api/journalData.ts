@@ -22,12 +22,16 @@ export async function fetchData(url: string): Promise<any> {
 }
 
 export async function addJournal(quizData: IJournalEntry) {
-  const url = `${API_BASE_URL}/journal`;
+  const authToken = localStorage.getItem("authorizationToken");
+  const url = `${API_BASE_URL}/api/journal`;
 
   try {
     await handleRequest(
       axios.post(url, quizData, {
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${authToken}`,
+        },
       })
     );
     console.log("Quiz added successfully");

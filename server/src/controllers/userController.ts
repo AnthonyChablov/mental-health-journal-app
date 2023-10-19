@@ -30,7 +30,6 @@ export async function loginUserController(
           success: true,
           token: tokenObject.token,
           expiresIn: tokenObject.expires,
-          user: user._id,
         });
       } else {
         res

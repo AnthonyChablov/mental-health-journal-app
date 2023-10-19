@@ -1,13 +1,11 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import DatePicker from "../../DatePicker/DatePicker";
-import PlainHeader from "../../Headers/PlainHeader";
 import { Textarea } from "@/components/ui/textarea";
 import { addJournal } from "@/api/journalData";
-import { TagInput } from "../../Inputs/TagInput";
 /* import { getUserLoginInfo } from "@/api/userAuthentication"; */
 import {
   Form,
@@ -22,8 +20,11 @@ import { useJournalStore } from "@/store/useJournalStore";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { IJournalEntry } from "@/models/journalModels";
+import jwtDecode from "jwt-decode";
+import { DecodedToken } from "@/api/userAuthentication";
 
 const formSchema = z.object({
+  userId: z.string(),
   title: z.string().min(2, {
     message: "Username must be at least 2 characters.",
   }),
@@ -34,7 +35,7 @@ const formSchema = z.object({
 });
 
 const AddJournalForm = () => {
-  /* State */
+  // State
   const {
     userId,
     title,
@@ -42,23 +43,20 @@ const AddJournalForm = () => {
     date,
     mood,
     tags,
-    privacy,
     setUserId,
     setTitle,
     setContent,
     setDate,
     setMood,
     setTags,
-    setPrivacy,
   } = useJournalStore();
+  const [decodedToken, setDecodedToken] = useState<DecodedToken | null>(null);
 
-  function onFormSubmit() {
-    addJournal({ userId, title, content, date, mood, tags, privacy });
-  }
-
+  // Form Schema
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      userId: "",
       title: "",
       content: "",
       date: "",
@@ -67,18 +65,42 @@ const AddJournalForm = () => {
     },
   });
 
-  useEffect(() => {
-    console.log(userId, title, content, date, mood, tags, privacy);
+  function onFormSubmit() {
+    addJournal({ userId, title, content, date, mood, tags });
+  }
 
-    /* console.log(getUserLoginInfo()); */
-  }, [userId, title, content, date, mood, tags, privacy]);
+  useEffect(() => {
+    console.log(userId, title, content, date, mood, tags);
+  }, [userId, title, content, date, mood, tags]);
+
+  useEffect(() => {
+    const storedAuthToken = localStorage.getItem("authorizationToken");
+    if (storedAuthToken) {
+      try {
+        const decoded: DecodedToken = jwtDecode(
+          storedAuthToken.replace("Bearer ", "")
+        );
+        setDecodedToken(decoded);
+      } catch (error) {
+        console.error("Error decoding JWT:", error);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    // Access userId after decodedToken has been set
+    if (decodedToken) {
+      setUserId(decodedToken?.user);
+    }
+  }, [decodedToken]);
 
   return (
     <div>
       <Form {...form}>
         <form
           className="space-y-5"
-          onSubmit={() => {
+          onSubmit={(e) => {
+            e.preventDefault();
             onFormSubmit();
           }}
         >
@@ -98,7 +120,6 @@ const AddJournalForm = () => {
                     }}
                   />
                 </FormControl>
-
                 <FormMessage />
               </FormItem>
             )}

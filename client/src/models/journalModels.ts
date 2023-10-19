@@ -5,5 +5,4 @@ export interface IJournalEntry {
   date: Date | undefined;
   mood: string;
   tags: string[];
-  privacy: string;
 }

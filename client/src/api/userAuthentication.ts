@@ -1,7 +1,14 @@
 import axios, { AxiosResponse } from "axios";
-import jwtDecode from "jwt-decode";
+import jwtDecode from "jsonwebtoken";
 import { IUser } from "@/models/useModels";
 import { API_BASE_URL } from "./baseApiUrl";
+
+export interface DecodedToken {
+  sub: string;
+  iat: number;
+  user: string;
+  exp: number;
+}
 
 export async function handleRequest<T>(
   request: Promise<AxiosResponse<T>>
@@ -52,26 +59,12 @@ export function isUserLoggedIn(): boolean {
 }
 
 // TODO
-/* export async function getUserLoginInfo() {
+export async function getUserLoginInfo(userId: string) {
   try {
-    // Assuming you have an authentication token stored in local storage
-    const authToken = localStorage.getItem("authorizationToken");
-    const processToken = String(authToken);
-    const tokenPayload = jwtDecode(processToken)?.id;
-    if (!authToken) {
-      // Handle the case where the user is not authenticated
-      throw new Error("User is not authenticated");
-    }
-
-    const url = `${API_BASE_URL}/users/${tokenPayload}`;
+    const url = `${API_BASE_URL}/users/${userId}`;
 
     // Make an Axios GET request to your user info endpoint with the authentication token
-    const response = await axios.get(url, {
-      headers: {
-        Authorization: authToken,
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await axios.get(url);
 
     return response.data;
   } catch (error) {
@@ -79,4 +72,4 @@ export function isUserLoggedIn(): boolean {
     console.error("Failed to retrieve user info:", error);
     throw error;
   }
-} */
+}

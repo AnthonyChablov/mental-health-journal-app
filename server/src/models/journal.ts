@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 // Define the schema
 const journalSchema = new mongoose.Schema({
-  user_id: {
+  userId: {
     type: String,
     required: true,
   },
@@ -23,11 +23,6 @@ const journalSchema = new mongoose.Schema({
   },
   tags: {
     type: [String],
-  },
-  privacy: {
-    type: String,
-    enum: ["Public", "Private"], // Assuming two privacy options
-    default: "Private", // Default to Private if not specified
   },
 });
 
