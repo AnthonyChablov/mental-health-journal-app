@@ -4,9 +4,24 @@ import AppNav from "../Common/Navigation/AppNav";
 import Container from "../Common/Utils/Container";
 import Hero from "../Common/Hero/Hero";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { getAllJournals } from "@/api/journalData";
 import Link from "next/link";
 import Drawer from "../Common/Drawer/Drawer";
+import useSWR from "swr";
+
+import { API_BASE_URL } from "@/api/baseApiUrl";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
+import { useJournalStore } from "@/store/useJournalStore";
+import AddJournalDrawer from "../Common/Drawer/AddJournalDrawer";
 
 const moodObject = [
   { name: "sad", emoji: "😞" },
@@ -17,60 +32,136 @@ const moodObject = [
 ];
 
 const DashboardLayout = () => {
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  // State
+  const [moodData, setMoodData] = useState<{ [moodName: string]: number }>({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const { setMood } = useJournalStore();
 
-  const [mood, setMood] = useState<string | undefined>(undefined);
+  // Fetch Journal Data
+  const {
+    data: journalData,
+    error: journalError,
+    isLoading: journalLoading,
+  } = useSWR(`${API_BASE_URL}/api/journal`, getAllJournals, {
+    revalidateOnFocus: false,
+    refreshInterval: 300000,
+  });
+
+  // Chart configuration
+  ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend
+  );
+  const chartData = {
+    labels: moodObject.map((mood) => mood.emoji),
+    datasets: [
+      {
+        label: "Mood Insights",
+        data: moodObject.map((mood) => moodData[mood.name] || 0),
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.6)",
+          "rgba(54, 162, 235, 0.6)",
+          "rgba(255, 206, 86, 0.6)",
+          "rgba(75, 192, 192, 0.6)",
+          "rgba(153, 102, 255, 0.6)",
+        ],
+      },
+    ],
+  };
+  const chartOptions = {
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+  };
 
   useEffect(() => {
-    console.log(mood);
-  }, [mood]);
+    if (journalLoading) {
+      setLoading(true);
+    }
+    if (journalError) {
+      setError(journalError);
+    }
+    if (!journalLoading && !journalError) {
+      setLoading(false);
+    }
+  }, [journalLoading, journalError]);
+
+  useEffect(() => {
+    if (Array.isArray(journalData)) {
+      const currentWeekMoods = journalData?.filter((entry) => true);
+      const moodCount: { [moodName: string]: number } = {};
+      if (currentWeekMoods) {
+        for (const mood of moodObject) {
+          const moodEntries = currentWeekMoods.filter(
+            (entry) => entry.mood === mood.name
+          );
+          moodCount[mood.name] = moodEntries.length;
+        }
+      }
+      setMoodData(moodCount);
+    }
+  }, [journalData]);
+
+  useEffect(() => {
+    console.log(journalData);
+  }, [journalData]);
 
   return (
-    <main className="bg-slate-100 h-screen">
-      <Hero />
-      <Container>
-        <Card
-          className="max-w-xs sm:max-w-lg md:max-w-xl mx-auto rounded-3xl p-1 bg-white shadow-lg absolute top-28 w-full left-1/2 transform 
-          -translate-x-1/2 "
-        >
-          <CardHeader>
-            <CardTitle className="text-lg font-semibold text-center text-gray-800">
-              How Are You Feeling Today?
-            </CardTitle>
-          </CardHeader>
-          <CardContent className=" flex justify-evenly mt-1 ">
-            {moodObject.map((mood) => {
-              return (
-                <Button
-                  key={mood.name}
-                  className=" text-3xl md:text-4xl rounded-full bg-transparent  text-white 
-                  py-3 px-4 transition duration-300 ease-in-out transform hover:scale-110 place-content-around flex items-center justify-center"
-                  onClick={() => setMood(mood.name)}
-                  size="icon"
-                  asChild
+    <main className="bg-skin h-full min-h-screen pb-24">
+      {loading ? (
+        <div>Loading...</div>
+      ) : error ? (
+        <div>Error...</div>
+      ) : (
+        <>
+          <Hero
+            header="How Do You Feel Today?"
+            subHeader="Welcome back Anthony!"
+            displayDate={true}
+          />
+          <Container>
+            <Card className="mt-36 max-w-3xl mx-auto rounded-3xl p-1 shadow-lg">
+              <div className="flex justify-between items-center">
+                <CardTitle className="text-md font-semibold text-left text-gray-800 p-4">
+                  Mood Insights
+                </CardTitle>
+                <Link
+                  href={"/"}
+                  className="text-sm font-regular text-left text-dark-purple p-4"
                 >
-                  <Link href="/dashboard/journal/newJournal">{mood.emoji}</Link>
-                </Button>
-              );
-            })}
-          </CardContent>
-        </Card>
-        <Card className="mt-36">
-          <div className="flex justify-between items-center">
-            <CardTitle className="text-md font-semibold text-left text-gray-800 p-4">
-              Mood Insights
-            </CardTitle>
-            <Link
-              href={"/"}
-              className="text-sm font-regular text-left text-red-500 p-4"
-            >
-              View Report
-            </Link>
-          </div>
-        </Card>
-      </Container>
-      <AppNav />
-      <Drawer />
+                  View Report
+                </Link>
+              </div>
+              <div className="p-4">
+                <Bar data={chartData} options={chartOptions} />
+              </div>
+            </Card>
+            <Card className="mt-10 max-w-3xl mx-auto rounded-3xl p-1 shadow-lg">
+              <div className="flex justify-between items-center">
+                <CardTitle className="text-md font-semibold text-left text-gray-800 p-4 ">
+                  My Journals
+                </CardTitle>
+                <Link
+                  href={"/dashboard/journal"}
+                  className="text-sm font-regular text-left text-dark-purple p-4"
+                >
+                  View Journals
+                </Link>
+              </div>
+            </Card>
+          </Container>
+          <AppNav />
+          <Drawer />
+          <AddJournalDrawer />
+        </>
+      )}
     </main>
   );
 };

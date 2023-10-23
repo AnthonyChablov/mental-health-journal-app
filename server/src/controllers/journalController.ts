@@ -9,11 +9,11 @@ export async function createJournalController(
 ) {
   try {
     // Extract relevant data from the request body
-    const { user_id, title, content, date, mood, tags, privacy } = req.body;
+    const { userId, title, content, date, mood, tags, privacy } = req.body;
 
     // Create a new journal entry
     const newJournal = new JournalModel({
-      user_id,
+      userId,
       title,
       content,
       date,

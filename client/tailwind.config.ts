@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+
 const { nextui } = require("@nextui-org/theme");
 const config: Config = {
   content: [
@@ -16,7 +17,16 @@ const config: Config = {
       },
     },
     extend: {
+      fontFamily: {
+        playFairDisplay: ["Playfair Display", "serif"],
+      },
       colors: {
+        "light-brown": "#B89F97",
+        brown: "#5D4C5B",
+        "dark-purple-brown": "#5D4C5B",
+        "dark-purple": "#6d527d",
+        "light-purple": "#897582",
+        skin: "#fcf1eb",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

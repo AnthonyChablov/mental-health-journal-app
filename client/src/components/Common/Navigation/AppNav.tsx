@@ -24,11 +24,11 @@ const AppNav = () => {
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-indigo-900 shadow-2xl py-2 px-4 w-full ">
+    <div className="fixed bottom-0 left-0 right-0 bg-dark-purple shadow-2xl py-2 px-4 w-full ">
       <div className="max-w-screen-sm flex justify-between mx-auto items-center">
         {navItems.map((item, index) => (
           <Link key={index} href={item.link}>
-            <div className="text-gray-600 hover:text-gray-900">
+            <div className="text-gray-500 hover:text-gray-900">
               <ReactIcons
                 type={item.icon}
                 size={item.iconSize}
