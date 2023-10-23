@@ -8,7 +8,6 @@ import { useJournalStore } from "@/store/useJournalStore";
 import DatePicker from "@/components/Common/DatePicker/DatePicker";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Separator } from "@/components/ui/separator";
 
 const moodObject = [
   { name: "happy", emoji: "😄" },

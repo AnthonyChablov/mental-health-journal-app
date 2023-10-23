@@ -14,12 +14,12 @@ import ReactIcons from "../Icons/ReactIcons";
 const Drawer = () => {
   return (
     <Sheet>
-      <SheetTrigger asChild className={"fixed top-2 left-3"}>
+      <SheetTrigger asChild className={"absolute top-2 left-3"}>
         <Button
           size="icon"
           className="bg-transparent shadow-none hover:bg-dark-purple hover:text-white"
         >
-          <ReactIcons type="menu" size={22} color="purple" />
+          <ReactIcons type="menu" size={30} color="purple" />
         </Button>
       </SheetTrigger>
       <SheetContent side={"left"}>

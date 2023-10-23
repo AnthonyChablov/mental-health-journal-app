@@ -4,11 +4,11 @@ import AppNav from "../Common/Navigation/AppNav";
 import Container from "../Common/Utils/Container";
 import Hero from "../Common/Hero/Hero";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
+import { getAllJournals } from "@/api/journalData";
 import Link from "next/link";
 import Drawer from "../Common/Drawer/Drawer";
 import useSWR from "swr";
-import { fetchData } from "@/api/journalData";
+
 import { API_BASE_URL } from "@/api/baseApiUrl";
 import {
   Chart as ChartJS,
@@ -33,8 +33,9 @@ const moodObject = [
 
 const DashboardLayout = () => {
   // State
-
-  const [moodData, setMoodData] = useState<{ [moodName: string]: number }>({}); // State to store mood insights data
+  const [moodData, setMoodData] = useState<{ [moodName: string]: number }>({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const { setMood } = useJournalStore();
 
   // Fetch Journal Data
@@ -42,7 +43,7 @@ const DashboardLayout = () => {
     data: journalData,
     error: journalError,
     isLoading: journalLoading,
-  } = useSWR(API_BASE_URL, fetchData, {
+  } = useSWR(`${API_BASE_URL}/api/journal`, getAllJournals, {
     revalidateOnFocus: false,
     refreshInterval: 300000,
   });
@@ -81,19 +82,22 @@ const DashboardLayout = () => {
   };
 
   useEffect(() => {
-    // Calculate mood insights here based on your journal data
+    if (journalLoading) {
+      setLoading(true);
+    }
+    if (journalError) {
+      setError(journalError);
+    }
+    if (!journalLoading && !journalError) {
+      setLoading(false);
+    }
+  }, [journalLoading, journalError]);
+
+  useEffect(() => {
     if (Array.isArray(journalData)) {
-      const currentWeekMoods = journalData?.filter((entry) => {
-        // Check if the entry's date falls within the current week
-        // You will need to implement a function to check the week, e.g., using moment.js
-        // For simplicity, I'll assume all entries are from the current week
-        return true;
-      });
-
+      const currentWeekMoods = journalData?.filter((entry) => true);
       const moodCount: { [moodName: string]: number } = {};
-
       if (currentWeekMoods) {
-        // Check if currentWeekMoods is defined
         for (const mood of moodObject) {
           const moodEntries = currentWeekMoods.filter(
             (entry) => entry.mood === mood.name
@@ -101,50 +105,63 @@ const DashboardLayout = () => {
           moodCount[mood.name] = moodEntries.length;
         }
       }
-
       setMoodData(moodCount);
     }
   }, [journalData]);
 
+  useEffect(() => {
+    console.log(journalData);
+  }, [journalData]);
+
   return (
     <main className="bg-skin h-full min-h-screen pb-24">
-      <Hero />
-      <Container>
-        {/* Chart report  */}
-        <Card className="mt-36 max-w-3xl mx-auto rounded-3xl p-1 shadow-lg">
-          <div className="flex justify-between items-center">
-            <CardTitle className="text-md font-semibold text-left text-gray-800 p-4">
-              Mood Insights
-            </CardTitle>
-            <Link
-              href={"/"}
-              className="text-sm font-regular text-left text-red-500 p-4"
-            >
-              View Report
-            </Link>
-          </div>
-          <div className="p-4">
-            <Bar data={chartData} options={chartOptions} />
-          </div>
-        </Card>
-        {/* Chart report  */}
-        <Card className="mt-36 max-w-3xl mx-auto rounded-3xl p-1 shadow-lg">
-          <div className="flex justify-between items-center">
-            <CardTitle className="text-md font-semibold text-left text-gray-800 p-4">
-              My Journals
-            </CardTitle>
-            <Link
-              href={"/"}
-              className="text-sm font-regular text-left text-red-500 p-4"
-            >
-              View Report
-            </Link>
-          </div>
-        </Card>
-      </Container>
-      <AppNav />
-      <Drawer />
-      <AddJournalDrawer />
+      {loading ? (
+        <div>Loading...</div>
+      ) : error ? (
+        <div>Error...</div>
+      ) : (
+        <>
+          <Hero
+            header="How Do You Feel Today?"
+            subHeader="Welcome back Anthony!"
+            displayDate={true}
+          />
+          <Container>
+            <Card className="mt-36 max-w-3xl mx-auto rounded-3xl p-1 shadow-lg">
+              <div className="flex justify-between items-center">
+                <CardTitle className="text-md font-semibold text-left text-gray-800 p-4">
+                  Mood Insights
+                </CardTitle>
+                <Link
+                  href={"/"}
+                  className="text-sm font-regular text-left text-dark-purple p-4"
+                >
+                  View Report
+                </Link>
+              </div>
+              <div className="p-4">
+                <Bar data={chartData} options={chartOptions} />
+              </div>
+            </Card>
+            <Card className="mt-10 max-w-3xl mx-auto rounded-3xl p-1 shadow-lg">
+              <div className="flex justify-between items-center">
+                <CardTitle className="text-md font-semibold text-left text-gray-800 p-4 ">
+                  My Journals
+                </CardTitle>
+                <Link
+                  href={"/dashboard/journal"}
+                  className="text-sm font-regular text-left text-dark-purple p-4"
+                >
+                  View Journals
+                </Link>
+              </div>
+            </Card>
+          </Container>
+          <AppNav />
+          <Drawer />
+          <AddJournalDrawer />
+        </>
+      )}
     </main>
   );
 };

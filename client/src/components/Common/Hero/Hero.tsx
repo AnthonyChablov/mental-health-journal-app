@@ -8,8 +8,9 @@ import { useDrawerStore } from "@/store/useDrawerStore";
 import Link from "next/link";
  */
 interface IHero {
-  /*  title: string;
-  date: string; */
+  displayDate: boolean;
+  header: string;
+  subHeader: string;
 }
 
 function getCurrentFormattedDate() {
@@ -39,7 +40,7 @@ function getCurrentFormattedDate() {
   return formattedDate;
 }
 
-const Hero = ({}: IHero) => {
+const Hero = ({ displayDate, header, subHeader }: IHero) => {
   // State
   const [currentDate, setCurrentDate] = useState(getCurrentFormattedDate());
   const { setOpenDrawer } = useDrawerStore();
@@ -48,18 +49,18 @@ const Hero = ({}: IHero) => {
     <section className="text-black animate-gradientAnimation duration-3000 h-fit text-center">
       {/* Apply the animation class here */}
       <Container>
-        <div className="">
-          <div className="py-12">
+        <div className="py-12">
+          {displayDate && (
             <p className="mt-4 text-center text-sm font-semibold text-light-brown">
               {currentDate}
             </p>
-            <h1 className="pt-2 text-4xl md:text-5xl lg:text-6xl text-center font-semibold text-dark-purple max-w-xs md:max-w-lg mx-auto">
-              How Do You Feel Today?
-            </h1>
-            <p className="pt-2 text-center text-sm font-semibold text-light-brown capitalize">
-              Welcome back Anthony!
-            </p>
-          </div>
+          )}
+          <h1 className="pt-2 text-4xl md:text-5xl lg:text-6xl text-center font-playFairDisplay font-semibold  text-dark-purple max-w-xs md:max-w-lg mx-auto">
+            {header}
+          </h1>
+          <p className="pt-6  text-center text-sm font-semibold text-light-brown capitalize">
+            {subHeader}
+          </p>
         </div>
       </Container>
     </section>
