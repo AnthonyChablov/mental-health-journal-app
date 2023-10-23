@@ -87,12 +87,12 @@ const AddJournalForm = () => {
     }
   }, []);
 
-  useEffect(() => {
+  /* useEffect(() => {
     // Access userId after decodedToken has been set
     if (decodedToken) {
       setUserId(decodedToken?.user);
     }
-  }, [decodedToken]);
+  }, [decodedToken]); */
 
   return (
     <div>
