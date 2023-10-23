@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Container from "../Utils/Container";
 import { Button } from "@/components/ui/button";
 import { useDrawerStore } from "@/store/useDrawerStore";
-
+import { getCurrentFormattedDate } from "../../../lib/utils";
 /* import ReactIcons from "../Icons/ReactIcons";
 import Link from "next/link";
  */
@@ -11,33 +11,6 @@ interface IHero {
   displayDate: boolean;
   header: string;
   subHeader: string;
-}
-
-function getCurrentFormattedDate() {
-  const daysOfWeek = ["SUN", "MON", "TUE", "WED", "THUR", "FRI", "SAT"];
-  const months = [
-    "JANY",
-    "FEB",
-    "MAR",
-    "APR",
-    "MAY",
-    "JUN",
-    "JUL",
-    "AUG",
-    "SEPT",
-    "OCT",
-    "NOV",
-    "DEC",
-  ];
-
-  const now = new Date();
-  const dayOfWeek = daysOfWeek[now.getDay()];
-  const month = months[now.getMonth()];
-  const day = now.getDate();
-  const year = now.getFullYear();
-
-  const formattedDate = `${dayOfWeek}, ${month} ${day}, ${year}`;
-  return formattedDate;
 }
 
 const Hero = ({ displayDate, header, subHeader }: IHero) => {

@@ -14,14 +14,24 @@ const JournalCard = ({ journalEntry }: IJournalCard) => {
     <Card className=" w-full shadow-2xl rounded-2xl bg-white">
       <CardHeader className="flex flex-row items-center justify-between bg-light-purple">
         <CardTitle className="">{journalEntry?.title}</CardTitle>
-        <Button
-          className="bg-dark-purple hover:bg-dark-purple-brown text-md rounded-full p-4 w-fit "
-          asChild
-        >
-          <Link href={""} className="">
-            View
-          </Link>
-        </Button>
+        <div className="space-x-3">
+          <Button
+            className=" text-md rounded-full p-4 w-fit shadow-none bg-transparent hover:underline hover:bg-transparent"
+            asChild
+          >
+            <Link href={""} className="">
+              Edit
+            </Link>
+          </Button>
+          <Button
+            className="bg-dark-purple hover:bg-dark-purple-brown text-md rounded-full p-4 w-fit "
+            asChild
+          >
+            <Link href={""} className="">
+              View
+            </Link>
+          </Button>
+        </div>
       </CardHeader>
       <CardContent className="pt-6">
         <div>

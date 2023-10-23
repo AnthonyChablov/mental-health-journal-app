@@ -10,7 +10,17 @@ import Drawer from "../Common/Drawer/Drawer";
 import Hero from "../Common/Hero/Hero";
 import { IJournalEntry } from "@/models/journalModels";
 import { Input } from "@/components/ui/input";
-
+import RenderTableRow from "../Common/Table/RenderTableRow";
+import Link from "next/link";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 const JournalLayout = () => {
   // Fetch Journal Data
   const {
@@ -24,10 +34,10 @@ const JournalLayout = () => {
 
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  /*   useEffect(() => {
+  useEffect(() => {
     console.log(journalData);
   }, [journalData]);
- */
+
   // Filter the journalData based on the searchQuery
   const filteredData = journalData?.filter((entry: IJournalEntry) =>
     entry.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -48,17 +58,32 @@ const JournalLayout = () => {
               subHeader={`${filteredData?.length} entries`}
             />
             <Input
-              className="bg-white shadow-lg"
+              className="bg-white shadow-lg w-4/12 max-w-lg mx-auto text-sm"
               type="text"
-              placeholder="Search"
+              placeholder="Search..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <div className="mt-8 grid grid-cols md:grid-cols-2 gap-7">
-              {filteredData?.map((entry: IJournalEntry) => (
+            <Table className="mt-8 ">
+              <TableCaption>A List Of Your Journals</TableCaption>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[100px]">Title</TableHead>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Content</TableHead>
+                  <TableHead>Mood</TableHead>
+                  <TableHead className="text-right">Tags</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredData?.map((entry: IJournalEntry) => (
+                  <RenderTableRow key={entry?._id} journalData={entry} />
+                ))}
+              </TableBody>
+            </Table>
+            {/* {filteredData?.map((entry: IJournalEntry) => (
                 <JournalCard key={entry._id} journalEntry={entry} />
-              ))}
-            </div>
+              ))} */}
           </Container>
           <AppNav />
           <Drawer />

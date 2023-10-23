@@ -4,6 +4,7 @@ import {
   AiOutlineUser,
   AiOutlinePlayCircle,
   AiOutlineCalendar,
+  AiOutlineSearch,
 } from "react-icons/ai";
 import { RiMenu4Line } from "react-icons/ri";
 import { IoIosArrowBack } from "react-icons/io";
@@ -26,6 +27,7 @@ const ReactIcons = ({ type, size, color }: IIcons) => {
           menu: <RiMenu4Line size={size} color={color} />,
           back: <IoIosArrowBack size={size} color={color} />,
           calendar: <AiOutlineCalendar size={size} color={color} />,
+          search: <AiOutlineSearch size={size} color={color} />,
         }[type]
       }
     </div>
