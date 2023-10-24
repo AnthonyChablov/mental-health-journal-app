@@ -5,22 +5,21 @@ import useSWR from "swr";
 import { API_BASE_URL } from "@/api/baseApiUrl";
 import { getAllJournals } from "@/api/journalData";
 import Container from "../Common/Utils/Container";
-import JournalCard from "../Common/Card/JournalCard";
 import Drawer from "../Common/Drawer/Drawer";
 import Hero from "../Common/Hero/Hero";
 import { IJournalEntry } from "@/models/journalModels";
 import { Input } from "@/components/ui/input";
 import RenderTableRow from "../Common/Table/RenderTableRow";
-import Link from "next/link";
 import {
   Table,
   TableBody,
   TableCaption,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import SelectButton from "../Common/Buttons/SelectButton";
+
 const JournalLayout = () => {
   // Fetch Journal Data
   const {
@@ -33,6 +32,7 @@ const JournalLayout = () => {
   });
 
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const selectButtonOptions = ["Asc ", "Desc"];
 
   useEffect(() => {
     console.log(journalData);
@@ -44,7 +44,7 @@ const JournalLayout = () => {
   );
 
   return (
-    <main className="bg-skin h-full min-h-screen pb-24   ">
+    <main className="bg-skin h-full min-h-screen pb-24">
       {journalLoading ? (
         <div>Loading...</div>
       ) : journalError ? (
@@ -64,26 +64,47 @@ const JournalLayout = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <Table className="mt-8 ">
-              <TableCaption>A List Of Your Journals</TableCaption>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[100px]">Title</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Content</TableHead>
-                  <TableHead>Mood</TableHead>
-                  <TableHead className="text-right">Tags</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredData?.map((entry: IJournalEntry) => (
-                  <RenderTableRow key={entry?._id} journalData={entry} />
-                ))}
-              </TableBody>
-            </Table>
-            {/* {filteredData?.map((entry: IJournalEntry) => (
-                <JournalCard key={entry._id} journalEntry={entry} />
-              ))} */}
+            <div className="mt-8 py-2 pb-4 px-2 rounded-2xl  shadow-lg border-1.5 overflow-hidden bg-white ">
+              {filteredData && filteredData.length > 0 ? ( // Check if there are entries in filteredData
+                <Table className="">
+                  <TableHeader className="">
+                    <TableRow className="hover:bg-transparent">
+                      <TableHead className="w-[100px]">
+                        <SelectButton
+                          title="Title"
+                          options={selectButtonOptions}
+                        />
+                      </TableHead>
+                      <TableHead className="">
+                        <SelectButton
+                          title="Date"
+                          options={selectButtonOptions}
+                        />
+                      </TableHead>
+                      <TableHead>
+                        <SelectButton
+                          title="Content"
+                          options={selectButtonOptions}
+                        />
+                      </TableHead>
+                      <TableHead>
+                        <SelectButton
+                          title="Mood"
+                          options={selectButtonOptions}
+                        />
+                      </TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredData.map((entry: IJournalEntry) => (
+                      <RenderTableRow key={entry?._id} journalData={entry} />
+                    ))}
+                  </TableBody>
+                </Table>
+              ) : (
+                <div className="p-4 text-center ">No journals found...</div> // Display a message when no journals are found
+              )}
+            </div>
           </Container>
           <AppNav />
           <Drawer />

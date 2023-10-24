@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode } from "react";
 
 interface ContainerProps {
   children: ReactNode;
@@ -6,10 +6,8 @@ interface ContainerProps {
 
 const Container: React.FC<ContainerProps> = ({ children }) => {
   return (
-    <div className=" mx-auto px-4 sm:px-6 lg:px-8">
-      {children}
-    </div>
+    <div className=" mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">{children}</div>
   );
-}
+};
 
 export default Container;

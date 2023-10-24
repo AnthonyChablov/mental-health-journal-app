@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { getCurrentFormattedDate } from "@/lib/utils";
-
 import { formatDate } from "../../../lib/utils";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import ReactIcons from "../Icons/ReactIcons";
+import SelectButton from "../Buttons/SelectButton";
+import PopOverButton from "../Buttons/PopOverButton";
 
 interface RenderTableRowProps {
   journalData: {
@@ -17,30 +21,37 @@ interface RenderTableRowProps {
 }
 
 const RenderTableRow = ({ journalData }: RenderTableRowProps) => {
+  const router = useRouter();
+
   // State
   const [currentDate, setCurrentDate] = useState(formatDate(journalData?.date));
   const journalLink = `/dashboard/journal/${journalData._id}`;
 
+  /* Variables */
+  const selectButtonOptions = ["Edit", "Delete", "View"];
+
+  function onClickHandeller() {
+    router.push(journalLink, { scroll: false });
+  }
+
   return (
-    <TableRow className="  hover:bg-white cursor-pointer">
-      <TableCell className="font-medium">
-        <Link href={journalLink}>{journalData.title}</Link>
+    <TableRow
+      className=" hover:bg-slate-100 cursor-pointer"
+      onClick={() => {
+        onClickHandeller();
+      }}
+    >
+      <TableCell className=" max-w-smfont-medium pl-6">
+        {journalData.title}
       </TableCell>
-      <TableCell>
-        <Link href={journalLink}>{String(currentDate)}</Link>
+      <TableCell className=" max-w-sm truncate pl-4">
+        {String(currentDate)}
       </TableCell>
-      <TableCell className="max-w-sm truncate">
-        <Link href={journalLink}>{journalData.content}</Link>
+      <TableCell className="max-w-sm truncate pl-5">
+        {journalData.content}
       </TableCell>
-      <TableCell>
-        <Link href={journalLink}>{journalData.mood}</Link>
-      </TableCell>
-      <TableCell>
-        {journalData.tags.map((tag, index) => (
-          <Link href={journalLink} key={index}>
-            {tag}
-          </Link>
-        ))}
+      <TableCell className="max-w-sm truncate pl-5">
+        {journalData.mood}
       </TableCell>
     </TableRow>
   );
