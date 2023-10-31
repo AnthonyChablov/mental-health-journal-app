@@ -16,7 +16,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { formatDate } from "@/lib/utils";
+import { formatDate, formatMood } from "@/lib/utils";
 import PopOverButton from "@/components/Common/Buttons/PopOverButton";
 import { Separator } from "@/components/ui/separator";
 import ToggleHeader from "@/components/Common/Headers/ToggleHeader";
@@ -26,11 +26,11 @@ import EditJournalModal from "@/components/Common/Modal/EditJournalModal";
 import { useJournalStore } from "@/store/useJournalStore";
 
 const SingleJournalLayout = () => {
-  /* Router */
+  // Router
   const params = useParams();
   const journalId = params.journalId;
 
-  /* State */
+  // State
   const { toggleEditModal, setToggleEditModal } = useModalStore();
   const { setUserId, setTitle, setContent, setDate, setMood, setTags } =
     useJournalStore();
@@ -45,6 +45,9 @@ const SingleJournalLayout = () => {
     refreshInterval: 300000,
   });
 
+  // Formatting
+  const formattedMood = formatMood(singleJournalData?.mood);
+
   useEffect(() => {
     console.log(singleJournalData);
     setTitle(singleJournalData?.title);
@@ -55,51 +58,61 @@ const SingleJournalLayout = () => {
   }, [singleJournalData]);
 
   if (singleJournalError) {
-    return <div className="h-screen  bg-skin pt-12">Error...</div>;
+    return <div className="h-screen bg-skin pt-12">Error...</div>;
   } else if (singleJournalLoading) {
     return (
-      <div className="h-screen  bg-skin pt-12">
+      <div className="h-screen bg-skin pt-12">
         <LoadingLayout />
       </div>
     );
   }
+
   return (
-    <>
-      <div className="h-screen bg-skin pt-20 ">
+    <div className="min-h-screen bg-skin">
+      <div className=" h-fit pt-20 mb-20">
         <Container>
-          <Container>
-            <ToggleHeader title="My Journal" />
-            <Card>
-              <CardHeader>
-                <div className="flex flex-row justify-between items-start ">
-                  <CardTitle className="font-playFairDisplay text-dark-purple text-3xl  md:text-4xl ">
-                    {singleJournalData?.title}
-                  </CardTitle>
-                  <PopOverButton></PopOverButton>
-                </div>
-                <CardDescription className="">
-                  {formatDate(singleJournalData?.date)}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
+          <ToggleHeader title="My Journal" />
+          <Card className="shadow-lg overflow-hidden">
+            <div className="bg-dark-purple text-white px-5 py-4 flex justify-between">
+              <p className="text-2xl font-medium ">
+                {singleJournalData?.title}
+              </p>
+              <PopOverButton></PopOverButton>
+            </div>
+            <CardHeader>
+              <div className="flex flex-row justify-between items-center">
+                <CardTitle className="text-dark-purple text-3xl md:text-4xl font-playFairDisplay">
+                  <span className="text-3xl capitalize">
+                    {formattedMood.name}
+                  </span>
+                  <span className="text-3xl ml-3">{formattedMood.emoji}</span>
+                </CardTitle>
+              </div>
+              <CardDescription className="text-dark-purple text-md">
+                {formatDate(singleJournalData?.date)}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="">
+              <div className="bg-slate-100 p-5  rounded-lg shadow-md">
                 <p>{singleJournalData?.content}</p>
-              </CardContent>
-              <CardFooter className="flex items-end justify-end">
-                {/* Triggers Edit Journal Modal */}
-                <Button
-                  className="text-dark-purple bg-dark-purple shadow-none hover:bg-dark-purple-brown py-5 px-2 w-fit rounded-full"
-                  onClick={() => setToggleEditModal(true)}
-                >
-                  <ReactIcons type="edit" size={25} color="white" />
-                </Button>
-              </CardFooter>
-            </Card>
-          </Container>
+              </div>
+            </CardContent>
+            <CardFooter className="flex items-center justify-end mt-4 mb-2 ">
+              {/* Triggers Edit Journal Modal */}
+              <Button
+                className="text-dark-purple bg-dark-purple shadow-none hover:bg-dark-purple-brown py-5 px-2 w-fit rounded-full "
+                onClick={() => setToggleEditModal(true)}
+              >
+                <ReactIcons type="edit" size={25} color="white" />
+              </Button>
+            </CardFooter>
+          </Card>
         </Container>
       </div>
+
       <EditJournalModal displayTrigger={false} />
       <AppNav />
-    </>
+    </div>
   );
 };
 

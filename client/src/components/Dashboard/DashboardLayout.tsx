@@ -22,14 +22,7 @@ import {
 import { Bar } from "react-chartjs-2";
 import { useJournalStore } from "@/store/useJournalStore";
 import AddJournalDrawer from "../Common/Drawer/AddJournalDrawer";
-
-const moodObject = [
-  { name: "sad", emoji: "😞" },
-  { name: "verySad", emoji: "😢" },
-  { name: "angry", emoji: "😡" },
-  { name: "happy", emoji: "😃" },
-  { name: "veryHappy", emoji: "😄" },
-];
+import { moodObject } from "@/lib/utils";
 
 const DashboardLayout = () => {
   // State

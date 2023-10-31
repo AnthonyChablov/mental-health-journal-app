@@ -69,3 +69,28 @@ export function formatDate(date: string | Date | undefined) {
   const formattedDate = `${dayOfWeek}, ${month} ${day}, ${year}`;
   return formattedDate;
 }
+
+export const moodObject = [
+  { name: "sad", emoji: "😞" },
+  { name: "verySad", emoji: "😢" },
+  { name: "angry", emoji: "😡" },
+  { name: "happy", emoji: "😃" },
+  { name: "veryHappy", emoji: "😄" },
+];
+
+export function formatMood(mood: string) {
+  const formattedMood = mood?.toLowerCase();
+  const mappedMood = moodObject?.find((item) => item.name === formattedMood);
+
+  if (mappedMood) {
+    return {
+      name: mappedMood.name,
+      emoji: mappedMood.emoji,
+    };
+  } else {
+    return {
+      name: "unknown",
+      emoji: "❓",
+    };
+  }
+}

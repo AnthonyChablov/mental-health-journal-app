@@ -9,7 +9,7 @@ import {
 } from "react-icons/ai";
 import { RiMenu4Line } from "react-icons/ri";
 import { IoIosArrowBack } from "react-icons/io";
-
+import { GoKebabHorizontal } from "react-icons/go";
 interface IIcons {
   type: string;
   size: number;
@@ -30,6 +30,7 @@ const ReactIcons = ({ type, size, color }: IIcons) => {
           calendar: <AiOutlineCalendar size={size} color={color} />,
           search: <AiOutlineSearch size={size} color={color} />,
           edit: <AiOutlineEdit size={size} color={color} />,
+          kebab: <GoKebabHorizontal size={size} colot={color} />,
         }[type]
       }
     </div>
