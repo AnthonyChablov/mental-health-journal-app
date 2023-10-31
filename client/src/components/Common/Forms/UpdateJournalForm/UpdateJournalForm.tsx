@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import DatePicker from "../../DatePicker/DatePicker";
 import { Textarea } from "@/components/ui/textarea";
 import { addJournal } from "@/api/journalData";
-/* import { getUserLoginInfo } from "@/api/userAuthentication"; */
+import { useParams, useRouter } from "next/navigation";
 import {
   Form,
   FormField,
@@ -35,6 +35,10 @@ const formSchema = z.object({
   tags: z.array(z.string()),
 });
 const UpdateJournalForm = () => {
+  /* Router */
+  const params = useParams();
+  const journalId = String(params.journalId);
+
   // State
   const {
     userId,
@@ -66,7 +70,7 @@ const UpdateJournalForm = () => {
   });
 
   function onFormSubmit() {
-    editJournal({ userId, title, content, date, mood, tags });
+    editJournal(journalId, { userId, title, content, date, mood, tags });
   }
 
   useEffect(() => {
@@ -133,7 +137,7 @@ const UpdateJournalForm = () => {
                 <FormLabel>Content</FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder="Type your message here..."
+                    placeholder={content}
                     onChange={(e) => {
                       setContent(e.target.value);
                     }}
@@ -168,7 +172,7 @@ const UpdateJournalForm = () => {
                   <FormControl>
                     <Input
                       type="text"
-                      placeholder="Enter Tags Here "
+                      placeholder={tags[0] || "Enter Tag Here"}
                       onChange={(e) => {
                         setTags([...tags, e.target.value]);
                       }}
@@ -188,7 +192,7 @@ const UpdateJournalForm = () => {
                   <FormControl>
                     <Input
                       type="text"
-                      placeholder="Enter Mood Here "
+                      placeholder={mood}
                       onChange={(e) => {
                         setMood(e.target.value);
                       }}

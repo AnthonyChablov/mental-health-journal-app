@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/dialog";
 import { deleteJournal } from "@/api/journalData";
 import { useParams, useRouter } from "next/navigation";
-
 import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 

@@ -123,12 +123,12 @@ export async function deleteJournal(journalId: string) {
   }
 }
 
-export async function editJournal(journalId: IJournalEntry) {
+export async function editJournal(journalId: string, quizData: IJournalEntry) {
   const authToken = localStorage.getItem("authorizationToken");
   const url = `${API_BASE_URL}/api/journal/${journalId}`;
 
   try {
-    const response = await axios.put(url, {
+    const response = await axios.put(url, quizData, {
       headers: {
         Authorization: authToken,
       },
