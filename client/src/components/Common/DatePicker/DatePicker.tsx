@@ -1,5 +1,5 @@
-import React from "react";
-import { format } from "date-fns";
+import React, { useEffect } from "react";
+import { formatDate } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -13,6 +13,18 @@ import ReactIcons from "../Icons/ReactIcons";
 
 const DatePicker = () => {
   const { date, setDate } = useJournalStore();
+
+  const formattedDate = date ? (
+    formatDate(date) || "Invalid Date"
+  ) : (
+    <span>Pick a date</span>
+  );
+
+  useEffect(() => {
+    console.log(date);
+    setDate(new Date());
+  }, []);
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -26,7 +38,7 @@ const DatePicker = () => {
           <div className="mr-2 ">
             <ReactIcons type="calendar" color="gray" size={20} />
           </div>
-          {date ? format(date, "PPP") : <span>Pick a date</span>}
+          {formattedDate}
         </Button>
       </PopoverTrigger>
       <PopoverContent className=" p-0 w-auto">

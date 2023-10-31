@@ -19,7 +19,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import SelectButton from "../Common/Buttons/SelectButton";
-
+import { Toaster } from "@/components/ui/toaster";
 const JournalLayout = () => {
   // Fetch Journal Data
   const {
@@ -107,6 +107,7 @@ const JournalLayout = () => {
             </div>
           </Container>
           <AppNav />
+          <Toaster />
           <Drawer />
         </>
       )}

@@ -22,6 +22,7 @@ import { useForm } from "react-hook-form";
 import { IJournalEntry } from "@/models/journalModels";
 import jwtDecode from "jwt-decode";
 import { DecodedToken } from "@/api/userAuthentication";
+import { editJournal } from "@/api/journalData";
 
 const formSchema = z.object({
   userId: z.string(),
@@ -33,8 +34,7 @@ const formSchema = z.object({
   mood: z.string(),
   tags: z.array(z.string()),
 });
-
-const AddJournalForm = () => {
+const UpdateJournalForm = () => {
   // State
   const {
     userId,
@@ -66,12 +66,8 @@ const AddJournalForm = () => {
   });
 
   function onFormSubmit() {
-    addJournal({ userId, title, content, date, mood, tags });
+    editJournal({ userId, title, content, date, mood, tags });
   }
-
-  useEffect(() => {
-    console.log(userId, title, content, date, mood, tags);
-  }, [userId, title, content, date, mood, tags]);
 
   useEffect(() => {
     const storedAuthToken = localStorage.getItem("authorizationToken");
@@ -94,6 +90,9 @@ const AddJournalForm = () => {
     }
   }, [decodedToken]);
 
+  useEffect(() => {
+    console.log(userId, title, content, date, mood, tags);
+  }, [userId, title, content, date, mood, tags]);
   return (
     <div>
       <Form {...form}>
@@ -109,12 +108,13 @@ const AddJournalForm = () => {
             control={form.control}
             name="title"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Title</FormLabel>
+              <FormItem className="text-left ">
+                <FormLabel className="">Title</FormLabel>
                 <FormControl>
                   <Input
                     type="text"
-                    placeholder="Enter Journal Title here..."
+                    placeholder={title}
+                    value={title}
                     onChange={(e) => {
                       setTitle(e.target.value); // Update the `title` state with the input value
                     }}
@@ -129,7 +129,7 @@ const AddJournalForm = () => {
             control={form.control}
             name="title"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="text-left">
                 <FormLabel>Content</FormLabel>
                 <FormControl>
                   <Textarea
@@ -148,7 +148,7 @@ const AddJournalForm = () => {
             control={form.control}
             name="title"
             render={({ field }) => (
-              <FormItem className="flex flex-col">
+              <FormItem className="flex flex-col text-left">
                 <FormLabel>Date</FormLabel>
                 <FormControl>
                   <DatePicker />
@@ -163,7 +163,7 @@ const AddJournalForm = () => {
               control={form.control}
               name="title"
               render={({ field }) => (
-                <FormItem className="flex-grow">
+                <FormItem className="flex-grow text-left">
                   <FormLabel>Tag</FormLabel>
                   <FormControl>
                     <Input
@@ -183,7 +183,7 @@ const AddJournalForm = () => {
               control={form.control}
               name="title"
               render={({ field }) => (
-                <FormItem className="flex-grow">
+                <FormItem className="flex-grow text-left ">
                   <FormLabel>Mood</FormLabel>
                   <FormControl>
                     <Input
@@ -201,10 +201,10 @@ const AddJournalForm = () => {
           </div>
           {/* Submit button */}
           <Button
-            className="bg-dark-purple hover:bg-dark-purple-brown text-md rounded-full p-6 "
+            className="bg-dark-purple hover:bg-dark-purple-brown text-md rounded-full w-full p-6 "
             type="submit"
           >
-            Add Journal
+            Update Journal
           </Button>
         </form>
       </Form>
@@ -212,4 +212,4 @@ const AddJournalForm = () => {
   );
 };
 
-export default AddJournalForm;
+export default UpdateJournalForm;
