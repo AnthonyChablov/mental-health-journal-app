@@ -31,7 +31,7 @@ const JournalCard = ({ singleJournalData, mode }: IJournalCardProps) => {
         <div className="bg-dark-purple text-white px-5 py-4 flex justify-between">
           <p
             className={`text-2xl font-medium ${
-              mode !== "journal" && "text-sm font-semibold truncate"
+              mode === "carousel" && "text-sm font-semibold truncate"
             }`}
           >
             {singleJournalData?.title}
@@ -41,25 +41,34 @@ const JournalCard = ({ singleJournalData, mode }: IJournalCardProps) => {
         <CardHeader>
           <div className="flex flex-row justify-between items-center">
             <CardTitle
-              className={`text-dark-purple text-3xl md:text-4xl font-playFairDisplay ${
-                mode !== "journal" && "text-xl font-semibold"
+              className={`text-dark-purple  font-playFairDisplay ${
+                mode === "carousel"
+                  ? "text-2xl font-semibold"
+                  : "text-3xl md:text-4xl"
               }`}
             >
-              <span className=" capitalize">{formattedMood.name}</span>
+              <span className=" capitalize text-md">{formattedMood.name}</span>
               <span className=" ml-2">{formattedMood.emoji}</span>
             </CardTitle>
           </div>
-          <CardDescription className={`text-dark-purple text-md `}>
+          <CardDescription
+            className={`text-dark-purple ${
+              mode === "carousel" ? "text-xs sm:text-md " : "text-md"
+            }`}
+          >
             {formatDate(singleJournalData?.date)}
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div
-            className={`bg-slate-100 p-5  rounded-3xl shadow-md ${
-              mode !== "journal" && "truncate "
-            } `}
-          >
-            <p>{singleJournalData?.content}</p>
+          <div className={`bg-slate-100 p-5 rounded-3xl shadow-md `}>
+            <p
+              className={` ${
+                mode === "carousel" &&
+                "truncate overflow-hidden max-w-[100%] overflow-ellipsis whitespace-nowrap"
+              } `}
+            >
+              {singleJournalData?.content}
+            </p>
           </div>
         </CardContent>
         <CardFooter className="flex items-center justify-between mt-4 mb-2 ">
@@ -70,7 +79,7 @@ const JournalCard = ({ singleJournalData, mode }: IJournalCardProps) => {
                 key={index}
                 className="tag-item bg-dark-purple text-white text-sm font-regular p-2 rounded"
               >
-                {tag}
+                {tag.text}
               </li>
             ))}
           </ul>

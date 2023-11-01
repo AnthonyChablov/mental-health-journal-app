@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
-import DatePicker from "../../DatePicker/DatePicker";
+import DatePicker from "../../Inputs/DatePicker/DatePicker";
 import { Textarea } from "@/components/ui/textarea";
 import { addJournal } from "@/api/journalData";
 /* import { getUserLoginInfo } from "@/api/userAuthentication"; */
@@ -13,15 +13,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  FormDescription,
   FormControl,
 } from "@/components/ui/form";
 import { useJournalStore } from "@/store/useJournalStore";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-import { IJournalEntry } from "@/models/journalModels";
 import jwtDecode from "jwt-decode";
 import { DecodedToken } from "@/api/userAuthentication";
+import { SelectInput } from "../../Inputs/SelectInput";
+import { TagInput } from "../../Inputs/TagInput";
+import { Tag } from "@/models/journalModels";
 
 const formSchema = z.object({
   userId: z.string(),
@@ -31,7 +32,12 @@ const formSchema = z.object({
   content: z.string(),
   date: z.string(),
   mood: z.string(),
-  tags: z.array(z.string()),
+  tags: z.array(
+    z.object({
+      id: z.string(),
+      text: z.string(),
+    })
+  ),
 });
 
 const AddJournalForm = () => {
@@ -65,6 +71,8 @@ const AddJournalForm = () => {
     },
   });
 
+  const { setValue } = form;
+
   function onFormSubmit() {
     addJournal({ userId, title, content, date, mood, tags });
   }
@@ -92,13 +100,14 @@ const AddJournalForm = () => {
     if (decodedToken) {
       setUserId(decodedToken?.user);
     }
+    // @ts-ignore
   }, [decodedToken]);
 
   return (
     <div>
       <Form {...form}>
         <form
-          className="space-y-5"
+          className="space-y-5 max-w-3xl"
           onSubmit={(e) => {
             e.preventDefault();
             onFormSubmit();
@@ -143,36 +152,16 @@ const AddJournalForm = () => {
               </FormItem>
             )}
           />
-          {/* Date */}
-          <FormField
-            control={form.control}
-            name="title"
-            render={({ field }) => (
-              <FormItem className="flex flex-col">
-                <FormLabel>Date</FormLabel>
-                <FormControl>
-                  <DatePicker />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div className="flex flex-col sm:flex-row justify-between space-y-5 sm:space-x-10 sm:space-y-0 ">
-            {/* Tags */}
+          <div className="flex justify-between items-center w-full">
+            {/* Date */}
             <FormField
               control={form.control}
               name="title"
               render={({ field }) => (
-                <FormItem className="flex-grow">
-                  <FormLabel>Tag</FormLabel>
+                <FormItem className="flex flex-col flex-grow">
+                  <FormLabel className="mb-1 mt-2">Date</FormLabel>
                   <FormControl>
-                    <Input
-                      type="text"
-                      placeholder="Enter Tags Here "
-                      onChange={(e) => {
-                        setTags([...tags, e.target.value]);
-                      }}
-                    />
+                    <DatePicker />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -186,11 +175,30 @@ const AddJournalForm = () => {
                 <FormItem className="flex-grow">
                   <FormLabel>Mood</FormLabel>
                   <FormControl>
-                    <Input
-                      type="text"
-                      placeholder="Enter Mood Here "
-                      onChange={(e) => {
-                        setMood(e.target.value);
+                    <SelectInput />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="flex flex-col sm:flex-row justify-between space-y-5 sm:space-x-10 sm:space-y-0 ">
+            {/* Tags */}
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem className="flex-grow">
+                  <FormLabel>Tag</FormLabel>
+                  <FormControl>
+                    <TagInput
+                      {...field}
+                      placeholder="Enter a topic"
+                      tags={tags}
+                      className="sm:min-w-[450px]"
+                      setTags={(newTags) => {
+                        setTags(newTags);
+                        setValue("tags", newTags as [Tag, ...Tag[]]);
                       }}
                     />
                   </FormControl>

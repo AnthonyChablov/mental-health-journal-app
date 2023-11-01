@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
-import DatePicker from "../../DatePicker/DatePicker";
+import DatePicker from "../../Inputs/DatePicker/DatePicker";
 import { Textarea } from "@/components/ui/textarea";
 import { addJournal } from "@/api/journalData";
 import { useParams, useRouter } from "next/navigation";
@@ -23,6 +23,7 @@ import { IJournalEntry } from "@/models/journalModels";
 import jwtDecode from "jwt-decode";
 import { DecodedToken } from "@/api/userAuthentication";
 import { editJournal } from "@/api/journalData";
+import { SelectInput } from "../../Inputs/SelectInput";
 
 const formSchema = z.object({
   userId: z.string(),
@@ -190,13 +191,7 @@ const UpdateJournalForm = () => {
                 <FormItem className="flex-grow text-left ">
                   <FormLabel>Mood</FormLabel>
                   <FormControl>
-                    <Input
-                      type="text"
-                      placeholder={mood}
-                      onChange={(e) => {
-                        setMood(e.target.value);
-                      }}
-                    />
+                    <SelectInput />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -1,3 +1,10 @@
+import { SetStateAction } from "react";
+
+export type Tag = {
+  id: string;
+  text: string;
+};
+
 export interface IJournalEntry {
   _id?: string;
   userId: string;
@@ -5,5 +12,5 @@ export interface IJournalEntry {
   content: string;
   date: Date | undefined;
   mood: string;
-  tags: string[];
+  tags: Tag[];
 }

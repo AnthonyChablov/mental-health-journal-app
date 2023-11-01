@@ -64,7 +64,7 @@ const JournalLayout = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <div className="mt-8 py-2 pb-4 px-2 rounded-2xl  shadow-lg border-1.5 overflow-hidden bg-white ">
+            <div className="mt-8 py-2 pb-4 px-2 rounded-2xl  shadow-lg border-1.5 overflow-hidden bg-white max-w-5xl mx-auto">
               {filteredData && filteredData.length > 0 ? ( // Check if there are entries in filteredData
                 <Table className="">
                   <TableHeader className="">

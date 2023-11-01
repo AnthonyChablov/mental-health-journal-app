@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Toast as toast } from "@/components/ui/toast";
 import { v4 as uuid } from "uuid";
+import { Tag } from "@/models/journalModels";
 
 const tagVariants = cva(
   "transition-all border inline-flex items-center text-sm pl-2 rounded-md",
@@ -89,11 +90,6 @@ type OmittedInputProps = Omit<
   "size" | "value"
 >;
 
-export type Tag = {
-  id: string;
-  text: string;
-};
-
 export interface TagInputProps
   extends OmittedInputProps,
     VariantProps<typeof tagVariants> {
@@ -118,7 +114,7 @@ export interface TagInputProps
   truncate?: number;
   minLength?: number;
   maxLength?: number;
-  value?: string | number | readonly string[] | { id: string; text: string }[];
+  value?: string | number | readonly Tag[] | { id: string; text: string }[];
   autocompleteFilter?: (option: string) => boolean;
 }
 

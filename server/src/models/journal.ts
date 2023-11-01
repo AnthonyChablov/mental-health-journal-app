@@ -1,4 +1,10 @@
 import mongoose from "mongoose";
+
+export type Tag = {
+  id: string;
+  text: string;
+};
+
 // Define the schema
 const journalSchema = new mongoose.Schema({
   userId: {
@@ -22,7 +28,7 @@ const journalSchema = new mongoose.Schema({
     required: true,
   },
   tags: {
-    type: [String],
+    type: [{ id: String, text: String }],
   },
 });
 

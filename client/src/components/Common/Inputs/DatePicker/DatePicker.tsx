@@ -9,7 +9,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useJournalStore } from "@/store/useJournalStore";
-import ReactIcons from "../Icons/ReactIcons";
+import ReactIcons from "../../Icons/ReactIcons";
 
 const DatePicker = () => {
   const { date, setDate } = useJournalStore();
@@ -31,7 +31,7 @@ const DatePicker = () => {
         <Button
           variant={"outline"}
           className={cn(
-            "w-[280px] justify-start text-left font-normal",
+            "w-[280px] justify-start text-left font-normal ",
             !date && "text-muted-foreground"
           )}
         >

@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { useModalStore } from "@/store/useModalStore";
 import EditJournalModal from "@/components/Common/Modal/EditJournalModal";
 import { useJournalStore } from "@/store/useJournalStore";
+import SkeletonCardDisplay from "@/components/Common/Loading/SkeletonCardDisplay";
 
 const SingleJournalLayout = () => {
   // Router
@@ -58,8 +59,8 @@ const SingleJournalLayout = () => {
   }
 
   return (
-    <div className="min-h-screen bg-skin">
-      <div className=" h-fit pt-20 mb-20">
+    <div className="min-h-screen bg-skin ">
+      <div className=" h-fit pt-20 mb-20 max-w-3xl mx-auto">
         <Container>
           <ToggleHeader title="My Journal" />
           <JournalCard singleJournalData={singleJournalData} mode="journal" />
