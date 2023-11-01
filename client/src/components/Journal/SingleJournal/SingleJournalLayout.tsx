@@ -72,7 +72,7 @@ const SingleJournalLayout = () => {
       <div className=" h-fit pt-20 mb-20">
         <Container>
           <ToggleHeader title="My Journal" />
-          <Card className="shadow-lg overflow-hidden">
+          <Card className="shadow-lg overflow-hidden rounded-3xl">
             <div className="bg-dark-purple text-white px-5 py-4 flex justify-between">
               <p className="text-2xl font-medium ">
                 {singleJournalData?.title}
@@ -93,7 +93,7 @@ const SingleJournalLayout = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="">
-              <div className="bg-slate-100 p-5  rounded-lg shadow-md">
+              <div className="bg-slate-100 p-5  rounded-3xl shadow-md">
                 <p>{singleJournalData?.content}</p>
               </div>
             </CardContent>

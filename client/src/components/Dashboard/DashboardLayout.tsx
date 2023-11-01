@@ -8,8 +8,6 @@ import { getAllJournals } from "@/api/journalData";
 import Link from "next/link";
 import Drawer from "../Common/Drawer/Drawer";
 import useSWR from "swr";
-
-import { API_BASE_URL } from "@/api/baseApiUrl";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -23,6 +21,8 @@ import { Bar } from "react-chartjs-2";
 import { useJournalStore } from "@/store/useJournalStore";
 import AddJournalDrawer from "../Common/Drawer/AddJournalDrawer";
 import { moodObject } from "@/lib/utils";
+import { API_BASE_URL } from "@/api/baseApiUrl";
+import CarouselDisplay from "../Common/Carousel/CarouselDisplay";
 
 const DashboardLayout = () => {
   // State
@@ -120,14 +120,14 @@ const DashboardLayout = () => {
             displayDate={true}
           />
           <Container>
-            <Card className="mt-36 max-w-3xl mx-auto rounded-3xl p-1 shadow-lg">
+            <Card className="mt-36 max-w-3xl mx-auto rounded-3xl p-4 shadow-lg">
               <div className="flex justify-between items-center">
-                <CardTitle className="text-md font-semibold text-left text-gray-800 p-4">
+                <CardTitle className="text-md font-semibold text-left text-gray-800 ">
                   Mood Insights
                 </CardTitle>
                 <Link
                   href={"/"}
-                  className="text-sm font-regular text-left text-dark-purple p-4"
+                  className="text-sm font-regular text-left text-dark-purple"
                 >
                   View Report
                 </Link>
@@ -136,18 +136,20 @@ const DashboardLayout = () => {
                 <Bar data={chartData} options={chartOptions} />
               </div>
             </Card>
-            <Card className="mt-10 max-w-3xl mx-auto rounded-3xl p-1 shadow-lg">
+            <Card className="mt-10 max-w-3xl mx-auto rounded-3xl  shadow-lg p-4">
+              {/* Header */}
               <div className="flex justify-between items-center">
-                <CardTitle className="text-md font-semibold text-left text-gray-800 p-4 ">
+                <CardTitle className="text-md font-semibold text-left text-gray-800  ">
                   My Journals
                 </CardTitle>
                 <Link
                   href={"/dashboard/journal"}
-                  className="text-sm font-regular text-left text-dark-purple p-4"
+                  className="text-sm font-regular text-left text-dark-purple"
                 >
                   View Journals
                 </Link>
               </div>
+              <CarouselDisplay carouselItems={journalData} />
             </Card>
           </Container>
           <AppNav />
