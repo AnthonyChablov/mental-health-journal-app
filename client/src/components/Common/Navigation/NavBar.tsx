@@ -28,7 +28,7 @@ export default function NavBar() {
           />
           <NavbarBrand>
             <Link color="foreground" href="/" as={NextLink}>
-              <p className="bg-gradient-to-tr from-red-300 via-red-350 via-red-400 to-yellow-400 font-bold inline-block text-transparent bg-clip-text">
+              <p className="text-dark-purple  font-bold inline-block  bg-clip-text">
                 HarmonyHelper
               </p>
             </Link>
@@ -62,7 +62,7 @@ export default function NavBar() {
               as={Link}
               href="/register"
               variant="flat"
-              className="bg-gradient-to-r from-red-300  to-yellow-400 font-bold text-white text-xs"
+              className=" font-bold text-white text-xs bg-dark-purple"
             >
               Sign Up
             </Button>

@@ -1,4 +1,6 @@
 import React from "react";
+import Link from "next/link";
+import { formatDate, formatMood } from "@/lib/utils";
 import {
   Card,
   CardContent,
@@ -7,8 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Link from "next/link";
-import { formatDate, formatMood } from "@/lib/utils";
+import JournalCard from "../Card/JournalCard";
 
 interface ICarouselItemProps {
   ariaLabel: string;
@@ -41,14 +42,16 @@ const CarouselItem = ({
           <CardTitle className="text-2xl font-semibold truncate w-18">
             {title}
           </CardTitle>
-          <CardDescription className=" text-xs text-white">
+          <CardDescription className="text-xs text-white">
             {formatDate(date)}
           </CardDescription>
         </CardHeader>
-        <div className=" p-4">
-          <p className="truncate w-18">{content}</p>
+        <div className="my-2 mx-2 mt-3">
+          <p className="truncate w-18 bg-slate-100 p-3 rounded-lg shadow-sm">
+            {content}
+          </p>
         </div>
-        <div className="card-footer p-4">
+        <CardFooter className="p-4">
           <ul className="tags-list flex space-x-2">
             {tags?.map((tag, index) => (
               <li
@@ -59,7 +62,7 @@ const CarouselItem = ({
               </li>
             ))}
           </ul>
-        </div>
+        </CardFooter>
       </Link>
     </Card>
   );

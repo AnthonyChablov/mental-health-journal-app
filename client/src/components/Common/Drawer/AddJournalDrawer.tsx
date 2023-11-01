@@ -9,18 +9,8 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import ReactIcons from "../Icons/ReactIcons";
-import { useDrawerStore } from "@/store/useDrawerStore";
-import { useJournalStore } from "@/store/useJournalStore";
 import { Separator } from "@/components/ui/separator";
 import Container from "../Utils/Container";
-import { Input } from "@/components/ui/input";
-import DatePicker from "../DatePicker/DatePicker";
-import PlainHeader from "../Headers/PlainHeader";
-import { Textarea } from "@/components/ui/textarea";
-import { addJournal } from "@/api/journalData";
-import { TagInput } from "../Inputs/TagInput";
-import { Form } from "@/components/ui/form";
 import AddJournalForm from "../Forms/AddJournalForm/AddJournalForm";
 
 const AddJournalDrawer = () => {

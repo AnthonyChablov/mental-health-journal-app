@@ -23,13 +23,13 @@ import AddJournalDrawer from "../Common/Drawer/AddJournalDrawer";
 import { moodObject } from "@/lib/utils";
 import { API_BASE_URL } from "@/api/baseApiUrl";
 import CarouselDisplay from "../Common/Carousel/CarouselDisplay";
+import SkeletonChartDisplay from "../Common/Loading/SkeletonChartDisplay";
 
 const DashboardLayout = () => {
   // State
   const [moodData, setMoodData] = useState<{ [moodName: string]: number }>({});
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const { setMood } = useJournalStore();
+  const { setMood, isLoading, setIsLoading } = useJournalStore();
 
   // Fetch Journal Data
   const {
@@ -57,11 +57,11 @@ const DashboardLayout = () => {
         label: "Mood Insights",
         data: moodObject.map((mood) => moodData[mood.name] || 0),
         backgroundColor: [
-          "rgba(255, 99, 132, 0.6)",
-          "rgba(54, 162, 235, 0.6)",
-          "rgba(255, 206, 86, 0.6)",
-          "rgba(75, 192, 192, 0.6)",
-          "rgba(153, 102, 255, 0.6)",
+          "#5D4C5B",
+          "#B89F97",
+          "#6d527d",
+          "#897582",
+          "#fcf1eb",
         ],
       },
     ],
@@ -70,19 +70,24 @@ const DashboardLayout = () => {
     scales: {
       y: {
         beginAtZero: true,
+        suggestedMin: 0, // Set the minimum value to 0
+        ticks: {
+          // forces step size to be 50 units
+          stepSize: 1,
+        },
       },
     },
   };
 
   useEffect(() => {
     if (journalLoading) {
-      setLoading(true);
+      setIsLoading(true);
     }
     if (journalError) {
       setError(journalError);
     }
     if (!journalLoading && !journalError) {
-      setLoading(false);
+      setIsLoading(false);
     }
   }, [journalLoading, journalError]);
 
@@ -108,11 +113,7 @@ const DashboardLayout = () => {
 
   return (
     <main className="bg-skin h-full min-h-screen pb-24">
-      {loading ? (
-        <div>Loading...</div>
-      ) : error ? (
-        <div>Error...</div>
-      ) : (
+      {
         <>
           <Hero
             header="How Do You Feel Today?"
@@ -132,11 +133,15 @@ const DashboardLayout = () => {
                   View Report
                 </Link>
               </div>
-              <div className="p-4">
-                <Bar data={chartData} options={chartOptions} />
+              <div className="p-4 mt-2">
+                {isLoading ? (
+                  <SkeletonChartDisplay />
+                ) : (
+                  <Bar data={chartData} options={chartOptions} />
+                )}
               </div>
             </Card>
-            <Card className="mt-10 max-w-3xl mx-auto rounded-3xl  shadow-lg p-4">
+            <Card className="mt-10 max-w-3xl mx-auto rounded-3xl shadow-lg p-4">
               {/* Header */}
               <div className="flex justify-between items-center">
                 <CardTitle className="text-md font-semibold text-left text-gray-800  ">
@@ -149,14 +154,17 @@ const DashboardLayout = () => {
                   View Journals
                 </Link>
               </div>
-              <CarouselDisplay carouselItems={journalData} />
+              <CarouselDisplay
+                carouselItems={journalData}
+                isLoading={journalLoading}
+              />
             </Card>
           </Container>
           <AppNav />
           <Drawer />
           <AddJournalDrawer />
         </>
-      )}
+      }
     </main>
   );
 };

@@ -24,7 +24,7 @@ const AppNav = () => {
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-dark-purple shadow-2xl py-2 px-4 w-full ">
+    <div className="fixed bottom-0 left-0 right-0 bg-dark-purple shadow-2xl py-2 px-4 w-full z-50">
       <div className="max-w-screen-sm flex justify-between mx-auto items-center">
         {navItems.map((item, index) => (
           <Link key={index} href={item.link}>

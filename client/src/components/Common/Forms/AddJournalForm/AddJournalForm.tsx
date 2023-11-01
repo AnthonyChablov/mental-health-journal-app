@@ -200,12 +200,20 @@ const AddJournalForm = () => {
             />
           </div>
           {/* Submit button */}
-          <Button
-            className="bg-dark-purple hover:bg-dark-purple-brown text-md rounded-full p-6 "
-            type="submit"
-          >
-            Add Journal
-          </Button>
+          <div className="w-full flex justify-center ">
+            <Button
+              className="bg-transparent hover:underline text-md rounded-full p-6 shadow-none text-dark-purple"
+              type="submit"
+            >
+              Cancel
+            </Button>
+            <Button
+              className="bg-dark-purple hover:bg-dark-purple-brown text-md rounded-full p-6 "
+              type="submit"
+            >
+              Add Journal
+            </Button>
+          </div>
         </form>
       </Form>
     </div>
