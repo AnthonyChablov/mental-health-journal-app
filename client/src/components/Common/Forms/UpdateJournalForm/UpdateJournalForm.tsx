@@ -5,25 +5,28 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import DatePicker from "../../Inputs/DatePicker/DatePicker";
 import { Textarea } from "@/components/ui/textarea";
-import { addJournal } from "@/api/journalData";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import {
   Form,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-  FormDescription,
   FormControl,
 } from "@/components/ui/form";
 import { useJournalStore } from "@/store/useJournalStore";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-import { IJournalEntry } from "@/models/journalModels";
 import jwtDecode from "jwt-decode";
 import { DecodedToken } from "@/api/userAuthentication";
 import { editJournal } from "@/api/journalData";
 import { SelectInput } from "../../Inputs/SelectInput";
+import { TagInput } from "../../Inputs/TagInput";
+import useSWR from "swr";
+import { Tag } from "@/models/journalModels";
+import { useModalStore } from "@/store/useModalStore";
+import { ToastAction } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
   userId: z.string(),
@@ -35,6 +38,7 @@ const formSchema = z.object({
   mood: z.string(),
   tags: z.array(z.string()),
 });
+
 const UpdateJournalForm = () => {
   /* Router */
   const params = useParams();
@@ -55,6 +59,7 @@ const UpdateJournalForm = () => {
     setMood,
     setTags,
   } = useJournalStore();
+  const { toggleEditModal, setToggleEditModal } = useModalStore();
   const [decodedToken, setDecodedToken] = useState<DecodedToken | null>(null);
 
   // Form Schema
@@ -70,8 +75,39 @@ const UpdateJournalForm = () => {
     },
   });
 
-  function onFormSubmit() {
-    editJournal(journalId, { userId, title, content, date, mood, tags });
+  /* Variables */
+  const { setValue } = form;
+  const { mutate, data } = useSWR(`${journalId}`);
+  const { toast } = useToast();
+
+  /* Functions */
+  async function onFormSubmit() {
+    try {
+      const result = await editJournal(journalId, {
+        userId,
+        title,
+        content,
+        date,
+        mood,
+        tags,
+      });
+      if (data) {
+        // If data exists, mutate the updated journal object
+        const updatedData = { ...data, ...result };
+        mutate(updatedData, true);
+      } else {
+        // If data doesn't exist yet, set the result as the initial data
+        mutate(result, true);
+      }
+      setToggleEditModal(!toggleEditModal);
+    } catch (error) {
+      console.error("An error occurred:", error);
+      toast({
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
+        action: <ToastAction altText="Try again">Try again</ToastAction>,
+      });
+    }
   }
 
   useEffect(() => {
@@ -98,6 +134,7 @@ const UpdateJournalForm = () => {
   useEffect(() => {
     console.log(userId, title, content, date, mood, tags);
   }, [userId, title, content, date, mood, tags]);
+
   return (
     <div>
       <Form {...form}>
@@ -148,36 +185,16 @@ const UpdateJournalForm = () => {
               </FormItem>
             )}
           />
-          {/* Date */}
-          <FormField
-            control={form.control}
-            name="title"
-            render={({ field }) => (
-              <FormItem className="flex flex-col text-left">
-                <FormLabel>Date</FormLabel>
-                <FormControl>
-                  <DatePicker />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <div className="flex flex-col sm:flex-row justify-between space-y-5 sm:space-x-10 sm:space-y-0 ">
-            {/* Tags */}
+            {/* Date */}
             <FormField
               control={form.control}
               name="title"
               render={({ field }) => (
-                <FormItem className="flex-grow text-left">
-                  <FormLabel>Tag</FormLabel>
+                <FormItem className="flex flex-col text-left">
+                  <FormLabel className="mb-[0.4513em] mt-0">Date</FormLabel>
                   <FormControl>
-                    <Input
-                      type="text"
-                      placeholder={tags[0] || "Enter Tag Here"}
-                      onChange={(e) => {
-                        setTags([...tags, e.target.value]);
-                      }}
-                    />
+                    <DatePicker />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -191,7 +208,32 @@ const UpdateJournalForm = () => {
                 <FormItem className="flex-grow text-left ">
                   <FormLabel>Mood</FormLabel>
                   <FormControl>
-                    <SelectInput />
+                    <SelectInput fitWidth={true} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="">
+            {/* Tags */}
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem className="flex-grow text-left">
+                  <FormLabel>Tags</FormLabel>
+                  <FormControl>
+                    <TagInput
+                      {...field}
+                      placeholder="Enter a topic"
+                      tags={tags}
+                      className=""
+                      setTags={(newTags) => {
+                        setTags(newTags);
+                        setValue("tags", newTags as [Tag, ...Tag[]]);
+                      }}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

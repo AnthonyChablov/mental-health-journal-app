@@ -36,7 +36,7 @@ const EditJournalModal = ({ displayTrigger }: IEditJournalModalProps) => {
         )}
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit Journal</DialogTitle>
+            <DialogTitle className="mb-3">Edit Journal</DialogTitle>
             <DialogDescription>
               <UpdateJournalForm />
             </DialogDescription>

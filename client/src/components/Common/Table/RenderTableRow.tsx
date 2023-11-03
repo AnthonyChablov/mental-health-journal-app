@@ -3,12 +3,7 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import { getCurrentFormattedDate } from "@/lib/utils";
 import { formatDate } from "../../../lib/utils";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import ReactIcons from "../Icons/ReactIcons";
-import SelectButton from "../Buttons/SelectButton";
-import PopOverButton from "../Buttons/PopOverButton";
-
+import { Tag } from "@/models/journalModels";
 interface RenderTableRowProps {
   journalData: {
     _id?: string;
@@ -16,7 +11,7 @@ interface RenderTableRowProps {
     date: string | Date | undefined;
     content: string;
     mood: string;
-    tags: string[];
+    tags: Tag[];
   };
 }
 

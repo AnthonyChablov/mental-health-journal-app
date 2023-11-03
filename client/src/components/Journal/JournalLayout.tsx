@@ -10,6 +10,7 @@ import Hero from "../Common/Hero/Hero";
 import { IJournalEntry } from "@/models/journalModels";
 import { Input } from "@/components/ui/input";
 import RenderTableRow from "../Common/Table/RenderTableRow";
+import TableDropDownMenu from "../Common/Menu/TableDropDownMenu";
 import {
   Table,
   TableBody,
@@ -20,6 +21,8 @@ import {
 } from "@/components/ui/table";
 import SelectButton from "../Common/Buttons/SelectButton";
 import { Toaster } from "@/components/ui/toaster";
+import { useJournalFilterStore } from "@/store/useJournalFilterStore";
+
 const JournalLayout = () => {
   // Fetch Journal Data
   const {
@@ -31,8 +34,10 @@ const JournalLayout = () => {
     refreshInterval: 300000,
   });
 
+  /* State */
+  const {} = useJournalFilterStore();
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const selectButtonOptions = ["Asc ", "Desc"];
+  const selectButtonOptions: string[] = ["Default", "Asc", "Desc"];
 
   useEffect(() => {
     console.log(journalData);
@@ -70,28 +75,16 @@ const JournalLayout = () => {
                   <TableHeader className="">
                     <TableRow className="hover:bg-transparent">
                       <TableHead className="w-[100px]">
-                        <SelectButton
-                          title="Title"
-                          options={selectButtonOptions}
-                        />
+                        <TableDropDownMenu mode="Title" />
                       </TableHead>
                       <TableHead className="">
-                        <SelectButton
-                          title="Date"
-                          options={selectButtonOptions}
-                        />
+                        <TableDropDownMenu mode="Date" />
                       </TableHead>
                       <TableHead>
-                        <SelectButton
-                          title="Content"
-                          options={selectButtonOptions}
-                        />
+                        <TableDropDownMenu mode="Content" />
                       </TableHead>
                       <TableHead>
-                        <SelectButton
-                          title="Mood"
-                          options={selectButtonOptions}
-                        />
+                        <TableDropDownMenu mode="Mood" />
                       </TableHead>
                     </TableRow>
                   </TableHeader>

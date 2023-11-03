@@ -23,6 +23,11 @@ import { DecodedToken } from "@/api/userAuthentication";
 import { SelectInput } from "../../Inputs/SelectInput";
 import { TagInput } from "../../Inputs/TagInput";
 import { Tag } from "@/models/journalModels";
+import useSWR from "swr";
+import { API_BASE_URL } from "@/api/baseApiUrl";
+import { useDrawerStore } from "@/store/useDrawerStore";
+import { useToast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 
 const formSchema = z.object({
   userId: z.string(),
@@ -56,6 +61,7 @@ const AddJournalForm = () => {
     setMood,
     setTags,
   } = useJournalStore();
+  const { openDrawer, setOpenDrawer } = useDrawerStore();
   const [decodedToken, setDecodedToken] = useState<DecodedToken | null>(null);
 
   // Form Schema
@@ -72,9 +78,34 @@ const AddJournalForm = () => {
   });
 
   const { setValue } = form;
+  const { mutate, data } = useSWR(`${API_BASE_URL}/api/journal`);
+  const { toast } = useToast();
 
-  function onFormSubmit() {
-    addJournal({ userId, title, content, date, mood, tags });
+  async function onFormSubmit() {
+    try {
+      const result = await addJournal({
+        userId,
+        title,
+        content,
+        date,
+        mood,
+        tags,
+      });
+      mutate(result, {
+        optimisticData: [...data, "New Item"],
+        populateCache: true,
+      });
+      setOpenDrawer(!openDrawer);
+    } catch (error) {
+      // Handle the error here
+      console.error("An error occurred:", error);
+      // You can also show an error message to the user if needed.
+      toast({
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
+        action: <ToastAction altText="Try again">Try again</ToastAction>,
+      });
+    }
   }
 
   useEffect(() => {
@@ -107,7 +138,7 @@ const AddJournalForm = () => {
     <div>
       <Form {...form}>
         <form
-          className="space-y-5 max-w-3xl"
+          className="space-y-5 max-w-3xl mx-auto"
           onSubmit={(e) => {
             e.preventDefault();
             onFormSubmit();
@@ -189,7 +220,7 @@ const AddJournalForm = () => {
               name="title"
               render={({ field }) => (
                 <FormItem className="flex-grow">
-                  <FormLabel>Tag</FormLabel>
+                  <FormLabel>Tags</FormLabel>
                   <FormControl>
                     <TagInput
                       {...field}
@@ -210,7 +241,7 @@ const AddJournalForm = () => {
           {/* Submit button */}
           <div className="w-full flex justify-center ">
             <Button
-              className="bg-transparent hover:underline text-md rounded-full p-6 shadow-none text-dark-purple"
+              className="bg-transparent hover:underline text-md rounded-full p-6 shadow-none text-dark-purple hover:bg-transparent"
               type="submit"
             >
               Cancel

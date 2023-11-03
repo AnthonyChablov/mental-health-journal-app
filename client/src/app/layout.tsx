@@ -4,11 +4,9 @@ export const metadata = {
 };
 import "./globals.css";
 
-import { Inter, Playfair_Display } from "next/font/google";
+import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
-
-import { NextUIProvider } from "@/lib/nextui";
 
 export default function RootLayout({
   children,

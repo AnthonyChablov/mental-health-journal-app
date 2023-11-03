@@ -12,7 +12,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export function SelectInput() {
+interface ISelectInputProps {
+  fitWidth?: boolean;
+}
+
+export function SelectInput({ fitWidth }: ISelectInputProps) {
   const { mood, setMood } = useJournalStore();
   const handleMoodChange = (value: string) => {
     const selectedMood = value;
@@ -20,7 +24,7 @@ export function SelectInput() {
   };
   return (
     <Select onValueChange={handleMoodChange} value={mood}>
-      <SelectTrigger className="w-[280px]">
+      <SelectTrigger className={`${fitWidth ? `w-full` : "w-[280px]"}`}>
         <SelectValue placeholder="Select a mood" />
       </SelectTrigger>
       <SelectContent className="p-0 m-0">
