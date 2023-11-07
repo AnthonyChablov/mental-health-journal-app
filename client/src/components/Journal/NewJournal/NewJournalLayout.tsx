@@ -5,7 +5,7 @@ import Container from "@/components/Common/Utils/Container";
 import { Button } from "@/components/ui/button";
 import ToggleHeader from "@/components/Common/Headers/ToggleHeader";
 import { useJournalStore } from "@/store/useJournalStore";
-import DatePicker from "@/components/Common/DatePicker/DatePicker";
+import DatePicker from "@/components/Common/Inputs/DatePicker/DatePicker";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 

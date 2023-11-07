@@ -67,3 +67,85 @@ export async function getAllJournals() {
     return null; // Return null or throw an error, depending on your requirements
   }
 }
+
+// Function to get single journal entry
+export async function getJournal(journalId: string) {
+  const authToken = localStorage.getItem("authorizationToken");
+  const url = `${API_BASE_URL}/api/journal/${journalId}`;
+
+  try {
+    const response = await axios.get(url, {
+      headers: {
+        Authorization: authToken,
+      },
+    });
+
+    // Check if the response status is OK (200)
+    if (response.status === 200) {
+      // Assuming the response contains an array of journal entries
+      const journalEntries = response.data;
+      return journalEntries;
+    } else {
+      // Handle other response status codes if needed
+      console.error("Received a non-OK response:", response);
+      return null; // Return null or throw an error, depending on your requirements
+    }
+  } catch (error) {
+    console.error("An error occurred:", error);
+    return null; // Return null or throw an error, depending on your requirements
+  }
+}
+
+export async function deleteJournal(journalId: string) {
+  const authToken = localStorage.getItem("authorizationToken");
+  const url = `${API_BASE_URL}/api/journal/${journalId}`;
+
+  try {
+    const response = await axios.delete(url, {
+      headers: {
+        Authorization: authToken,
+      },
+    });
+
+    // Check if the response status is OK (200)
+    if (response.status === 200) {
+      // Assuming the response contains an array of journal entries
+      const journalEntries = response.data;
+      return journalEntries;
+    } else {
+      // Handle other response status codes if needed
+      console.error("Received a non-OK response:", response);
+      return null; // Return null or throw an error, depending on your requirements
+    }
+  } catch (error) {
+    console.error("An error occurred:", error);
+    return null; // Return null or throw an error, depending on your requirements
+  }
+}
+
+export async function editJournal(journalId: string, quizData: IJournalEntry) {
+  const authToken = localStorage.getItem("authorizationToken");
+  const url = `${API_BASE_URL}/api/journal/${journalId}`;
+
+  try {
+    const response = await axios.put(url, quizData, {
+      headers: {
+        Authorization: authToken,
+      },
+    });
+
+    // Check if the response status is OK (200)
+    if (response.status === 200) {
+      // Assuming the response contains an array of journal entries
+      const journalEntries = response.data;
+      return journalEntries;
+    } else {
+      // Handle other response status codes if needed
+      console.error("Received a non-OK response:", response);
+      return null; // Return null or throw an error, depending on your requirements
+    }
+  } catch (error) {
+    console.error("An error occurred:", error);
+    return null; // Return null or throw an error, depending on your requirements
+  }
+}

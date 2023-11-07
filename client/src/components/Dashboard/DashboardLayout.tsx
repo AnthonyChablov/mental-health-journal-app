@@ -8,8 +8,6 @@ import { getAllJournals } from "@/api/journalData";
 import Link from "next/link";
 import Drawer from "../Common/Drawer/Drawer";
 import useSWR from "swr";
-
-import { API_BASE_URL } from "@/api/baseApiUrl";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -22,21 +20,16 @@ import {
 import { Bar } from "react-chartjs-2";
 import { useJournalStore } from "@/store/useJournalStore";
 import AddJournalDrawer from "../Common/Drawer/AddJournalDrawer";
-
-const moodObject = [
-  { name: "sad", emoji: "😞" },
-  { name: "verySad", emoji: "😢" },
-  { name: "angry", emoji: "😡" },
-  { name: "happy", emoji: "😃" },
-  { name: "veryHappy", emoji: "😄" },
-];
+import { moodObject } from "@/lib/utils";
+import { API_BASE_URL } from "@/api/baseApiUrl";
+import CarouselDisplay from "../Common/Carousel/CarouselDisplay";
+import SkeletonChartDisplay from "../Common/Loading/SkeletonChartDisplay";
 
 const DashboardLayout = () => {
   // State
   const [moodData, setMoodData] = useState<{ [moodName: string]: number }>({});
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const { setMood } = useJournalStore();
+  const { setMood, isLoading, setIsLoading } = useJournalStore();
 
   // Fetch Journal Data
   const {
@@ -64,11 +57,11 @@ const DashboardLayout = () => {
         label: "Mood Insights",
         data: moodObject.map((mood) => moodData[mood.name] || 0),
         backgroundColor: [
-          "rgba(255, 99, 132, 0.6)",
-          "rgba(54, 162, 235, 0.6)",
-          "rgba(255, 206, 86, 0.6)",
-          "rgba(75, 192, 192, 0.6)",
-          "rgba(153, 102, 255, 0.6)",
+          "#5D4C5B",
+          "#B89F97",
+          "#6d527d",
+          "#897582",
+          "#fcf1eb",
         ],
       },
     ],
@@ -77,19 +70,24 @@ const DashboardLayout = () => {
     scales: {
       y: {
         beginAtZero: true,
+        suggestedMin: 0, // Set the minimum value to 0
+        ticks: {
+          // forces step size to be 50 units
+          stepSize: 1,
+        },
       },
     },
   };
 
   useEffect(() => {
     if (journalLoading) {
-      setLoading(true);
+      setIsLoading(true);
     }
     if (journalError) {
       setError(journalError);
     }
     if (!journalLoading && !journalError) {
-      setLoading(false);
+      setIsLoading(false);
     }
   }, [journalLoading, journalError]);
 
@@ -115,11 +113,7 @@ const DashboardLayout = () => {
 
   return (
     <main className="bg-skin h-full min-h-screen pb-24">
-      {loading ? (
-        <div>Loading...</div>
-      ) : error ? (
-        <div>Error...</div>
-      ) : (
+      {
         <>
           <Hero
             header="How Do You Feel Today?"
@@ -127,41 +121,50 @@ const DashboardLayout = () => {
             displayDate={true}
           />
           <Container>
-            <Card className="mt-36 max-w-3xl mx-auto rounded-3xl p-1 shadow-lg">
+            <Card className="mt-36 max-w-3xl mx-auto rounded-3xl p-4 shadow-lg">
               <div className="flex justify-between items-center">
-                <CardTitle className="text-md font-semibold text-left text-gray-800 p-4">
+                <CardTitle className="text-md font-semibold text-left text-gray-800 ">
                   Mood Insights
                 </CardTitle>
                 <Link
                   href={"/"}
-                  className="text-sm font-regular text-left text-dark-purple p-4"
+                  className="text-sm font-regular text-left text-dark-purple"
                 >
                   View Report
                 </Link>
               </div>
-              <div className="p-4">
-                <Bar data={chartData} options={chartOptions} />
+              <div className="p-4 mt-2">
+                {isLoading ? (
+                  <SkeletonChartDisplay />
+                ) : (
+                  <Bar data={chartData} options={chartOptions} />
+                )}
               </div>
             </Card>
-            <Card className="mt-10 max-w-3xl mx-auto rounded-3xl p-1 shadow-lg">
+            <Card className="mt-10 max-w-3xl mx-auto rounded-3xl shadow-lg p-4">
+              {/* Header */}
               <div className="flex justify-between items-center">
-                <CardTitle className="text-md font-semibold text-left text-gray-800 p-4 ">
+                <CardTitle className="text-md font-semibold text-left text-gray-800  ">
                   My Journals
                 </CardTitle>
                 <Link
                   href={"/dashboard/journal"}
-                  className="text-sm font-regular text-left text-dark-purple p-4"
+                  className="text-sm font-regular text-left text-dark-purple"
                 >
                   View Journals
                 </Link>
               </div>
+              <CarouselDisplay
+                carouselItems={journalData}
+                isLoading={journalLoading}
+              />
             </Card>
           </Container>
           <AppNav />
           <Drawer />
           <AddJournalDrawer />
         </>
-      )}
+      }
     </main>
   );
 };
