@@ -114,13 +114,13 @@ const JournalLayout = () => {
         <>
           <Container>
             <Hero
-              displayDate={false}
+              displayDate={true}
               header="Your Journals"
               subHeader={`${filteredData?.length} entries`}
             />
-            <div className="flex items-center bg-white shadow-lg w-3/12 max-w-lg mx-auto text-sm rounded-full ">
+            <div className="flex items-center bg-white shadow-lg w-full max-w-lg mx-auto text-sm rounded-full ">
               <Input
-                className="w-full py-2 pr-10 pl-4 border-none focus:outline-none"
+                className="w-full py-2 pr-0 md:pr-10 pl-4 border-none focus:outline-none"
                 type="text"
                 placeholder="Search..."
                 value={searchQuery}
