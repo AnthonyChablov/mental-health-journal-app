@@ -21,8 +21,14 @@ interface ITableDropDownMenuProps {
 
 const TableDropDownMenu = ({ mode }: ITableDropDownMenuProps) => {
   /* State */
-  const { setFilterContent, setFilterDate, setFilterTitle, setFilterMood } =
-    useJournalFilterStore();
+  const {
+    filterMode,
+    setFilterMode,
+    setFilterContent,
+    setFilterDate,
+    setFilterTitle,
+    setFilterMood,
+  } = useJournalFilterStore();
 
   // Define the filter function based on the mode
   function setFilter(order: "asc" | "desc" | "clear" | undefined) {
@@ -47,36 +53,41 @@ const TableDropDownMenu = ({ mode }: ITableDropDownMenuProps) => {
   return (
     <>
       <DropdownMenu>
-        <DropdownMenuTrigger className="flex items-center justify-between w-full">
-          {mode} <CaretSortIcon />
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="p-2 text-dark-purple font-regular flex flex-col items-start w-fit">
-          {/* <DropdownMenuLabel>Sort By</DropdownMenuLabel>
-          <DropdownMenuSeparator /> */}
-          <DropdownMenuItem>
+        <div
+          className=""
+          onClick={() => {
+            setFilterMode(mode);
+          }}
+        >
+          <DropdownMenuTrigger className="flex items-center justify-between w-full">
+            {mode} <CaretSortIcon />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="p-2 text-dark-purple font-regular flex flex-col items-start w-fit">
+            <DropdownMenuItem>
+              <Button
+                className="bg-white text-dark-purple shadow-none hover:bg-transparent"
+                onClick={() => setFilter("asc")}
+              >
+                Asc <ArrowUpIcon />
+              </Button>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Button
+                className="bg-white text-dark-purple shadow-none hover:bg-transparent w-full"
+                onClick={() => setFilter("desc")}
+              >
+                Desc <ArrowDownIcon />
+              </Button>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
             <Button
               className="bg-white text-dark-purple shadow-none hover:bg-transparent"
-              onClick={() => setFilter("asc")}
+              onClick={() => setFilter("clear")}
             >
-              Asc <ArrowUpIcon />
+              <DropdownMenuLabel>Clear</DropdownMenuLabel>
             </Button>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Button
-              className="bg-white text-dark-purple shadow-none hover:bg-transparent w-full"
-              onClick={() => setFilter("desc")}
-            >
-              Desc <ArrowDownIcon />
-            </Button>
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <Button
-            className="bg-white text-dark-purple shadow-none hover:bg-transparent"
-            onClick={() => setFilter("clear")}
-          >
-            <DropdownMenuLabel>Clear</DropdownMenuLabel>
-          </Button>
-        </DropdownMenuContent>
+          </DropdownMenuContent>
+        </div>
       </DropdownMenu>
     </>
   );
