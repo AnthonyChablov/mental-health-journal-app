@@ -1,4 +1,5 @@
 import React, { FormEvent, useState, useEffect } from "react";
+import { useSession, signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -16,13 +17,18 @@ interface UserAuthFormProps {
 }
 
 export function UserAuthForm({ isRegisterMode }: UserAuthFormProps) {
-  // State
+  /* State */
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  /* Router */
   const router = useRouter();
 
+  /* Auth Session */
+  const { data: session } = useSession();
+
+  /* Submit functions */
   async function onSubmitLogin(e: FormEvent) {
     e.preventDefault();
     setIsLoading(true);
@@ -70,15 +76,19 @@ export function UserAuthForm({ isRegisterMode }: UserAuthFormProps) {
     }
   }
 
-  useEffect(() => {
+  /*  useEffect(() => {
     if (isUserLoggedIn()) {
       console.log("User is logged In");
       router.push("/dashboard", { scroll: false });
     }
-  }, []);
+  }, []); */
+
+  useEffect(() => {
+    console.log(session, session?.user);
+  }, [session]);
 
   return (
-    <div className={cn("grid gap-6")}>
+    <div className={cn("grid gap-6 ")}>
       <form onSubmit={isRegisterMode ? onSubmitRegister : onSubmitLogin}>
         <div className="grid gap-2">
           <div className="grid gap-1">
@@ -119,7 +129,7 @@ export function UserAuthForm({ isRegisterMode }: UserAuthFormProps) {
           </div>
           <Button
             disabled={isLoading}
-            className="bg-gradient-to-br from-red-300  to-red-400"
+            className="bg-dark-purple  hover:bg-dark-purple-brown"
           >
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
@@ -133,12 +143,20 @@ export function UserAuthForm({ isRegisterMode }: UserAuthFormProps) {
           <span className="w-full border-t" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
+          <span className="bg-skin px-2 text-muted-foreground">
             Or continue with
           </span>
         </div>
       </div>
-      <Button variant="outline" type="button" disabled={isLoading}>
+      <Button
+        variant="outline"
+        type="button"
+        disabled={isLoading}
+        className=""
+        onClick={() => {
+          signIn();
+        }}
+      >
         {isLoading ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
         ) : (
