@@ -9,20 +9,14 @@ import { API_BASE_URL } from "@/api/baseApiUrl";
 import Hero from "../Common/Hero/Hero";
 import SkeletonChartDisplay from "../Common/Loading/SkeletonChartDisplay";
 import Container from "../Common/Utils/Container";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import useMoodData from "@/hooks/useMoodData";
 import AppNav from "../Common/Navigation/AppNav";
 import Drawer from "../Common/Drawer/Drawer";
 import { moodObject } from "@/lib/utils";
 import InfoDisplayCard from "../Common/Card/InfoDisplayCard";
 import { IJournalEntry, Tag } from "@/models/journalModels";
+import SkeletonCardDisplay from "../Common/Loading/SkeletonCardDisplay";
 
 function renderMoodInfoDisplayCards(moodData: Record<string, number>) {
   const sortedMoods = moodObject.sort(
@@ -34,11 +28,12 @@ function renderMoodInfoDisplayCards(moodData: Record<string, number>) {
   return (
     <InfoDisplayCard
       key={mostPresentMood.name}
-      mood={mostPresentMood.name}
+      mode="mood"
+      mood={`${mostPresentMood.name}`}
       title={`${mostPresentMood.name} Moments`}
       subTitle="Last 30 Days"
       description={moodData[mostPresentMood.name]?.toString() || "0"}
-      icon={mostPresentMood.emoji}
+      icon={mostPresentMood.name.toLowerCase()}
     />
   );
 }
@@ -74,23 +69,41 @@ const ReportLayout = () => {
   }, [journalData]);
 
   return (
-    <main className="bg-skin h-full min-h-screen pb-24">
+    <main className="bg-skin h-full min-h-screen pb-24 ">
       <Hero
         header="My Reports"
-        subHeader="Here are your reports, Anthony!"
+        subHeader="Here is your report, Anthony!"
         displayDate={true}
       />
       <Container>
-        <Card className="px-6 py-6 grid gap-4 grid-cols-2">
-          {renderMoodInfoDisplayCards(moodData)}
-          {/* Render most popular tag */}
-          <InfoDisplayCard
-            key={mostPopularTag}
-            title={`${mostPopularTag} Tag`}
-            subTitle="Last 30 Days"
-            description={tagCounts[mostPopularTag]?.toString() || "0"}
-            icon="tag"
-          />
+        <Card className="px-6 py-7 grid gap-4 grid-cols-2 rounded-3xl">
+          {/* Render most popular mood */}
+          {isJournalDataLoading ? (
+            <SkeletonChartDisplay />
+          ) : (
+            renderMoodInfoDisplayCards(moodData)
+          )}
+          {isJournalDataLoading ? (
+            <SkeletonChartDisplay />
+          ) : (
+            <InfoDisplayCard
+              key={mostPopularTag}
+              title={`${mostPopularTag} Tag`}
+              subTitle="Last 30 Days"
+              description={tagCounts[mostPopularTag]?.toString() || "0"}
+              icon="tag"
+              mode="tag"
+            />
+          )}
+          <Card className=" col-span-full">
+            <div className="p-4 mt-2">
+              {isJournalDataLoading ? (
+                <SkeletonChartDisplay />
+              ) : (
+                <DoughnutChart data={moodData} />
+              )}
+            </div>
+          </Card>
           <Card className=" col-span-full">
             <div className="p-4 mt-2">
               {isJournalDataLoading ? (
@@ -109,33 +122,3 @@ const ReportLayout = () => {
 };
 
 export default ReportLayout;
-
-/* <Card className="mt-8  mx-auto rounded-3xl p-4 shadow-lg">
-          <div className="flex justify-between items-center">
-            <CardTitle className="text-md font-semibold text-left text-gray-800 ">
-              Mood Insights
-            </CardTitle>
-          </div>
-          <div className="p-4 mt-2">
-            {journalLoading ? (
-              <SkeletonChartDisplay />
-            ) : (
-              <BarChart data={moodData} />
-            )}
-          </div>
-        </Card>
-
-        <Card className="mt-8  mx-auto rounded-3xl p-4 shadow-lg">
-          <div className="flex justify-between items-center">
-            <CardTitle className="text-md font-semibold text-left text-gray-800 ">
-              Doughnut Chart
-            </CardTitle>
-          </div>
-          <div className="p-4 mt-2">
-            {journalLoading ? (
-              <SkeletonChartDisplay />
-            ) : (
-              <DoughnutChart data={moodData} />
-            )}
-          </div>
-        </Card> */

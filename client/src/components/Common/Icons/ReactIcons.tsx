@@ -6,7 +6,10 @@ import {
   AiOutlineCalendar,
   AiOutlineSearch,
   AiOutlineEdit,
+  AiOutlineTag,
 } from "react-icons/ai";
+import { BiHappyAlt, BiHappyBeaming, BiAngry, BiSad } from "react-icons/bi";
+import { FaRegFaceSadCry } from "react-icons/fa6";
 import { RiMenu4Line } from "react-icons/ri";
 import { IoIosArrowBack } from "react-icons/io";
 import { GoKebabHorizontal } from "react-icons/go";
@@ -30,7 +33,13 @@ const ReactIcons = ({ type, size, color }: IIcons) => {
           calendar: <AiOutlineCalendar size={size} color={color} />,
           search: <AiOutlineSearch size={size} color={color} />,
           edit: <AiOutlineEdit size={size} color={color} />,
-          kebab: <GoKebabHorizontal size={size} colot={color} />,
+          kebab: <GoKebabHorizontal size={size} color={color} />,
+          happy: <BiHappyAlt size={size} color={color} />,
+          veryhappy: <BiHappyBeaming size={size} color={color} />,
+          sad: <BiSad size={size} color={color} />,
+          verysad: <FaRegFaceSadCry size={size} color={color} />,
+          angry: <BiAngry size={size} color={color} />,
+          tag: <AiOutlineTag size={size} color={color} />,
         }[type]
       }
     </div>

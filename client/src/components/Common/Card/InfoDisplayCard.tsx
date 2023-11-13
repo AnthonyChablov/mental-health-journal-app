@@ -12,9 +12,10 @@ import ReactIcons from "../Icons/ReactIcons";
 interface IInfoDisplayCardProps {
   title: string;
   subTitle: string;
-  mood?: string;
+  mode: string;
   icon: string;
   description: string;
+  mood?: string;
 }
 
 const InfoDisplayCard = ({
@@ -22,6 +23,7 @@ const InfoDisplayCard = ({
   subTitle,
   icon,
   description,
+  mode,
   mood,
 }: IInfoDisplayCardProps) => {
   return (
@@ -33,9 +35,16 @@ const InfoDisplayCard = ({
       <CardContent className=" py-0 px-4">
         <CardDescription className=" ">
           <div className="font-semibold text-lg text-black">{description}</div>
-          <div className=" text-slate-700 text-xs">
-            {`Times you were ${mood}`}
-          </div>
+          {mode === "mood" && (
+            <div className=" text-slate-700 text-xs">
+              {`Times you were ${mood}`}
+            </div>
+          )}
+          {mode === "tag" && (
+            <div className=" text-slate-700 text-xs">
+              {`Your most popular tag.`}
+            </div>
+          )}
         </CardDescription>
       </CardContent>
     </Card>
