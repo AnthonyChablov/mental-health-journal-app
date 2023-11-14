@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { UserAuthForm } from "../AuthForms/AuthForm";
 import { RegisterForm } from "../AuthForms/LoginForm";
 import { LoginForm } from "../AuthForms/RegisterForm";
 
@@ -47,7 +46,7 @@ export default function AuthenticationPage({ mode }: IAuthenticationPage) {
                       Create an account
                     </h1>
                     <p className="text-sm text-muted-foreground">
-                      Enter your email below to create your account
+                      Choose a register method below
                     </p>
                   </>
                 ) : (
@@ -56,7 +55,7 @@ export default function AuthenticationPage({ mode }: IAuthenticationPage) {
                       Log in to your account
                     </h1>
                     <p className="text-sm text-muted-foreground">
-                      Enter your email and password to log in
+                      Choose a login method below
                     </p>
                   </>
                 )}

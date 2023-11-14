@@ -7,13 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Icons } from "@/components/Common/Icons/Icons";
 import { Label } from "@radix-ui/react-label";
 import { useToast } from "@/components/ui/use-toast";
-import { Input } from "@/components/ui/input";
-import {
-  loginUser,
-  registerUser,
-  isUserLoggedIn,
-} from "@/api/userAuthentication";
+import ReactIcons from "@/components/Common/Icons/ReactIcons";
 import { AxiosResponse } from "axios";
+import FormSeparator from "./FormSeparator";
 
 export function LoginForm() {
   /* State */
@@ -137,97 +133,52 @@ export function LoginForm() {
 
   return (
     <div className={cn("grid gap-6 ")}>
-      <form onSubmit={handleSubmit}>
-        <div className="grid gap-2">
-          <div className="grid gap-1">
-            {/* Full Name */}
-            <Label className="sr-only" htmlFor="fullname">
-              Full Name
-            </Label>
-            <Input
-              required={true}
-              id="fullname"
-              placeholder="Full Name"
-              type="text"
-              autoCapitalize="none"
-              autoComplete="off"
-              autoCorrect="off"
-              disabled={isLoading}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setFullName(e.target.value)
-              }
-            />
-            {/* Email */}
-            <Label className="sr-only" htmlFor="email">
-              Email
-            </Label>
-            <Input
-              required={true}
-              id="email"
-              placeholder="Email"
-              type="email"
-              autoCapitalize="none"
-              autoComplete="off"
-              autoCorrect="off"
-              disabled={isLoading}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setEmail(e.target.value)
-              }
-            />
-            {/* Password */}
-            <Label className="sr-only" htmlFor="password">
-              Password
-            </Label>
-            <Input
-              required={true}
-              id="password"
-              placeholder="Password"
-              type="password"
-              autoCapitalize="none"
-              autoComplete="off"
-              autoCorrect="off"
-              disabled={isLoading}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setPassword(e.target.value)
-              }
-            />
-          </div>
-          <Button
-            disabled={isLoading}
-            className="bg-dark-purple  hover:bg-dark-purple-brown"
-          >
-            {isLoading && (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            {"Sign Up with Email"}
-          </Button>
-        </div>
-      </form>
-      <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t" />
-        </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-skin px-2 text-muted-foreground">
-            Or continue with
-          </span>
-        </div>
-      </div>
       <Button
         variant="outline"
         type="button"
         disabled={isLoading}
-        className=""
-        onClick={() => {
-          signIn();
-        }}
+        className="bg-dark-purple hover:bg-dark-purple-brown text-white"
+        onClick={() => {}}
+      >
+        {isLoading ? (
+          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+        ) : (
+          <span className="mr-2">
+            <ReactIcons size={20} color="white" type="facebook" />
+          </span>
+        )}{" "}
+        <span>Facebook</span>
+      </Button>
+      <Button
+        variant="outline"
+        type="button"
+        disabled={isLoading}
+        className="bg-dark-purple hover:bg-dark-purple-brown text-white"
+        onClick={() => {}}
+      >
+        {isLoading ? (
+          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+        ) : (
+          <span className="mr-2">
+            <ReactIcons size={20} color="white" type="linkedin" />
+          </span>
+        )}{" "}
+        <span>LinkedIn</span>
+      </Button>
+      <FormSeparator />
+      <Button
+        variant="outline"
+        type="button"
+        disabled={isLoading}
+        className=" bg-dark-purple hover:bg-dark-purple-brown text-white"
+        onClick={() => {}}
       >
         {isLoading ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
         ) : (
           <Icons.google className="mr-2 h-4 w-4" />
         )}{" "}
-        Google
+        <span>Google</span>
       </Button>
     </div>
   );
