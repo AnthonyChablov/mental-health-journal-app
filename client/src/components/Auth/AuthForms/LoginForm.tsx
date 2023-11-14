@@ -1,23 +1,21 @@
-import React, { FormEvent, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import { AxiosResponse } from "axios";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Icons } from "@/components/Common/Icons/Icons";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "@/components/ui/input";
-import {
-  loginUser,
-  registerUser,
-  isUserLoggedIn,
-} from "@/api/userAuthentication";
+import { useToast } from "@/components/ui/use-toast";
 
 export function RegisterForm() {
   /* State */
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [fullName, setFullName] = useState("");
+  const [error, setError] = useState("");
 
   /* Router */
   const router = useRouter();
@@ -25,60 +23,48 @@ export function RegisterForm() {
   /* Auth Session */
   const { data: session } = useSession();
 
-  /* Submit functions */
-  async function onSubmitLogin(e: FormEvent) {
+  /* Actions */
+  const { toast } = useToast();
+
+  /* Functions */
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
+
+    if (!email || !password) {
+      setError("All fields are necessary.");
+      toast({
+        title: "Login failed",
+        description: `${error}`,
+      });
+      return;
+    }
 
     try {
-      // Make an Axios POST request to your login endpoint
-      const response = await loginUser({
-        username,
+      const result = await signIn("credentials", {
+        email,
         password,
-      });
-      // Assuming the API returns an authentication token upon successful login
-
-      // Handle the successful login, e.g., store the token in local storage
-      localStorage.setItem("authorizationToken", response.token);
-      setIsLoading(false);
-      // Redirect to the user's dashboard or any other page
-      // You can use react-router-dom for navigation
-    } catch (error) {
-      // Handle login error, e.g., display an error message
-      console.error("Login failed:", error);
-      setIsLoading(false);
-    }
-  }
-
-  async function onSubmitRegister(e: FormEvent) {
-    e.preventDefault();
-    setIsLoading(true);
-
-    try {
-      // Make an Axios POST request to your login endpoint
-      const response = await loginUser({
-        username,
-        password,
+        redirect: false,
       });
 
-      // Handle the successful login, e.g., store the token in local storage
-      localStorage.setItem("authorizationToken", response.token);
-      setIsLoading(false);
-      // Redirect to the user's dashboard or any other page
-      // You can use react-router-dom for navigation
+      if (result?.error) {
+        console.log(error);
+        setError(`${result?.error}`);
+        toast({
+          title: "Login failed",
+          description: `${error}`,
+        });
+        return;
+      }
+      router.replace("/dashboard");
     } catch (error) {
-      // Handle login error, e.g., display an error message
-      console.error("Login failed:", error);
-      setIsLoading(false);
+      console.log(error);
+      setError(`${error}`);
+      toast({
+        title: "Login failed",
+        description: `${error}`,
+      });
     }
-  }
-
-  /*  useEffect(() => {
-    if (isUserLoggedIn()) {
-      console.log("User is logged In");
-      router.push("/dashboard", { scroll: false });
-    }
-  }, []); */
+  };
 
   useEffect(() => {
     console.log(session, session?.user);
@@ -86,7 +72,7 @@ export function RegisterForm() {
 
   return (
     <div className={cn("grid gap-6 ")}>
-      <form onSubmit={onSubmitRegister}>
+      <form onSubmit={handleSubmit}>
         <div className="grid gap-2">
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">
@@ -94,33 +80,31 @@ export function RegisterForm() {
             </Label>
             <Input
               id="email"
-              placeholder="name@example.com"
+              placeholder={"name@example.com"}
               type="email"
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
               disabled={isLoading}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setUsername(e.target.value)
+                setEmail(e.target.value)
               }
             />
-            <>
-              <Label className="sr-only" htmlFor="password">
-                Password
-              </Label>
-              <Input
-                id="password"
-                placeholder="password"
-                type="password"
-                autoCapitalize="none"
-                autoComplete="password"
-                autoCorrect="off"
-                disabled={isLoading}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setPassword(e.target.value)
-                }
-              />
-            </>
+            <Label className="sr-only" htmlFor="password">
+              Password
+            </Label>
+            <Input
+              id="password"
+              placeholder={"password"}
+              type="password"
+              autoCapitalize="none"
+              autoComplete="password"
+              autoCorrect="off"
+              disabled={isLoading}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setPassword(e.target.value)
+              }
+            />
           </div>
           <Button
             disabled={isLoading}

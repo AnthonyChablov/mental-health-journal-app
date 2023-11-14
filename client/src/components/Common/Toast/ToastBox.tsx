@@ -1,6 +1,7 @@
+"use client";
 import { Toaster } from "@/components/ui/toaster";
 
-const AlertToast = () => {
+const ToastBox = () => {
   return (
     <>
       <Toaster />
@@ -8,4 +9,4 @@ const AlertToast = () => {
   );
 };
 
-export default AlertToast;
+export default ToastBox;

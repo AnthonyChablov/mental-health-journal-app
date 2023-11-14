@@ -16,11 +16,15 @@ import { API_BASE_URL } from "@/api/baseApiUrl";
 import CarouselDisplay from "../Common/Carousel/CarouselDisplay";
 import SkeletonChartDisplay from "../Common/Loading/SkeletonChartDisplay";
 import useMoodData from "@/hooks/useMoodData";
+import { useSession } from "next-auth/react";
 
 const DashboardLayout = () => {
   // State
   const [error, setError] = useState(null);
   const { setMood, isLoading, setIsLoading } = useJournalStore();
+
+  // Actions
+  const { data: session } = useSession();
 
   // Fetch Journal Data
   const {
@@ -47,13 +51,17 @@ const DashboardLayout = () => {
     }
   }, [journalLoading, journalError]);
 
+  useEffect(() => {
+    console.log(session);
+  }, [session]);
+
   return (
     <main className="bg-skin h-full min-h-screen pb-24">
       {
         <>
           <Hero
             header="How Do You Feel Today?"
-            subHeader="Welcome back Anthony!"
+            subHeader={`Welcome back ${session?.user?.fullName}!`}
             displayDate={true}
           />
           <Container>

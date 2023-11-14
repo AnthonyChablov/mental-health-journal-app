@@ -4,7 +4,7 @@ export const metadata = {
 };
 import Providers from "@/components/Providers/Providers";
 import "./globals.css";
-
+import ToastBox from "@/components/Common/Toast/ToastBox";
 import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -18,6 +18,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className}`}>
         <Providers>{children}</Providers>
+        <ToastBox />
       </body>
     </html>
   );

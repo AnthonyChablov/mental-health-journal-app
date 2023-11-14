@@ -51,6 +51,7 @@
     "zustand": "^4.4.3"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
