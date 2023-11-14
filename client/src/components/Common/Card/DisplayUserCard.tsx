@@ -24,12 +24,8 @@ const DisplayUserCard = () => {
             />
           </div>
           <div className="text-center">
-            <p className="text-lg md:text-xl font-semibold">
-              {session?.user?.name}
-            </p>
-            <p className="text-sm md:text-base  text-gray-500">
-              {session?.user?.email}
-            </p>
+            <p className="text-lg  font-semibold">{session?.user?.name}</p>
+            <p className="text-sm   text-gray-500">{session?.user?.email}</p>
           </div>
         </div>
       ) : (

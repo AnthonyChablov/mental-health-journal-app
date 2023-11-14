@@ -22,7 +22,7 @@ const buttons = [
   },
   {
     link: "/dashboard/reports",
-    iconType: "user",
+    iconType: "document",
     text: "Reports",
   },
   {
@@ -63,7 +63,7 @@ const Drawer = () => {
           {status === "authenticated" ? (
             <div className="flex flex-col justify-start items-start">
               <Separator className="my-5" />
-              <div className="space-y-4 flex flex-col">
+              <div className="space-y-3 flex flex-col">
                 {buttons.map((button, index) => (
                   <Button
                     key={index}
