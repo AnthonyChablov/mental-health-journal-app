@@ -61,7 +61,7 @@ const DashboardLayout = () => {
         <>
           <Hero
             header="How Do You Feel Today?"
-            subHeader={`Welcome back ${session?.user}!`}
+            subHeader={`Welcome back ${session?.user?.name}!`}
             displayDate={true}
           />
           <Container>

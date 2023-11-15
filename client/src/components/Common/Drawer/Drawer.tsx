@@ -6,13 +6,14 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useSession, signOut } from "next-auth/react";
 import ReactIcons from "../Icons/ReactIcons";
-import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import DisplayUserCard from "../Card/DisplayUserCard";
+import { useToast } from "@/components/ui/use-toast";
 
 const buttons = [
   {
@@ -21,7 +22,7 @@ const buttons = [
     text: "Journals",
   },
   {
-    link: "/dashboard/reports",
+    link: "/dashboard/report",
     iconType: "document",
     text: "Reports",
   },
@@ -34,9 +35,12 @@ const buttons = [
 
 const Drawer = () => {
   const { status, data: session } = useSession();
+  const router = useRouter();
+  const { toast } = useToast();
 
   const handleSignOut = async () => {
     await signOut();
+    router.replace("/");
     // You can redirect the user or perform other actions after signing out
   };
 
@@ -55,31 +59,33 @@ const Drawer = () => {
           <SheetTitle className=" font-playFairDisplay text-3xl text-dark-purple">
             Better.me
           </SheetTitle>
-          <div className="text-sm text-gray-500 mt-2">
+          <div className="text-md text-gray-600 mt-2 font-regular">
             Empowering your journey to wellness.
           </div>
         </SheetHeader>
         <div className="">
           {status === "authenticated" ? (
-            <div className="flex flex-col justify-start items-start">
+            <div className="flex flex-col justify-start items-start ">
               <Separator className="my-5" />
-              <div className="space-y-3 flex flex-col">
+              <div className="space-y-3 flex flex-col w-full">
                 {buttons.map((button, index) => (
                   <Button
                     key={index}
                     size="icon"
-                    className={`bg-transparent shadow-none hover:bg-slate-100 w-fit px-2`}
+                    className={`bg-transparent shadow-none hover:bg-slate-100 w-full  px-2 py-5 flex items-center justify-start`}
                     asChild
                   >
-                    <Link href={button.link} className="flex items-center">
-                      <ReactIcons
-                        type={button.iconType}
-                        size={22}
-                        color="#705680"
-                      />
-                      <span className="text-dark-purple ml-2 text-md md:text-lg font-regular">
-                        {button.text}
-                      </span>
+                    <Link href={button.link} className=" w-fit">
+                      <div className="flex justify-center items-center">
+                        <ReactIcons
+                          type={button.iconType}
+                          size={22}
+                          color="#414a5a"
+                        />
+                        <span className=" ml-3 text-md md:text-lg font-medium text-gray-700">
+                          {button.text}
+                        </span>
+                      </div>
                     </Link>
                   </Button>
                 ))}
@@ -93,7 +99,7 @@ const Drawer = () => {
                   onClick={handleSignOut}
                 >
                   <ReactIcons type="logout" size={23} color="black" />
-                  <span className="ml-2 ">Log Out</span>
+                  <span className="ml-3 text-gray-900">Log Out</span>
                 </Button>
               </div>
             </div>

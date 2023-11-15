@@ -11,7 +11,7 @@ import FormSeparator from "./FormSeparator";
 
 export function RegisterForm() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [error, setError] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -19,8 +19,14 @@ export function RegisterForm() {
   const { data: session } = useSession();
   const { toast } = useToast();
 
-  if (session && session.user) {
-  }
+  useEffect(() => {
+    if (session && session.user) {
+      router.replace("dashboard");
+      setIsLoading(true);
+    } else {
+      setError(true);
+    }
+  }, [session, session?.user]);
 
   return (
     <div className={cn("grid gap-6")}>
@@ -29,7 +35,9 @@ export function RegisterForm() {
         type="button"
         disabled={isLoading}
         className="bg-dark-purple hover:bg-dark-purple-brown text-white"
-        onClick={() => {}}
+        onClick={() => {
+          signIn("linkedin");
+        }}
       >
         {isLoading ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
@@ -45,16 +53,18 @@ export function RegisterForm() {
         type="button"
         disabled={isLoading}
         className="bg-dark-purple hover:bg-dark-purple-brown text-white"
-        onClick={() => {}}
+        onClick={() => {
+          signIn("github");
+        }}
       >
         {isLoading ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
         ) : (
           <span className="mr-2">
-            <ReactIcons size={20} color="white" type="linkedin" />
+            <ReactIcons size={20} color="white" type="github" />
           </span>
         )}{" "}
-        <span>LinkedIn</span>
+        <span>GitHub</span>
       </Button>
       <FormSeparator />
       <Button
