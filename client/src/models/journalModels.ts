@@ -5,6 +5,10 @@ export type Tag = {
   text: string;
 };
 
+export type IJournalFilter = {
+  mode: "asc" | "desc" | "clear" | undefined;
+};
+
 export interface IJournalEntry {
   _id?: string;
   userId: string;

@@ -71,15 +71,15 @@ export function formatDate(date: string | Date | undefined) {
 }
 
 export const moodObject = [
-  { name: "sad", emoji: "😞" },
-  { name: "verySad", emoji: "😢" },
-  { name: "angry", emoji: "😡" },
-  { name: "happy", emoji: "😃" },
-  { name: "veryHappy", emoji: "😄" },
+  { name: "Sad", emoji: "😞" },
+  { name: "Very Sad", emoji: "😢" },
+  { name: "Angry", emoji: "😡" },
+  { name: "Happy", emoji: "😃" },
+  { name: "Very Happy", emoji: "😄" },
 ];
 
 export function formatMood(mood: string) {
-  const formattedMood = mood?.toLowerCase();
+  const formattedMood = mood;
   const mappedMood = moodObject?.find((item) => item.name === formattedMood);
 
   if (mappedMood) {

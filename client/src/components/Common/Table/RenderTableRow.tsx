@@ -3,11 +3,7 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import { getCurrentFormattedDate } from "@/lib/utils";
 import { formatDate } from "../../../lib/utils";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import ReactIcons from "../Icons/ReactIcons";
-import SelectButton from "../Buttons/SelectButton";
-import PopOverButton from "../Buttons/PopOverButton";
+import { Tag } from "@/models/journalModels";
 
 interface RenderTableRowProps {
   journalData: {
@@ -16,11 +12,12 @@ interface RenderTableRowProps {
     date: string | Date | undefined;
     content: string;
     mood: string;
-    tags: string[];
+    tags: Tag[];
   };
 }
 
 const RenderTableRow = ({ journalData }: RenderTableRowProps) => {
+  /* Router */
   const router = useRouter();
 
   // State
@@ -41,18 +38,14 @@ const RenderTableRow = ({ journalData }: RenderTableRowProps) => {
         onClickHandeller();
       }}
     >
-      <TableCell className=" max-w-smfont-medium pl-6">
+      <TableCell className=" max-w-smfont-medium ">
         {journalData.title}
       </TableCell>
-      <TableCell className=" max-w-sm truncate pl-4">
+      <TableCell className=" max-w-sm truncate ">
         {String(currentDate)}
       </TableCell>
-      <TableCell className="max-w-sm truncate pl-5">
-        {journalData.content}
-      </TableCell>
-      <TableCell className="max-w-sm truncate pl-5">
-        {journalData.mood}
-      </TableCell>
+      <TableCell className="max-w-sm truncate">{journalData.content}</TableCell>
+      <TableCell className="max-w-sm truncate ">{journalData.mood}</TableCell>
     </TableRow>
   );
 };

@@ -3,33 +3,28 @@ import React, { useState, useEffect } from "react";
 import AppNav from "../Common/Navigation/AppNav";
 import Container from "../Common/Utils/Container";
 import Hero from "../Common/Hero/Hero";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardTitle } from "@/components/ui/card";
 import { getAllJournals } from "@/api/journalData";
 import Link from "next/link";
 import Drawer from "../Common/Drawer/Drawer";
 import useSWR from "swr";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import { Bar } from "react-chartjs-2";
+import BarChart from "../Common/Charts/BarChart";
 import { useJournalStore } from "@/store/useJournalStore";
 import AddJournalDrawer from "../Common/Drawer/AddJournalDrawer";
 import { moodObject } from "@/lib/utils";
 import { API_BASE_URL } from "@/api/baseApiUrl";
 import CarouselDisplay from "../Common/Carousel/CarouselDisplay";
 import SkeletonChartDisplay from "../Common/Loading/SkeletonChartDisplay";
+import useMoodData from "@/hooks/useMoodData";
+import { useSession } from "next-auth/react";
 
 const DashboardLayout = () => {
   // State
-  const [moodData, setMoodData] = useState<{ [moodName: string]: number }>({});
   const [error, setError] = useState(null);
   const { setMood, isLoading, setIsLoading } = useJournalStore();
+
+  // Actions
+  const { data: session } = useSession();
 
   // Fetch Journal Data
   const {
@@ -41,43 +36,8 @@ const DashboardLayout = () => {
     refreshInterval: 300000,
   });
 
-  // Chart configuration
-  ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend
-  );
-  const chartData = {
-    labels: moodObject.map((mood) => mood.emoji),
-    datasets: [
-      {
-        label: "Mood Insights",
-        data: moodObject.map((mood) => moodData[mood.name] || 0),
-        backgroundColor: [
-          "#5D4C5B",
-          "#B89F97",
-          "#6d527d",
-          "#897582",
-          "#fcf1eb",
-        ],
-      },
-    ],
-  };
-  const chartOptions = {
-    scales: {
-      y: {
-        beginAtZero: true,
-        suggestedMin: 0, // Set the minimum value to 0
-        ticks: {
-          // forces step size to be 50 units
-          stepSize: 1,
-        },
-      },
-    },
-  };
+  /* Hooks */
+  const moodData = useMoodData(journalData, moodObject);
 
   useEffect(() => {
     if (journalLoading) {
@@ -92,24 +52,8 @@ const DashboardLayout = () => {
   }, [journalLoading, journalError]);
 
   useEffect(() => {
-    if (Array.isArray(journalData)) {
-      const currentWeekMoods = journalData?.filter((entry) => true);
-      const moodCount: { [moodName: string]: number } = {};
-      if (currentWeekMoods) {
-        for (const mood of moodObject) {
-          const moodEntries = currentWeekMoods.filter(
-            (entry) => entry.mood === mood.name
-          );
-          moodCount[mood.name] = moodEntries.length;
-        }
-      }
-      setMoodData(moodCount);
-    }
-  }, [journalData]);
-
-  useEffect(() => {
-    console.log(journalData);
-  }, [journalData]);
+    console.log(session);
+  }, [session]);
 
   return (
     <main className="bg-skin h-full min-h-screen pb-24">
@@ -117,7 +61,7 @@ const DashboardLayout = () => {
         <>
           <Hero
             header="How Do You Feel Today?"
-            subHeader="Welcome back Anthony!"
+            subHeader={`Welcome back ${session?.user?.name}!`}
             displayDate={true}
           />
           <Container>
@@ -127,7 +71,7 @@ const DashboardLayout = () => {
                   Mood Insights
                 </CardTitle>
                 <Link
-                  href={"/"}
+                  href={"/dashboard/report"}
                   className="text-sm font-regular text-left text-dark-purple"
                 >
                   View Report
@@ -137,7 +81,7 @@ const DashboardLayout = () => {
                 {isLoading ? (
                   <SkeletonChartDisplay />
                 ) : (
-                  <Bar data={chartData} options={chartOptions} />
+                  <BarChart data={moodData} />
                 )}
               </div>
             </Card>

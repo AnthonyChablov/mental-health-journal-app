@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import jwtDecode from "jsonwebtoken";
-import { IUser } from "@/models/useModels";
+import { IUser } from "@/models/userModels";
 import { API_BASE_URL } from "./baseApiUrl";
 
 export interface DecodedToken {

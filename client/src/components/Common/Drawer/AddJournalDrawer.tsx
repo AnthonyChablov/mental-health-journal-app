@@ -1,9 +1,9 @@
+"use client";
+import { useEffect } from "react";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -12,10 +12,23 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import Container from "../Utils/Container";
 import AddJournalForm from "../Forms/AddJournalForm/AddJournalForm";
+import { useJournalStore } from "@/store/useJournalStore";
+import { useDrawerStore } from "@/store/useDrawerStore";
 
 const AddJournalDrawer = () => {
+  const { setContent, setTags, setTitle, setMood, setDate } = useJournalStore();
+  const { openDrawer, setOpenDrawer } = useDrawerStore();
+
+  useEffect(() => {
+    setTitle("");
+    setContent("");
+    setDate(new Date());
+    setMood("");
+    setTags([]);
+  }, []);
+
   return (
-    <Sheet>
+    <Sheet open={openDrawer} onOpenChange={() => setOpenDrawer(!openDrawer)}>
       <div className="absolute top-64 sm:top-72 lg:top-80 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full">
         <SheetTrigger asChild className={"w-fit mx-auto"}>
           <div className=" text-center">

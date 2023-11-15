@@ -152,7 +152,7 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
     } = props;
 
     const [inputValue, setInputValue] = React.useState("");
-    const [tagCount, setTagCount] = React.useState(Math.max(0, tags.length));
+    const [tagCount, setTagCount] = React.useState(Math.max(0, tags?.length));
     const inputRef = React.useRef<HTMLInputElement>(null);
 
     if (
@@ -185,7 +185,7 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
           return;
         }
 
-        if (minLength && newTagText.length < minLength) {
+        if (minLength && newTagText?.length < minLength) {
           console.warn("Tag is too short");
           toast({
             title: "Tag is too short",
@@ -195,7 +195,7 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
         }
 
         // Validate maxLength
-        if (maxLength && newTagText.length > maxLength) {
+        if (maxLength && newTagText?.length > maxLength) {
           toast({
             title: "Tag is too long",
 
@@ -210,7 +210,7 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
         if (
           newTagText &&
           (allowDuplicates || !tags.some((tag) => tag.text === newTagText)) &&
-          (maxTags === undefined || tags.length < maxTags)
+          (maxTags === undefined || tags?.length < maxTags)
         ) {
           setTags([...tags, { id: newTagId, text: newTagText }]);
           onTagAdd?.(newTagText);
@@ -233,7 +233,7 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
     const displayedTags = sortTags ? [...tags].sort() : tags;
 
     const truncatedTags = truncate
-      ? tags.map((tag) => ({
+      ? tags?.map((tag) => ({
           id: tag.id,
           text:
             tag.text?.length > truncate
@@ -246,10 +246,10 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
       <div>
         <div
           className={`flex flex-wrap gap-2 rounded-md ${
-            tags.length !== 0 && "mb-3"
+            tags?.length !== 0 && "mb-3"
           }`}
         >
-          {truncatedTags.map((tagObj) => (
+          {truncatedTags?.map((tagObj) => (
             <span
               key={tagObj.id}
               className={cn(
@@ -282,11 +282,11 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
             <Command className="border mt-2 sm:min-w-[450px]">
               <CommandInput
                 placeholder={
-                  maxTags !== undefined && tags.length >= maxTags
+                  maxTags !== undefined && tags?.length >= maxTags
                     ? placeholderWhenFull
                     : placeholder
                 }
-                disabled={maxTags !== undefined && tags.length >= maxTags}
+                disabled={maxTags !== undefined && tags?.length >= maxTags}
               />
               <CommandList>
                 <CommandEmpty>No results found.</CommandEmpty>
@@ -295,14 +295,14 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
                     <CommandItem
                       key={uuid()}
                       className={`${
-                        maxTags !== undefined && tags.length >= maxTags
+                        maxTags !== undefined && tags?.length >= maxTags
                           ? "cursor-not-allowed"
                           : "cursor-pointer"
                       }`}
                     >
                       <div
                         className={`w-full ${
-                          maxTags !== undefined && tags.length >= maxTags
+                          maxTags !== undefined && tags?.length >= maxTags
                             ? "cursor-not-allowed"
                             : "cursor-pointer"
                         }`}
@@ -313,7 +313,7 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
                               !tags.some(
                                 (tag) => tag.text === optionObj.text
                               )) &&
-                            (maxTags === undefined || tags.length < maxTags)
+                            (maxTags === undefined || tags?.length < maxTags)
                           ) {
                             setTags([...tags, optionObj]);
                             onTagAdd?.(optionObj.text);
@@ -342,7 +342,7 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
               ref={inputRef}
               type="text"
               placeholder={
-                maxTags !== undefined && tags.length >= maxTags
+                maxTags !== undefined && tags?.length >= maxTags
                   ? placeholderWhenFull
                   : placeholder
               }
@@ -352,7 +352,7 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
               className={className}
               autoComplete={enableAutocomplete ? "on" : "off"}
               list={enableAutocomplete ? "autocomplete-options" : undefined}
-              disabled={maxTags !== undefined && tags.length >= maxTags}
+              disabled={maxTags !== undefined && tags?.length >= maxTags}
             />
             {showCount && maxTags && (
               <div className="flex">
