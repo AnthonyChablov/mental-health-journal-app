@@ -2,8 +2,8 @@
 import React, { useEffect } from "react";
 import AppNav from "@/components/Common/Navigation/AppNav";
 import useSWR from "swr";
-import { API_BASE_URL } from "@/api/baseApiUrl";
-import { getJournal } from "@/api/journalData";
+import { API_BASE_URL } from "@/apiClient/baseApiUrl";
+import { getJournal } from "@/apiClient/journalData";
 import { useParams } from "next/navigation";
 import Container from "@/components/Common/Utils/Container";
 import ReactIcons from "@/components/Common/Icons/ReactIcons";

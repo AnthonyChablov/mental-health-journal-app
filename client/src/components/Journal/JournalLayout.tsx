@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from "react";
 import AppNav from "../Common/Navigation/AppNav";
 import useSWR from "swr";
-import { API_BASE_URL } from "@/api/baseApiUrl";
-import { getAllJournals } from "@/api/journalData";
+import { API_BASE_URL } from "@/apiClient/baseApiUrl";
+import { getAllJournals } from "@/apiClient/journalData";
 import Container from "../Common/Utils/Container";
 import Drawer from "../Common/Drawer/Drawer";
 import Hero from "../Common/Hero/Hero";

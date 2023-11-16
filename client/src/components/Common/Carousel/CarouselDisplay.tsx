@@ -33,14 +33,6 @@ const responsive = {
   },
 };
 
-const RenderCarouselSkeleton = () => {
-  return [1, 2, 3, 4].map((item, index: number) => (
-    <div key={index} className=" my-10 mx-3">
-      <SkeletonCardDisplay />
-    </div>
-  ));
-};
-
 const CarouselDisplay = ({
   carouselItems,
   isLoading,

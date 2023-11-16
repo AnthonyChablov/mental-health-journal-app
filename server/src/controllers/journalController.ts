@@ -39,7 +39,8 @@ export async function getJournalsController(
   next: NextFunction
 ) {
   try {
-    // Use Mongoose's find method to retrieve all journals
+    // Use Mongoose's find method to retrieve all journals pertaining to user
+    /* const user = await  */
     const journals = await JournalModel.find(); // Fetch all journals from the database
     res.status(200).json(journals);
   } catch (error) {

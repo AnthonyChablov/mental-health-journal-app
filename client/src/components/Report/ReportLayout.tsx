@@ -2,10 +2,10 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
 import useSWR from "swr";
-import { getAllJournals } from "@/api/journalData";
+import { getAllJournals } from "@/apiClient/journalData";
 import BarChart from "../Common/Charts/BarChart";
 import DoughnutChart from "../Common/Charts/DoughnutChart";
-import { API_BASE_URL } from "@/api/baseApiUrl";
+import { API_BASE_URL } from "@/apiClient/baseApiUrl";
 import Hero from "../Common/Hero/Hero";
 import SkeletonChartDisplay from "../Common/Loading/SkeletonChartDisplay";
 import Container from "../Common/Utils/Container";

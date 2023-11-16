@@ -33,7 +33,7 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("Hello, Express with TypeScript!");
 });
-app.use("/api/journal", authenticateJwt, journalRoutes);
+app.use("/api/journal", journalRoutes);
 app.use("/users", userRoutes);
 
 // Connect to your MongoDB database

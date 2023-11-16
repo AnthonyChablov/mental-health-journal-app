@@ -19,8 +19,21 @@ export function RegisterForm() {
   const { data: session } = useSession();
   const { toast } = useToast();
 
+  const handleSignIn = (provider: "github" | "google" | "facebook") => {
+    try {
+      setIsLoading(true);
+      signIn(provider);
+    } catch (error) {
+      setError(true);
+      console.error("Error signing in with", provider, error);
+      // You can also show a toast or handle the error in some other way
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
-    if (session && session.user) {
+    if (session && session?.user) {
       router.replace("dashboard");
       setIsLoading(true);
     } else {
@@ -36,7 +49,7 @@ export function RegisterForm() {
         disabled={isLoading}
         className="bg-dark-purple hover:bg-dark-purple-brown text-white"
         onClick={() => {
-          signIn("linkedin");
+          handleSignIn("facebook");
         }}
       >
         {isLoading ? (
@@ -54,7 +67,7 @@ export function RegisterForm() {
         disabled={isLoading}
         className="bg-dark-purple hover:bg-dark-purple-brown text-white"
         onClick={() => {
-          signIn("github");
+          handleSignIn("github");
         }}
       >
         {isLoading ? (
@@ -73,7 +86,7 @@ export function RegisterForm() {
         disabled={isLoading}
         className=" bg-dark-purple hover:bg-dark-purple-brown text-white"
         onClick={() => {
-          signIn("google");
+          handleSignIn("google");
         }}
       >
         {isLoading ? (
