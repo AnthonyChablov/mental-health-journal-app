@@ -31,10 +31,15 @@ const DashboardLayout = () => {
     data: journalData,
     error: journalError,
     isLoading: journalLoading,
-  } = useSWR(`${API_BASE_URL}/api/journal`, getAllJournals, {
-    revalidateOnFocus: false,
-    refreshInterval: 300000,
-  });
+  } = useSWR(
+    `${API_BASE_URL}/api/journal/${session?.user?.id}`,
+    () => getAllJournals(session?.user?.id),
+    {
+      revalidateOnFocus: true,
+      refreshInterval: 300000,
+      focusThrottleInterval: 60000, // Set a shorter interval for focus revalidation
+    }
+  );
 
   /* Hooks */
   const moodData = useMoodData(journalData, moodObject);
@@ -52,8 +57,8 @@ const DashboardLayout = () => {
   }, [journalLoading, journalError]);
 
   useEffect(() => {
-    console.log(session);
-  }, [session]);
+    console.log(journalData);
+  }, [journalData]);
 
   return (
     <main className="bg-skin h-full min-h-screen pb-24">

@@ -27,6 +27,7 @@ import { Tag } from "@/models/journalModels";
 import { useModalStore } from "@/store/useModalStore";
 import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
+import { useSession } from "next-auth/react";
 
 const formSchema = z.object({
   userId: z.string(),
@@ -43,6 +44,9 @@ const UpdateJournalForm = () => {
   /* Router */
   const params = useParams();
   const journalId = String(params.journalId);
+
+  /* Actions */
+  const { data: session } = useSession();
 
   // State
   const {
@@ -83,7 +87,7 @@ const UpdateJournalForm = () => {
   /* Functions */
   async function onFormSubmit() {
     try {
-      const result = await editJournal(journalId, {
+      const result = await editJournal(session?.user?.id, journalId, {
         userId,
         title,
         content,
@@ -91,6 +95,7 @@ const UpdateJournalForm = () => {
         mood,
         tags,
       });
+
       if (data) {
         // If data exists, mutate the updated journal object
         const updatedData = { ...data, ...result };
@@ -130,6 +135,12 @@ const UpdateJournalForm = () => {
       setUserId(decodedToken?.user);
     }
   }, [decodedToken]);
+
+  useEffect(() => {
+    if (session && session?.user?.id) {
+      setUserId(session?.user?.id);
+    }
+  }, [session]);
 
   useEffect(() => {
     console.log(userId, title, content, date, mood, tags);

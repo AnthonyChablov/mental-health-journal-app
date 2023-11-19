@@ -22,17 +22,25 @@ import {
 import { Toaster } from "@/components/ui/toaster";
 import { useJournalFilterStore } from "@/store/useJournalFilterStore";
 import ReactIcons from "../Common/Icons/ReactIcons";
+import { useSession } from "next-auth/react";
 
 const JournalLayout = () => {
+  // Actions
+  const { data: session } = useSession();
+
   // Fetch Journal Data
   const {
     data: journalData,
     error: journalError,
     isLoading: journalLoading,
-  } = useSWR(`${API_BASE_URL}/api/journal`, getAllJournals, {
-    revalidateOnFocus: false,
-    refreshInterval: 300000,
-  });
+  } = useSWR(
+    `${API_BASE_URL}/api/journal/${session?.user?.id}`,
+    () => getAllJournals(session?.user?.id),
+    {
+      revalidateOnFocus: false,
+      refreshInterval: 300000,
+    }
+  );
 
   /* State */
   const {

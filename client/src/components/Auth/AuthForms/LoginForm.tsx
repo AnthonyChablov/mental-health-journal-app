@@ -33,13 +33,13 @@ export function RegisterForm() {
   };
 
   useEffect(() => {
-    if (session && session?.user) {
-      router.replace("dashboard");
+    if (session) {
       setIsLoading(true);
-    } else {
-      setError(true);
+      router.replace("/dashboard");
     }
-  }, [session, session?.user]);
+    setIsLoading(false);
+    setError(true);
+  }, [session]);
 
   return (
     <div className={cn("grid gap-6")}>

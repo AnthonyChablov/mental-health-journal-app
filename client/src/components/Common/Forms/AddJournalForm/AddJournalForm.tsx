@@ -115,11 +115,10 @@ const AddJournalForm = () => {
   }, [userId, title, content, date, mood, tags, session]);
 
   useEffect(() => {
-    if (session && session?.id) {
-      setUserId(session?.id);
-      console.log(userId);
+    if (session && session?.user?.id) {
+      setUserId(session?.user?.id);
     }
-  }, [session, session?.id]);
+  }, [session]);
 
   return (
     <div>

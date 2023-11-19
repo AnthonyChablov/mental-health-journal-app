@@ -20,9 +20,19 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GITHUB_SECRET ?? "",
     }),
   ],
+  callbacks: {
+    session: async ({ session, user }) => {
+      if (session?.user) {
+        session.user.id = user.id;
+      }
+      return session;
+    },
+  },
   secret: process.env.NEXTAUTH_SECRET,
   session: {
-    strategy: "jwt",
+    strategy: "database",
+    // Seconds - How long until an idle session expires and is no longer valid.
+    maxAge: 2 * 60 * 60, // 2 hours in seconds
   },
   pages: {
     signIn: "/login",

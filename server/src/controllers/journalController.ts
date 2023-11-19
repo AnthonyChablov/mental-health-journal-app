@@ -40,8 +40,10 @@ export async function getJournalsController(
 ) {
   try {
     // Use Mongoose's find method to retrieve all journals pertaining to user
-    /* const user = await  */
-    const journals = await JournalModel.find(); // Fetch all journals from the database
+    const userId = req.params.userId;
+    /* console.log(userId); */
+    const journals = await JournalModel.find({ userId: userId }).exec(); // Fetch all journals from the database
+    console.log(journals);
     res.status(200).json(journals);
   } catch (error) {
     console.error("Error fetching journals: ", error);
@@ -112,7 +114,7 @@ export async function deleteJournalController(
 ) {
   try {
     const journalId = req.params.journalId;
-    const journal = await JournalModel.findOneAndDelete({
+    const journalDeleteResponse = await JournalModel.findOneAndDelete({
       _id: journalId,
     }).exec();
 

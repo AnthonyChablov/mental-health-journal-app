@@ -12,6 +12,7 @@ import { deleteJournal } from "@/apiClient/journalData";
 import { useParams, useRouter } from "next/navigation";
 import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
+import { useSession } from "next-auth/react";
 
 const DeleteJournalModal = () => {
   /* Router */
@@ -19,13 +20,16 @@ const DeleteJournalModal = () => {
   const journalId = String(params.journalId);
   const router = useRouter();
 
+  /* Actions */
+  const { data: session } = useSession();
+
   /* Display Toast */
   const { toast } = useToast();
 
   async function deleteHandler() {
     try {
-      const deletePromise = deleteJournal(journalId);
-      const navigatePromise = router.push("/dashboard/journal");
+      const deletePromise = deleteJournal(session?.user?.id, journalId);
+      const navigatePromise = router.push("/dashboard");
 
       // Wait for both promises to resolve
       await Promise.all([deletePromise, navigatePromise]);
