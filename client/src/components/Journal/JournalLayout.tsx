@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from "react";
 import AppNav from "../Common/Navigation/AppNav";
 import useSWR from "swr";
-import { API_BASE_URL } from "@/api/baseApiUrl";
-import { getAllJournals } from "@/api/journalData";
+import { API_BASE_URL } from "@/apiClient/baseApiUrl";
+import { getAllJournals } from "@/apiClient/journalData";
 import Container from "../Common/Utils/Container";
 import Drawer from "../Common/Drawer/Drawer";
 import Hero from "../Common/Hero/Hero";
@@ -22,17 +22,25 @@ import {
 import { Toaster } from "@/components/ui/toaster";
 import { useJournalFilterStore } from "@/store/useJournalFilterStore";
 import ReactIcons from "../Common/Icons/ReactIcons";
+import { useSession } from "next-auth/react";
 
 const JournalLayout = () => {
+  // Actions
+  const { data: session } = useSession();
+
   // Fetch Journal Data
   const {
     data: journalData,
     error: journalError,
     isLoading: journalLoading,
-  } = useSWR(`${API_BASE_URL}/api/journal`, getAllJournals, {
-    revalidateOnFocus: false,
-    refreshInterval: 300000,
-  });
+  } = useSWR(
+    `${API_BASE_URL}/api/journal/${session?.user?.id}`,
+    () => getAllJournals(session?.user?.id),
+    {
+      revalidateOnFocus: false,
+      refreshInterval: 300000,
+    }
+  );
 
   /* State */
   const {

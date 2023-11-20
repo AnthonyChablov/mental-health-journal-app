@@ -2,8 +2,8 @@
 import React, { useEffect } from "react";
 import AppNav from "@/components/Common/Navigation/AppNav";
 import useSWR from "swr";
-import { API_BASE_URL } from "@/api/baseApiUrl";
-import { getJournal } from "@/api/journalData";
+import { API_BASE_URL } from "@/apiClient/baseApiUrl";
+import { getJournal } from "@/apiClient/journalData";
 import { useParams } from "next/navigation";
 import Container from "@/components/Common/Utils/Container";
 import ReactIcons from "@/components/Common/Icons/ReactIcons";
@@ -18,11 +18,15 @@ import { useModalStore } from "@/store/useModalStore";
 import EditJournalModal from "@/components/Common/Modal/EditJournalModal";
 import { useJournalStore } from "@/store/useJournalStore";
 import SkeletonCardDisplay from "@/components/Common/Loading/SkeletonCardDisplay";
+import { useSession } from "next-auth/react";
 
 const SingleJournalLayout = () => {
   // Router
   const params = useParams();
   const journalId = params.journalId;
+
+  // Actions
+  const { data: session } = useSession();
 
   // State
   const { toggleEditModal, setToggleEditModal } = useModalStore();
@@ -34,10 +38,15 @@ const SingleJournalLayout = () => {
     data: singleJournalData,
     error: singleJournalError,
     isLoading: singleJournalLoading,
-  } = useSWR(`${journalId}`, () => getJournal(String(journalId)), {
-    revalidateOnFocus: false,
-    refreshInterval: 300000,
-  });
+  } = useSWR(
+    `${journalId}`,
+    () => getJournal(session?.user?.id, String(journalId)),
+    {
+      revalidateOnFocus: false,
+      refreshInterval: 300000,
+      focusThrottleInterval: 60000, // Set a shorter interval for focus revalidation
+    }
+  );
 
   useEffect(() => {
     console.log(singleJournalData);
@@ -47,6 +56,10 @@ const SingleJournalLayout = () => {
     setMood(singleJournalData?.mood);
     setTags(singleJournalData?.tags);
   }, [singleJournalData]);
+
+  useEffect(() => {
+    console.log(journalId);
+  }, [journalId]);
 
   if (singleJournalError) {
     return <div className="h-screen bg-skin pt-12">Error...</div>;

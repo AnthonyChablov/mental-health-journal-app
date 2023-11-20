@@ -4,7 +4,7 @@ import AppNav from "../Common/Navigation/AppNav";
 import Container from "../Common/Utils/Container";
 import Hero from "../Common/Hero/Hero";
 import { Card, CardTitle } from "@/components/ui/card";
-import { getAllJournals } from "@/api/journalData";
+import { getAllJournals } from "@/apiClient/journalData";
 import Link from "next/link";
 import Drawer from "../Common/Drawer/Drawer";
 import useSWR from "swr";
@@ -12,7 +12,7 @@ import BarChart from "../Common/Charts/BarChart";
 import { useJournalStore } from "@/store/useJournalStore";
 import AddJournalDrawer from "../Common/Drawer/AddJournalDrawer";
 import { moodObject } from "@/lib/utils";
-import { API_BASE_URL } from "@/api/baseApiUrl";
+import { API_BASE_URL } from "@/apiClient/baseApiUrl";
 import CarouselDisplay from "../Common/Carousel/CarouselDisplay";
 import SkeletonChartDisplay from "../Common/Loading/SkeletonChartDisplay";
 import useMoodData from "@/hooks/useMoodData";
@@ -31,10 +31,15 @@ const DashboardLayout = () => {
     data: journalData,
     error: journalError,
     isLoading: journalLoading,
-  } = useSWR(`${API_BASE_URL}/api/journal`, getAllJournals, {
-    revalidateOnFocus: false,
-    refreshInterval: 300000,
-  });
+  } = useSWR(
+    `${API_BASE_URL}/api/journal/${session?.user?.id}`,
+    () => getAllJournals(session?.user?.id),
+    {
+      revalidateOnFocus: true,
+      refreshInterval: 300000,
+      focusThrottleInterval: 60000, // Set a shorter interval for focus revalidation
+    }
+  );
 
   /* Hooks */
   const moodData = useMoodData(journalData, moodObject);
@@ -52,8 +57,8 @@ const DashboardLayout = () => {
   }, [journalLoading, journalError]);
 
   useEffect(() => {
-    console.log(session);
-  }, [session]);
+    console.log(journalData);
+  }, [journalData]);
 
   return (
     <main className="bg-skin h-full min-h-screen pb-24">

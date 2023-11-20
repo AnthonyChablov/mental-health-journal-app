@@ -11,10 +11,10 @@ import {
 const router = express.Router();
 
 /* Journal Routes */
-router.get("/", getJournalsController);
-router.get("/:journalId", getJournalController);
-router.post("/", createJournalController);
-router.delete("/:journalId", deleteJournalController);
-router.put("/:journalId", updateJournalController);
+router.get("/:userId", getJournalsController);
+router.get("/:userId/:journalId", getJournalController);
+router.post("/:userId/:journalId", createJournalController);
+router.delete("/:userId/:journalId", deleteJournalController);
+router.put("/:userId/:journalId", updateJournalController);
 
 export default router;

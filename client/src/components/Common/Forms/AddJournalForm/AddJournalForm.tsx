@@ -5,8 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import DatePicker from "../../Inputs/DatePicker/DatePicker";
 import { Textarea } from "@/components/ui/textarea";
-import { addJournal } from "@/api/journalData";
-/* import { getUserLoginInfo } from "@/api/userAuthentication"; */
+import { addJournal } from "@/apiClient/journalData";
+import { useSession } from "next-auth/react";
 import {
   Form,
   FormField,
@@ -19,12 +19,12 @@ import { useJournalStore } from "@/store/useJournalStore";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import jwtDecode from "jwt-decode";
-import { DecodedToken } from "@/api/userAuthentication";
+import { DecodedToken } from "@/apiClient/userAuthentication";
 import { SelectInput } from "../../Inputs/SelectInput";
 import { TagInput } from "../../Inputs/TagInput";
 import { Tag } from "@/models/journalModels";
 import useSWR from "swr";
-import { API_BASE_URL } from "@/api/baseApiUrl";
+import { API_BASE_URL } from "@/apiClient/baseApiUrl";
 import { useDrawerStore } from "@/store/useDrawerStore";
 import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
@@ -77,6 +77,8 @@ const AddJournalForm = () => {
     },
   });
 
+  // Actions
+  const { data: session } = useSession();
   const { setValue } = form;
   const { mutate, data } = useSWR(`${API_BASE_URL}/api/journal`);
   const { toast } = useToast();
@@ -110,29 +112,13 @@ const AddJournalForm = () => {
 
   useEffect(() => {
     console.log(userId, title, content, date, mood, tags);
-  }, [userId, title, content, date, mood, tags]);
+  }, [userId, title, content, date, mood, tags, session]);
 
   useEffect(() => {
-    const storedAuthToken = localStorage.getItem("authorizationToken");
-    if (storedAuthToken) {
-      try {
-        const decoded: DecodedToken = jwtDecode(
-          storedAuthToken.replace("Bearer ", "")
-        );
-        setDecodedToken(decoded);
-      } catch (error) {
-        console.error("Error decoding JWT:", error);
-      }
+    if (session && session?.user?.id) {
+      setUserId(session?.user?.id);
     }
-  }, []);
-
-  useEffect(() => {
-    // Access userId after decodedToken has been set
-    if (decodedToken) {
-      setUserId(decodedToken?.user);
-    }
-    // @ts-ignore
-  }, [decodedToken]);
+  }, [session]);
 
   return (
     <div>

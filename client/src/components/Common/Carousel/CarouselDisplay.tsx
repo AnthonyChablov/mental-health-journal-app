@@ -33,14 +33,6 @@ const responsive = {
   },
 };
 
-const RenderCarouselSkeleton = () => {
-  return [1, 2, 3, 4].map((item, index: number) => (
-    <div key={index} className=" my-10 mx-3">
-      <SkeletonCardDisplay />
-    </div>
-  ));
-};
-
 const CarouselDisplay = ({
   carouselItems,
   isLoading,
@@ -60,13 +52,21 @@ const CarouselDisplay = ({
             </div>
           ))
         : !isLoading
-        ? carouselItems.map((journalEntry: IJournalEntry) => (
-            <div key={journalEntry?._id} className="my-10 mx-3 cursor-pointer">
-              <Link href={`/dashboard/journal/${journalEntry._id}`}>
-                <JournalCard singleJournalData={journalEntry} mode="carousel" />
-              </Link>
-            </div>
-          ))
+        ? carouselItems
+            ?.map((journalEntry: IJournalEntry) => (
+              <div
+                key={journalEntry?._id}
+                className="my-10 mx-3 cursor-pointer"
+              >
+                <Link href={`/dashboard/journal/${journalEntry._id}`}>
+                  <JournalCard
+                    singleJournalData={journalEntry}
+                    mode="carousel"
+                  />
+                </Link>
+              </div>
+            ))
+            .reverse()
         : [1, 2, 3, 4].map((item, index: number) => (
             <div key={index} className=" my-10 mx-3">
               <SkeletonCardDisplay />

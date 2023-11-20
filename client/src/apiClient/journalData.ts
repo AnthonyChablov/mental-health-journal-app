@@ -41,9 +41,9 @@ export async function addJournal(quizData: IJournalEntry) {
 }
 
 // Function to get all journal entries
-export async function getAllJournals() {
+export async function getAllJournals(userId: string) {
   const authToken = localStorage.getItem("authorizationToken");
-  const url = `${API_BASE_URL}/api/journal`;
+  const url = `${API_BASE_URL}/api/journal/${userId}`;
 
   try {
     const response = await axios.get(url, {
@@ -69,10 +69,10 @@ export async function getAllJournals() {
 }
 
 // Function to get single journal entry
-export async function getJournal(journalId: string) {
+export async function getJournal(userId: string, journalId: string) {
   const authToken = localStorage.getItem("authorizationToken");
-  const url = `${API_BASE_URL}/api/journal/${journalId}`;
-
+  const url = `${API_BASE_URL}/api/journal/${userId}/${journalId}`;
+  console.log(url);
   try {
     const response = await axios.get(url, {
       headers: {
@@ -96,9 +96,9 @@ export async function getJournal(journalId: string) {
   }
 }
 
-export async function deleteJournal(journalId: string) {
+export async function deleteJournal(userId: string, journalId: string) {
   const authToken = localStorage.getItem("authorizationToken");
-  const url = `${API_BASE_URL}/api/journal/${journalId}`;
+  const url = `${API_BASE_URL}/api/journal/${userId}/${journalId}`;
 
   try {
     const response = await axios.delete(url, {
@@ -123,9 +123,13 @@ export async function deleteJournal(journalId: string) {
   }
 }
 
-export async function editJournal(journalId: string, quizData: IJournalEntry) {
+export async function editJournal(
+  userId: string,
+  journalId: string,
+  quizData: IJournalEntry
+) {
   const authToken = localStorage.getItem("authorizationToken");
-  const url = `${API_BASE_URL}/api/journal/${journalId}`;
+  const url = `${API_BASE_URL}/api/journal/${userId}/${journalId}`;
 
   try {
     const response = await axios.put(url, quizData, {

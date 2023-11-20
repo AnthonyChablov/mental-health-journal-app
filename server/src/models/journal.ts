@@ -7,10 +7,7 @@ export type Tag = {
 
 // Define the schema
 const journalSchema = new mongoose.Schema({
-  userId: {
-    type: String,
-    required: true,
-  },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "accounts" },
   title: {
     type: String,
     required: true,

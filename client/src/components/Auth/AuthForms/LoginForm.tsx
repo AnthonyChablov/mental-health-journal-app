@@ -19,14 +19,27 @@ export function RegisterForm() {
   const { data: session } = useSession();
   const { toast } = useToast();
 
-  useEffect(() => {
-    if (session && session.user) {
-      router.replace("dashboard");
+  const handleSignIn = (provider: "github" | "google" | "facebook") => {
+    try {
       setIsLoading(true);
-    } else {
+      signIn(provider);
+    } catch (error) {
       setError(true);
+      console.error("Error signing in with", provider, error);
+      // You can also show a toast or handle the error in some other way
+    } finally {
+      setIsLoading(false);
     }
-  }, [session, session?.user]);
+  };
+
+  useEffect(() => {
+    if (session) {
+      setIsLoading(true);
+      router.replace("/dashboard");
+    }
+    setIsLoading(false);
+    setError(true);
+  }, [session]);
 
   return (
     <div className={cn("grid gap-6")}>
@@ -36,7 +49,7 @@ export function RegisterForm() {
         disabled={isLoading}
         className="bg-dark-purple hover:bg-dark-purple-brown text-white"
         onClick={() => {
-          signIn("linkedin");
+          handleSignIn("facebook");
         }}
       >
         {isLoading ? (
@@ -54,7 +67,7 @@ export function RegisterForm() {
         disabled={isLoading}
         className="bg-dark-purple hover:bg-dark-purple-brown text-white"
         onClick={() => {
-          signIn("github");
+          handleSignIn("github");
         }}
       >
         {isLoading ? (
@@ -73,7 +86,7 @@ export function RegisterForm() {
         disabled={isLoading}
         className=" bg-dark-purple hover:bg-dark-purple-brown text-white"
         onClick={() => {
-          signIn("google");
+          handleSignIn("google");
         }}
       >
         {isLoading ? (

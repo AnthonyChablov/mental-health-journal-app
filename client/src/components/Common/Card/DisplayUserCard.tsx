@@ -18,7 +18,7 @@ const DisplayUserCard = () => {
         <div className="flex items-center justify-start">
           <Button
             size="icon"
-            className={`bg-transparent shadow-none hover:bg-slate-100 w-full h-fit flex items-start justify-start`}
+            className={`bg-transparent shadow-none hover:bg-slate-100 w-full h-fit flex items-start justify-start p-1 `}
             asChild
           >
             <Link

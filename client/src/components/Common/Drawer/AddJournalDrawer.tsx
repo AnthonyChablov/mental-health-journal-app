@@ -14,6 +14,7 @@ import Container from "../Utils/Container";
 import AddJournalForm from "../Forms/AddJournalForm/AddJournalForm";
 import { useJournalStore } from "@/store/useJournalStore";
 import { useDrawerStore } from "@/store/useDrawerStore";
+import { useSession } from "next-auth/react";
 
 const AddJournalDrawer = () => {
   const { setContent, setTags, setTitle, setMood, setDate } = useJournalStore();
