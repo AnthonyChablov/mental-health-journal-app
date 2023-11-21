@@ -28,107 +28,26 @@ export function LoginForm() {
   /* Actions */
   const { toast } = useToast();
 
-  /* async function onSubmitRegister(e: FormEvent) {
-    e.preventDefault();
-    setIsLoading(true);
-
+  const handleRegister = (provider: "github" | "google" | "facebook") => {
     try {
-      // Make an Axios POST request to your login endpoint
-      const response = await loginUser({
-        email,
-        password,
-      });
-
-      // Handle the successful login, e.g., store the token in local storage
-      localStorage.setItem("authorizationToken", response.token);
-      setIsLoading(false);
-      // Redirect to the user's dashboard or any other page
-      // You can use react-router-dom for navigation
+      setIsLoading(true);
+      signIn(provider);
     } catch (error) {
-      // Handle login error, e.g., display an error message
-      console.error("Login failed:", error);
-      toast({
-        title: "Register failed",
-        description: "Please enter valid credentials and try again.",
-      });
+      setError(`${error}`);
+      console.error("Error signing in with", provider, error);
+      // You can also show a toast or handle the error in some other way
+    } finally {
       setIsLoading(false);
-    }
-  } */
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!fullName || !email || !password) {
-      setError("All fields are necessary.");
-      return;
-    }
-
-    try {
-      const resUserExists: AxiosResponse<{ user: boolean }> = await axios.post(
-        "api/userExists",
-        { email },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const { user } = resUserExists.data;
-
-      if (user) {
-        setError("User already exists.");
-        toast({
-          title: "Register failed",
-          description: `${error}`,
-        });
-        return;
-      }
-
-      const res: AxiosResponse = await axios.post(
-        "api/register",
-        {
-          fullName,
-          email,
-          password,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (res.status === 200) {
-        const form = e.target as HTMLFormElement;
-        form.reset();
-        router.push("/dashboard");
-      } else {
-        setError("User registration failed.");
-        toast({
-          title: "Registration failed",
-          description: `${error}`,
-        });
-      }
-    } catch (error) {
-      setError("User registration failed.");
-      console.log("Error during registration: ", error);
-      toast({
-        title: "Registration failed",
-        description: `${error}`,
-      });
     }
   };
 
-  /*  useEffect(() => {
-    if (isUserLoggedIn()) {
-      console.log("User is logged In");
-      router.push("/dashboard", { scroll: false });
-    }
-  }, []); */
-
   useEffect(() => {
-    console.log(session, session?.user);
+    if (session) {
+      setIsLoading(true);
+      router.replace("/dashboard");
+    } else {
+      setIsLoading(false);
+    }
   }, [session]);
 
   return (
@@ -138,7 +57,9 @@ export function LoginForm() {
         type="button"
         disabled={isLoading}
         className="bg-dark-purple hover:bg-dark-purple-brown text-white"
-        onClick={() => {}}
+        onClick={() => {
+          handleRegister("facebook");
+        }}
       >
         {isLoading ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
@@ -154,16 +75,18 @@ export function LoginForm() {
         type="button"
         disabled={isLoading}
         className="bg-dark-purple hover:bg-dark-purple-brown text-white"
-        onClick={() => {}}
+        onClick={() => {
+          handleRegister("github");
+        }}
       >
         {isLoading ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
         ) : (
           <span className="mr-2">
-            <ReactIcons size={20} color="white" type="linkedin" />
+            <ReactIcons size={20} color="white" type="github" />
           </span>
         )}{" "}
-        <span>LinkedIn</span>
+        <span>GitHub</span>
       </Button>
       <FormSeparator />
       <Button
@@ -171,7 +94,9 @@ export function LoginForm() {
         type="button"
         disabled={isLoading}
         className=" bg-dark-purple hover:bg-dark-purple-brown text-white"
-        onClick={() => {}}
+        onClick={() => {
+          handleRegister("google");
+        }}
       >
         {isLoading ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />

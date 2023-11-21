@@ -21,10 +21,19 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
+    async jwt({ token, user, account }) {
+      if (account) {
+        token.accessToken = account.access_token;
+      }
+
+      user && (token.user = user);
+      return token;
+    },
     session: async ({ session, user }) => {
       if (session?.user) {
         session.user.id = user.id;
       }
+
       return session;
     },
   },

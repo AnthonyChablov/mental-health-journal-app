@@ -28,6 +28,7 @@ import { API_BASE_URL } from "@/apiClient/baseApiUrl";
 import { useDrawerStore } from "@/store/useDrawerStore";
 import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
+import { throttle } from "lodash";
 
 const formSchema = z.object({
   userId: z.string(),
@@ -80,12 +81,14 @@ const AddJournalForm = () => {
   // Actions
   const { data: session } = useSession();
   const { setValue } = form;
-  const { mutate, data } = useSWR(`${API_BASE_URL}/api/journal`);
+  const { mutate, data } = useSWR(
+    `${API_BASE_URL}/api/journal/${session?.user?.id}`
+  );
   const { toast } = useToast();
 
   async function onFormSubmit() {
     try {
-      const result = await addJournal({
+      const result = await addJournal(session?.user?.id, {
         userId,
         title,
         content,
@@ -110,6 +113,9 @@ const AddJournalForm = () => {
     }
   }
 
+  // Throttle add journal form submit, for 3 seconds
+  const throttledOnFormSubmit = throttle(onFormSubmit, 3000);
+
   useEffect(() => {
     console.log(userId, title, content, date, mood, tags);
   }, [userId, title, content, date, mood, tags, session]);
@@ -127,7 +133,7 @@ const AddJournalForm = () => {
           className="space-y-5 max-w-3xl mx-auto"
           onSubmit={(e) => {
             e.preventDefault();
-            onFormSubmit();
+            throttledOnFormSubmit();
           }}
         >
           {/* Journal Title */}
@@ -169,15 +175,15 @@ const AddJournalForm = () => {
               </FormItem>
             )}
           />
-          <div className="flex justify-between items-center w-full">
+          <div className="flex flex-col space-y-5 justify-between items-start sm:space-y-0 sm:space-x-8 sm:flex-row sm:items-center w-full">
             {/* Date */}
             <FormField
               control={form.control}
               name="title"
               render={({ field }) => (
-                <FormItem className="flex flex-col flex-grow">
-                  <FormLabel className="mb-1 mt-2">Date</FormLabel>
-                  <FormControl>
+                <FormItem className="flex flex-col  ">
+                  <FormLabel className="mb-1 mt-1 w-full">Date</FormLabel>
+                  <FormControl className="w-full">
                     <DatePicker />
                   </FormControl>
                   <FormMessage />
@@ -189,10 +195,10 @@ const AddJournalForm = () => {
               control={form.control}
               name="title"
               render={({ field }) => (
-                <FormItem className="flex-grow">
+                <FormItem className="flex-grow w-full ">
                   <FormLabel>Mood</FormLabel>
                   <FormControl>
-                    <SelectInput />
+                    <SelectInput fitWidth={true} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

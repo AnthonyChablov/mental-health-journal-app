@@ -36,9 +36,10 @@ export function RegisterForm() {
     if (session) {
       setIsLoading(true);
       router.replace("/dashboard");
+    } else {
+      setIsLoading(false);
+      setError(true);
     }
-    setIsLoading(false);
-    setError(true);
   }, [session]);
 
   return (

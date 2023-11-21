@@ -21,16 +21,15 @@ export async function fetchData(url: string): Promise<any> {
   return handleRequest(axios.get(url));
 }
 
-export async function addJournal(quizData: IJournalEntry) {
-  const authToken = localStorage.getItem("authorizationToken");
-  const url = `${API_BASE_URL}/api/journal`;
+export async function addJournal(userId: string, quizData: IJournalEntry) {
+  const url = `${API_BASE_URL}/api/journal/${userId}`;
 
   try {
     await handleRequest(
       axios.post(url, quizData, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `${authToken}`,
+          Authorization: userId,
         },
       })
     );
@@ -42,13 +41,12 @@ export async function addJournal(quizData: IJournalEntry) {
 
 // Function to get all journal entries
 export async function getAllJournals(userId: string) {
-  const authToken = localStorage.getItem("authorizationToken");
   const url = `${API_BASE_URL}/api/journal/${userId}`;
 
   try {
     const response = await axios.get(url, {
       headers: {
-        Authorization: authToken,
+        Authorization: userId,
       },
     });
 
@@ -70,13 +68,12 @@ export async function getAllJournals(userId: string) {
 
 // Function to get single journal entry
 export async function getJournal(userId: string, journalId: string) {
-  const authToken = localStorage.getItem("authorizationToken");
   const url = `${API_BASE_URL}/api/journal/${userId}/${journalId}`;
   console.log(url);
   try {
     const response = await axios.get(url, {
       headers: {
-        Authorization: authToken,
+        Authorization: userId,
       },
     });
 
@@ -97,13 +94,12 @@ export async function getJournal(userId: string, journalId: string) {
 }
 
 export async function deleteJournal(userId: string, journalId: string) {
-  const authToken = localStorage.getItem("authorizationToken");
   const url = `${API_BASE_URL}/api/journal/${userId}/${journalId}`;
 
   try {
     const response = await axios.delete(url, {
       headers: {
-        Authorization: authToken,
+        Authorization: userId,
       },
     });
 
@@ -128,13 +124,12 @@ export async function editJournal(
   journalId: string,
   quizData: IJournalEntry
 ) {
-  const authToken = localStorage.getItem("authorizationToken");
   const url = `${API_BASE_URL}/api/journal/${userId}/${journalId}`;
 
   try {
     const response = await axios.put(url, quizData, {
       headers: {
-        Authorization: authToken,
+        Authorization: userId,
       },
     });
 

@@ -17,6 +17,7 @@ import CarouselDisplay from "../Common/Carousel/CarouselDisplay";
 import SkeletonChartDisplay from "../Common/Loading/SkeletonChartDisplay";
 import useMoodData from "@/hooks/useMoodData";
 import { useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 
 const DashboardLayout = () => {
   // State
@@ -24,7 +25,7 @@ const DashboardLayout = () => {
   const { setMood, isLoading, setIsLoading } = useJournalStore();
 
   // Actions
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   // Fetch Journal Data
   const {
@@ -57,11 +58,11 @@ const DashboardLayout = () => {
   }, [journalLoading, journalError]);
 
   useEffect(() => {
-    console.log(journalData);
-  }, [journalData]);
+    console.log(session);
+  }, [session]);
 
   return (
-    <main className="bg-skin h-full min-h-screen pb-24">
+    <div className="bg-skin h-full min-h-screen pb-24">
       {
         <>
           <Hero
@@ -114,7 +115,7 @@ const DashboardLayout = () => {
           <AddJournalDrawer />
         </>
       }
-    </main>
+    </div>
   );
 };
 
