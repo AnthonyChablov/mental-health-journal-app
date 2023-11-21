@@ -13,7 +13,7 @@ const router = express.Router();
 /* Journal Routes */
 router.get("/:userId", getJournalsController);
 router.get("/:userId/:journalId", getJournalController);
-router.post("/:userId/:journalId", createJournalController);
+router.post("/:userId", createJournalController);
 router.delete("/:userId/:journalId", deleteJournalController);
 router.put("/:userId/:journalId", updateJournalController);
 

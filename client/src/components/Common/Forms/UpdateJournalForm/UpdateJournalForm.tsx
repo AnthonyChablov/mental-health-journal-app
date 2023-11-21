@@ -28,6 +28,7 @@ import { useModalStore } from "@/store/useModalStore";
 import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import { useSession } from "next-auth/react";
+import { throttle } from "lodash";
 
 const formSchema = z.object({
   userId: z.string(),
@@ -115,6 +116,9 @@ const UpdateJournalForm = () => {
     }
   }
 
+  // Throttle add journal form submit, for 3 seconds
+  const throttledOnFormSubmit = throttle(onFormSubmit, 3000);
+
   useEffect(() => {
     const storedAuthToken = localStorage.getItem("authorizationToken");
     if (storedAuthToken) {
@@ -153,7 +157,7 @@ const UpdateJournalForm = () => {
           className="space-y-5"
           onSubmit={(e) => {
             e.preventDefault();
-            onFormSubmit();
+            throttledOnFormSubmit();
           }}
         >
           {/* Journal Title */}

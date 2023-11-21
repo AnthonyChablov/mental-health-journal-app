@@ -24,7 +24,7 @@ export function SelectInput({ fitWidth }: ISelectInputProps) {
   };
   return (
     <Select onValueChange={handleMoodChange} value={mood}>
-      <SelectTrigger className={`${fitWidth ? `w-full` : "w-[280px]"}`}>
+      <SelectTrigger className={` w-full `}>
         <SelectValue placeholder="Select a mood" />
       </SelectTrigger>
       <SelectContent className="p-0 m-0">

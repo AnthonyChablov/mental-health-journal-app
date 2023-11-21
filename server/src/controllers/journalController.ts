@@ -43,7 +43,7 @@ export async function getJournalsController(
     const userId = req.params.userId;
     /* console.log(userId); */
     const journals = await JournalModel.find({ userId: userId }).exec(); // Fetch all journals from the database
-    console.log(journals);
+
     res.status(200).json(journals);
   } catch (error) {
     console.error("Error fetching journals: ", error);

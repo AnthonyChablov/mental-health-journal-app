@@ -51,8 +51,7 @@ const AddJournalDrawer = () => {
                 <p>
                   Create a new journal entry to capture your thoughts,
                   experiences, and memories. Give it a title and write about
-                  your day, goals, or anything that inspires you. Your journal
-                  is a personal canvas to express yourself.
+                  your day, goals, or anything that inspires you.
                 </p>
               </SheetDescription>
             </SheetHeader>

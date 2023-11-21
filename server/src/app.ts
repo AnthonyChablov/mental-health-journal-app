@@ -3,8 +3,7 @@ import mongoose from "mongoose";
 import journalRoutes from "./routes/journalRoutes";
 import userRoutes from "./routes/userRoutes";
 import cors from "cors";
-import { authenticateJwt } from "./middleware/authenticateJwt";
-
+import { authenticateSession } from "./middleware/authorizeSession";
 //passport
 const passport = require("passport");
 // global passport object into the congifuration function
@@ -33,7 +32,7 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("Hello, Express with TypeScript!");
 });
-app.use("/api/journal", journalRoutes);
+app.use("/api/journal", authenticateSession, journalRoutes);
 app.use("/users", userRoutes);
 
 // Connect to your MongoDB database

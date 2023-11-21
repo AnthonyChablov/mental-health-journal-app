@@ -17,6 +17,7 @@ import { moodObject } from "@/lib/utils";
 import InfoDisplayCard from "../Common/Card/InfoDisplayCard";
 import { IJournalEntry, Tag } from "@/models/journalModels";
 import SkeletonCardDisplay from "../Common/Loading/SkeletonCardDisplay";
+import { useSession } from "next-auth/react";
 
 function renderMoodInfoDisplayCards(moodData: Record<string, number>) {
   const sortedMoods = moodObject.sort(
@@ -39,14 +40,21 @@ function renderMoodInfoDisplayCards(moodData: Record<string, number>) {
 }
 
 const ReportLayout = () => {
+  /* Actions */
+  const { data: session } = useSession();
+
   const {
     data: journalData,
     error: journalError,
     isLoading: isJournalDataLoading,
-  } = useSWR(`${API_BASE_URL}/api/journal`, getAllJournals, {
-    revalidateOnFocus: false,
-    refreshInterval: 300000,
-  });
+  } = useSWR(
+    `${API_BASE_URL}/api/journal/${session?.user?.id}`,
+    () => getAllJournals(session?.user?.id),
+    {
+      revalidateOnFocus: false,
+      refreshInterval: 300000,
+    }
+  );
 
   const moodData = useMoodData(journalData, moodObject);
 

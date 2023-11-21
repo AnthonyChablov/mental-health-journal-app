@@ -14,6 +14,7 @@ import ReactIcons from "../Icons/ReactIcons";
 import { Separator } from "@/components/ui/separator";
 import DisplayUserCard from "../Card/DisplayUserCard";
 import { useToast } from "@/components/ui/use-toast";
+import { useEffect } from "react";
 
 const buttons = [
   {
@@ -39,10 +40,21 @@ const Drawer = () => {
   const { toast } = useToast();
 
   const handleSignOut = async () => {
-    await signOut();
-    router.replace("/");
-    // You can redirect the user or perform other actions after signing out
+    try {
+      await signOut();
+      // You can redirect the user or perform other actions after signing out
+    } catch (error) {
+      // Handle errors here
+      console.error("Error during sign out:", error);
+      // You might want to show an error message to the user or perform other error-handling actions
+    }
   };
+
+  useEffect(() => {
+    if (!session) {
+      router.replace("./");
+    }
+  }, [session]);
 
   return (
     <Sheet>
