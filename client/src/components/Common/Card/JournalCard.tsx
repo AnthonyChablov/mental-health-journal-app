@@ -30,8 +30,10 @@ const JournalCard = ({ singleJournalData, mode }: IJournalCardProps) => {
       <Card className="shadow-lg overflow-hidden rounded-3xl">
         <div className="bg-dark-purple text-white px-5 py-4 flex justify-between">
           <p
-            className={`text-2xl font-medium ${
-              mode === "carousel" && "text-sm font-semibold truncate"
+            className={` ${
+              mode === "carousel"
+                ? "text-xs font-semibold truncate"
+                : "text-lg font-medium"
             }`}
           >
             <span className=" capitalize text-md">{formattedMood.name}</span>
