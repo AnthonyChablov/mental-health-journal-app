@@ -104,7 +104,7 @@ const Drawer = () => {
               </div>
               <div className="absolute bottom-6 w-10/12 ">
                 <Separator className="my-5" />
-                <DisplayUserCard />
+                <DisplayUserCard isClickable={true} />
                 <Button
                   variant="outline"
                   className="mt-4 px-2 bg-transparent text-black shadow-none border-0 transition-all duration-300 hover:bg-slate-100 text-md "
