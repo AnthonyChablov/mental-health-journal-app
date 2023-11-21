@@ -23,21 +23,21 @@ export default function Footer() {
   ];
 
   return (
-    <Container>
-      <footer className="mt-auto">
-        <div className="mx-auto w-full max-w-screen-xl p-6 md:py-8">
+    <footer className="mt-auto">
+      <div className="mx-auto w-full p-6 md:py-8">
+        <Container>
           <div className="sm:flex sm:items-center sm:justify-between">
             <Link href="/">
-              <h1 className="mb-2 text-2xl font-bold sm:mb-0">
+              <h1 className="mb-2 text-2xl font-bold sm:mb-0 text-dark-purple font-playFairDisplay">
                 {siteConfig.name}
               </h1>
             </Link>
             <ul className="mb-6 flex flex-wrap items-center text-primary opacity-60 sm:mb-0">
-              {navLinks.map((link) => (
+              {navLinks.map((link, index: number) => (
                 <li key={link.route}>
                   <Link
                     href={link.path}
-                    className="mr-4 hover:underline md:mr-6"
+                    className={`mr-4 hover:underline md:mr-6 `}
                   >
                     {link.route}
                   </Link>
@@ -57,8 +57,8 @@ export default function Footer() {
             </a>
             . All Rights Reserved.
           </span>
-        </div>
-      </footer>
-    </Container>
+        </Container>
+      </div>
+    </footer>
   );
 }

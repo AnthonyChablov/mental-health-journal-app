@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: "Uplift.me",
+  name: "Better.me",
   author: "Anthony Chablov",
   description:
     "Easy to setup, customizable, quick, and responsive landing page starter built with Next.js and shadcn/ui.",
