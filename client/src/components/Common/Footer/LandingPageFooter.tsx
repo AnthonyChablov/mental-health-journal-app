@@ -13,17 +13,13 @@ export default function Footer() {
       path: "/#features",
     },
     {
-      route: "Contact",
-      path: "/contact",
-    },
-    {
       route: "Github",
-      path: "https://github.com/redpangilinan/next-shadcn-landing",
+      path: "https://github.com/AnthonyChablov/mental-health-journal-app",
     },
   ];
 
   return (
-    <footer className="mt-auto">
+    <footer className="mt-20">
       <div className="mx-auto w-full p-6 md:py-8">
         <Container>
           <div className="sm:flex sm:items-center sm:justify-between">

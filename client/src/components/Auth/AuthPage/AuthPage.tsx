@@ -29,7 +29,7 @@ export default function AuthenticationPage({ mode }: IAuthenticationPage) {
           {isRegisterMode ? "Login" : "Register"}
         </Link>
         <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
-          <div className="absolute inset-0 bg-gradient-to-tr from-dark-purple via-dark-purple to-light-purple" />
+          <div className="absolute inset-0 bg-gradient-to-tr bg-gradient-to-b from-dark-purple  to-[#9B6794]" />
           <div className="relative z-20 flex items-center text-lg font-medium ">
             <p className="text-white font-playFairDisplay text-3xl">
               Better.me

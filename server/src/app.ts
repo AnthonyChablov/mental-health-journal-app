@@ -30,7 +30,7 @@ app.use(
 app.use(express.json());
 // Routes
 app.get("/", (req, res) => {
-  res.send("Hello, Express with TypeScript!");
+  res.send("Better.me Server");
 });
 app.use("/api/journal", authenticateSession, journalRoutes);
 app.use("/users", userRoutes);
