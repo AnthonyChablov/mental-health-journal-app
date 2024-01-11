@@ -21,7 +21,6 @@ import { IoDocumentTextOutline } from "react-icons/io5";
 import { GoKebabHorizontal } from "react-icons/go";
 import { TbPlant } from "react-icons/tb";
 import { MdInsights } from "react-icons/md";
-import { GrGrow } from "react-icons/gr";
 
 interface IIcons {
   type: string;

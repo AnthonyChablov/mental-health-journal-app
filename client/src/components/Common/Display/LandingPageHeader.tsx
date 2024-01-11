@@ -6,7 +6,7 @@ const LandingPageHeader = () => {
     <div className="">
       <Container>
         <div className="w-full flex flex-col items-center justify-center pt-20">
-          <h2 className="font-playFairDisplay text-2xl md:text-3xl text-slate-700 text-center font-regular">
+          <h2 className="font-playFairDisplay text-2xl md:text-3xl text-slate-800 text-center font-regular">
             Transform Your Mind, One Entry at a Time
           </h2>
           <p className="text-center text-gray-500 mt-8 w-9/12 mx-auto">

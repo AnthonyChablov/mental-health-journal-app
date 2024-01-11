@@ -39,9 +39,9 @@ const LandingPageContentDisplay = () => {
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="flex flex-col items-center w-full lg:w-3/12 space-y-4 justify-start"
+                className="flex flex-col items-center w-full lg:w-3/12 space-y-4 justify-start "
               >
-                <div className="flex items-center justify-center bg-dark-purple p-4 rounded-full shadow-lg">
+                <div className="flex items-center justify-center bg-dark-purple p-4 rounded-full shadow-lg mb-2">
                   <ReactIcons type={feature.iconType} size={32} color="white" />
                 </div>
                 <h3 className="text-gray-700 font-semibold">
