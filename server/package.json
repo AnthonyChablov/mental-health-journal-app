@@ -30,6 +30,7 @@
     "typescript": "^5.2.2"
   },
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.5.0",
     "@types/cors": "^2.8.14"
   }
 }
