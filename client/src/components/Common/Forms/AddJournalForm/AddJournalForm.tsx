@@ -220,6 +220,7 @@ const AddJournalForm = () => {
                       tags={tags}
                       className="sm:min-w-[450px]"
                       setTags={(newTags) => {
+                        // @ts-ignore
                         setTags(newTags);
                         setValue("tags", newTags as [Tag, ...Tag[]]);
                       }}
