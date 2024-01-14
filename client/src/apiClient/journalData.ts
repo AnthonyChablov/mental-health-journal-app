@@ -42,6 +42,7 @@ export async function addJournal(userId: string, quizData: IJournalEntry) {
 // Function to get all journal entries
 export async function getAllJournals(userId: string) {
   const url = `${API_BASE_URL}/api/journal/${userId}`;
+  console.log(url, API_BASE_URL);
 
   try {
     const response = await axios.get(url, {
