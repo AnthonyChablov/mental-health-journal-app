@@ -22,7 +22,7 @@ type Actions = {
   setContent: (newContent: string) => void;
   setDate: (newDate: Date | undefined) => void;
   setMood: (newMood: string) => void;
-  setTags: (newTags: Tag[]) => void;
+  setTags: React.Dispatch<React.SetStateAction<Tag[]>>;
   setPrivacy: (newPrivacy: string) => void;
   /* Data fetching setters */
   setIsLoading: (newIsLoading: boolean) => void;
@@ -43,7 +43,10 @@ export const useJournalStore = create<State & Actions>((set) => ({
   setContent: (newContent: string) => set({ content: newContent }),
   setDate: (newDate: Date | undefined) => set({ date: newDate }),
   setMood: (newMood: string) => set({ mood: newMood }),
-  setTags: (newTags: Tag[]) => set({ tags: newTags }),
+  setTags: (newTags: React.SetStateAction<Tag[]>) =>
+    set((state) => ({
+      tags: typeof newTags === "function" ? newTags(state.tags) : newTags,
+    })),
   setPrivacy: (newPrivacy: string) => set({ privacy: newPrivacy }),
   setIsLoading: (newIsLoading: boolean) => set({ isLoading: newIsLoading }),
 }));

@@ -30,25 +30,31 @@ const JournalCard = ({ singleJournalData, mode }: IJournalCardProps) => {
       <Card className="shadow-lg overflow-hidden rounded-3xl">
         <div className="bg-dark-purple text-white px-5 py-4 flex justify-between">
           <p
-            className={`text-2xl font-medium ${
-              mode === "carousel" && "text-sm font-semibold truncate"
+            className={` ${
+              mode === "carousel"
+                ? "text-xs font-semibold truncate"
+                : "text-lg font-medium"
             }`}
           >
-            {singleJournalData?.title}
+            <span className=" capitalize text-md">{formattedMood.name}</span>
+            <span className=" ml-2">{formattedMood.emoji}</span>
           </p>
           {mode === "journal" && <PopOverButton></PopOverButton>}
         </div>
         <CardHeader>
-          <div className="flex flex-row justify-between items-center">
+          <div
+            className={`flex flex-row justify-between items-center ${
+              mode === "carousel" ? "w-[8.5em] " : "w-fit"
+            } `}
+          >
             <CardTitle
-              className={`text-dark-purple  font-playFairDisplay ${
+              className={`text-dark-purple font-playFairDisplay ${
                 mode === "carousel"
                   ? "text-2xl font-semibold"
                   : "text-3xl md:text-4xl"
-              }`}
+              } truncate `}
             >
-              <span className=" capitalize text-md">{formattedMood.name}</span>
-              <span className=" ml-2">{formattedMood.emoji}</span>
+              {singleJournalData?.title}
             </CardTitle>
           </div>
           <CardDescription

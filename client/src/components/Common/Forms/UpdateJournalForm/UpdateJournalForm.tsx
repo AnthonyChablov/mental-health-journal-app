@@ -246,7 +246,17 @@ const UpdateJournalForm = () => {
                       className=""
                       setTags={(newTags) => {
                         setTags(newTags);
-                        setValue("tags", newTags as [Tag, ...Tag[]]);
+
+                        // Check if newTags is a function
+                        const updatedTags =
+                          typeof newTags === "function"
+                            ? newTags(tags)
+                            : newTags;
+
+                        // Map Tag objects to an array of strings
+                        const tagNames = updatedTags.map((tag) => tag.text);
+
+                        setValue("tags", tagNames);
                       }}
                     />
                   </FormControl>

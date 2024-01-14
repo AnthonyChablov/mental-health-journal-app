@@ -15,7 +15,6 @@ const app = express();
 const port = 5000;
 
 /* Middleware */
-
 app.use(passport.initialize()); // initialize the passport object on every request
 app.use(express.urlencoded({ extended: true }));
 app.use(
@@ -30,7 +29,7 @@ app.use(
 app.use(express.json());
 // Routes
 app.get("/", (req, res) => {
-  res.send("Hello, Express with TypeScript!");
+  res.send("Better.me Server");
 });
 app.use("/api/journal", authenticateSession, journalRoutes);
 app.use("/users", userRoutes);

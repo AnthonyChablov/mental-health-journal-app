@@ -2,12 +2,9 @@ import React from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { IJournalEntry } from "@/models/journalModels";
-import CarouselItem from "./CarouselItem";
 import JournalCard from "../Card/JournalCard";
-import { formatMood } from "@/lib/utils";
 import Link from "next/link";
 import SkeletonCardDisplay from "../Loading/SkeletonCardDisplay";
-import { useJournalStore } from "@/store/useJournalStore";
 
 interface ICarouselDisplayProps {
   carouselItems: IJournalEntry[];
@@ -17,12 +14,12 @@ interface ICarouselDisplayProps {
 /* Carousel Config */
 const responsive = {
   desktop: {
-    breakpoint: { max: 3000, min: 1024 },
+    breakpoint: { max: 3000, min: 700 },
     items: 3,
     slidesToSlide: 3, // Number of slides to slide on a single swipe
   },
   tablet: {
-    breakpoint: { max: 1024, min: 464 },
+    breakpoint: { max: 700, min: 464 },
     items: 2,
     slidesToSlide: 2,
   },

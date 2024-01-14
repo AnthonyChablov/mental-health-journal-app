@@ -19,6 +19,9 @@ import { RiMenu4Line } from "react-icons/ri";
 import { IoIosArrowBack, IoIosLogOut } from "react-icons/io";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { GoKebabHorizontal } from "react-icons/go";
+import { TbPlant } from "react-icons/tb";
+import { MdInsights } from "react-icons/md";
+
 interface IIcons {
   type: string;
   size: number;
@@ -51,6 +54,8 @@ const ReactIcons = ({ type, size, color }: IIcons) => {
           linkedin: <FaLinkedin size={size} color={color} />,
           logout: <IoIosLogOut size={size} color={color} />,
           document: <IoDocumentTextOutline size={size} color={color} />,
+          insights: <MdInsights size={size} color={color} />,
+          grow: <TbPlant size={size} color={color} />,
         }[type]
       }
     </div>
