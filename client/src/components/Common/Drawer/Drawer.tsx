@@ -66,7 +66,8 @@ const Drawer = () => {
           <ReactIcons type="menu" size={30} color="purple" />
         </Button>
       </SheetTrigger>
-      <SheetContent side={"left"}>
+
+      <SheetContent side={"left"} className="w-screen xs:w-96">
         <SheetHeader className=" ">
           <SheetTitle className=" font-playFairDisplay text-3xl text-dark-purple">
             Better.me
