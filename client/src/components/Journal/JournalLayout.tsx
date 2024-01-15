@@ -72,10 +72,10 @@ const JournalLayout = () => {
 
   return (
     <>
-      {!journalLoading ? (
+      {journalLoading ? (
         <LoadingLayout />
-      ) : journalError ? (
-        <ErrorLayout />
+      ) : !journalError ? (
+        <ErrorLayout errorMessage="Error! Please Try Again" />
       ) : (
         <main className="bg-skin h-full min-h-screen pb-24">
           <>
