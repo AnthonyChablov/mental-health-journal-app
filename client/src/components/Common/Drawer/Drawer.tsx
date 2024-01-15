@@ -103,7 +103,7 @@ const Drawer = () => {
                   </Button>
                 ))}
               </div>
-              <div className="absolute bottom-12 w-10/12 ">
+              <div className="absolute bottom-8 w-10/12 ">
                 <Separator className="my-5" />
                 <DisplayUserCard isClickable={true} />
                 <Button

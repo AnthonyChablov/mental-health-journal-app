@@ -18,7 +18,6 @@ import {
 import { useJournalStore } from "@/store/useJournalStore";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-import jwtDecode from "jwt-decode";
 import { DecodedToken } from "@/apiClient/userAuthentication";
 import { SelectInput } from "../../Inputs/SelectInput";
 import { TagInput } from "../../Inputs/TagInput";
@@ -58,8 +57,6 @@ const AddJournalForm = () => {
     setUserId,
     setTitle,
     setContent,
-    setDate,
-    setMood,
     setTags,
   } = useJournalStore();
   const { openDrawer, setOpenDrawer } = useDrawerStore();
@@ -117,10 +114,6 @@ const AddJournalForm = () => {
   const throttledOnFormSubmit = throttle(onFormSubmit, 3000);
 
   useEffect(() => {
-    console.log(userId, title, content, date, mood, tags);
-  }, [userId, title, content, date, mood, tags, session]);
-
-  useEffect(() => {
     if (session && session?.user?.id) {
       setUserId(session?.user?.id);
     }
@@ -142,9 +135,10 @@ const AddJournalForm = () => {
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Title</FormLabel>
+                <FormLabel className="text-md">Title</FormLabel>
                 <FormControl>
                   <Input
+                    className="text-md"
                     type="text"
                     placeholder="Enter Journal Title here..."
                     onChange={(e) => {
@@ -162,9 +156,10 @@ const AddJournalForm = () => {
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Content</FormLabel>
+                <FormLabel className="text-md">Content</FormLabel>
                 <FormControl>
                   <Textarea
+                    className="text-md"
                     placeholder="Type your message here..."
                     onChange={(e) => {
                       setContent(e.target.value);
@@ -182,8 +177,10 @@ const AddJournalForm = () => {
               name="title"
               render={({ field }) => (
                 <FormItem className="flex flex-col  ">
-                  <FormLabel className="mb-1 mt-1 w-full">Date</FormLabel>
-                  <FormControl className="w-full">
+                  <FormLabel className="mb-1 mt-1 w-full text-md">
+                    Date
+                  </FormLabel>
+                  <FormControl className="w-full text-md">
                     <DatePicker />
                   </FormControl>
                   <FormMessage />
@@ -196,7 +193,7 @@ const AddJournalForm = () => {
               name="title"
               render={({ field }) => (
                 <FormItem className="flex-grow w-full ">
-                  <FormLabel>Mood</FormLabel>
+                  <FormLabel className="text-md ">Mood</FormLabel>
                   <FormControl>
                     <SelectInput fitWidth={true} />
                   </FormControl>
@@ -212,13 +209,13 @@ const AddJournalForm = () => {
               name="title"
               render={({ field }) => (
                 <FormItem className="flex-grow">
-                  <FormLabel>Tags</FormLabel>
+                  <FormLabel className="text-md">Tags</FormLabel>
                   <FormControl>
                     <TagInput
                       {...field}
                       placeholder="Enter a topic"
                       tags={tags}
-                      className="sm:min-w-[450px]"
+                      className="sm:min-w-[450px] text-md"
                       setTags={(newTags) => {
                         setTags(newTags);
                         setValue("tags", newTags as [Tag, ...Tag[]]);
@@ -234,7 +231,10 @@ const AddJournalForm = () => {
           <div className="w-full flex justify-center ">
             <Button
               className="bg-transparent hover:underline text-md rounded-full p-6 shadow-none text-dark-purple hover:bg-transparent"
-              type="submit"
+              onClick={() => {
+                setOpenDrawer(false);
+              }}
+              type="button"
             >
               Cancel
             </Button>

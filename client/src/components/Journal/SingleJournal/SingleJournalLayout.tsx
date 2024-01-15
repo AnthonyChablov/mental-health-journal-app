@@ -2,22 +2,15 @@
 import React, { useEffect } from "react";
 import AppNav from "@/components/Common/Navigation/AppNav";
 import useSWR from "swr";
-import { API_BASE_URL } from "@/apiClient/baseApiUrl";
 import { getJournal } from "@/apiClient/journalData";
 import { useParams } from "next/navigation";
 import Container from "@/components/Common/Utils/Container";
-import ReactIcons from "@/components/Common/Icons/ReactIcons";
 import LoadingLayout from "@/components/Loading/LoadingLayout";
 import JournalCard from "@/components/Common/Card/JournalCard";
-import { formatMood } from "@/lib/utils";
-import PopOverButton from "@/components/Common/Buttons/PopOverButton";
-import { Separator } from "@/components/ui/separator";
 import ToggleHeader from "@/components/Common/Headers/ToggleHeader";
-import { Button } from "@/components/ui/button";
 import { useModalStore } from "@/store/useModalStore";
 import EditJournalModal from "@/components/Common/Modal/EditJournalModal";
 import { useJournalStore } from "@/store/useJournalStore";
-import SkeletonCardDisplay from "@/components/Common/Loading/SkeletonCardDisplay";
 import { useSession } from "next-auth/react";
 
 const SingleJournalLayout = () => {
