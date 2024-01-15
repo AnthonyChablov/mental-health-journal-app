@@ -14,9 +14,6 @@ import FormSeparator from "./FormSeparator";
 export function LoginForm() {
   /* State */
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [email, setEmail] = useState("");
-  const [fullName, setFullName] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   /* Router */
