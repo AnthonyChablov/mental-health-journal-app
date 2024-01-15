@@ -170,16 +170,17 @@ const AddJournalForm = () => {
               </FormItem>
             )}
           />
-          <div className="flex flex-col space-y-5 justify-between items-start sm:space-y-0 sm:space-x-8 sm:flex-row sm:items-center w-full">
+          <div
+            className="flex flex-col space-y-5 justify-between items-start 
+            sm:space-y-0 sm:space-x-8 sm:flex-row sm:items-center w-full"
+          >
             {/* Date */}
             <FormField
               control={form.control}
               name="title"
               render={({ field }) => (
                 <FormItem className="flex flex-col  ">
-                  <FormLabel className="mb-1 mt-1 w-full text-md">
-                    Date
-                  </FormLabel>
+                  <FormLabel className="my-1 w-full text-md">Date</FormLabel>
                   <FormControl className="w-full text-md">
                     <DatePicker />
                   </FormControl>

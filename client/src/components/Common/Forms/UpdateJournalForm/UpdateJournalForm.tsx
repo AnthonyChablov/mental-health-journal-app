@@ -210,9 +210,7 @@ const UpdateJournalForm = () => {
               name="title"
               render={({ field }) => (
                 <FormItem className="flex flex-col text-left">
-                  <FormLabel className="mb-[0.4513em] mt-0 text-md">
-                    Date
-                  </FormLabel>
+                  <FormLabel className="my-1 text-md">Date</FormLabel>
                   <FormControl>
                     <DatePicker />
                   </FormControl>
@@ -248,7 +246,7 @@ const UpdateJournalForm = () => {
                       {...field}
                       placeholder="Enter a topic"
                       tags={tags}
-                      className=""
+                      className="sm:min-w-[450px] text-md"
                       setTags={(newTags) => {
                         setTags(newTags);
 
@@ -270,22 +268,25 @@ const UpdateJournalForm = () => {
               )}
             />
           </div>
-          <Button
-            className="bg-transparent hover:underline text-md rounded-full p-6 shadow-none text-dark-purple hover:bg-transparent"
-            onClick={() => {
-              setOpenDrawer(false);
-            }}
-            type="button"
-          >
-            Cancel
-          </Button>
-          {/* Submit button */}
-          <Button
-            className="bg-dark-purple hover:bg-dark-purple-brown text-md rounded-full w-full p-6 "
-            type="submit"
-          >
-            Update Journal
-          </Button>
+          <div className="w-full flex justify-center ">
+            <Button
+              className="bg-transparent hover:underline text-md rounded-full 
+                p-6 shadow-none text-dark-purple hover:bg-transparent"
+              onClick={() => {
+                setOpenDrawer(false);
+              }}
+              type="button"
+            >
+              Cancel
+            </Button>
+            {/* Submit button */}
+            <Button
+              className="bg-dark-purple hover:bg-dark-purple-brown text-md rounded-full w-full p-6 "
+              type="submit"
+            >
+              Update Journal
+            </Button>
+          </div>
         </form>
       </Form>
     </div>
