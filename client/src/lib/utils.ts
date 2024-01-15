@@ -8,7 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 export function getCurrentFormattedDate() {
   const daysOfWeek = ["SUN", "MON", "TUE", "WED", "THUR", "FRI", "SAT"];
   const months = [
-    "JANY",
+    "JAN",
     "FEB",
     "MAR",
     "APR",

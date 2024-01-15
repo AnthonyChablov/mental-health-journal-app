@@ -45,21 +45,8 @@ const JournalLayout = () => {
   );
 
   /* State */
-  const {
-    filterMode,
-    setFilterMode,
-    filterTitle,
-    filterContent,
-    filterDate,
-    filterMood,
-    setFilterContent,
-    setFilterMood,
-    setFilterTitle,
-    setFilterDate,
-  } = useJournalFilterStore();
+  const { filterMode } = useJournalFilterStore();
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const selectButtonOptions: string[] = ["Default", "Asc", "Desc"];
-  const [sortedData, setSortedData] = useState([]);
 
   useEffect(() => {
     console.log(journalData, filterMode);
@@ -74,7 +61,7 @@ const JournalLayout = () => {
     <>
       {journalLoading ? (
         <LoadingLayout />
-      ) : !journalError ? (
+      ) : journalError ? (
         <ErrorLayout errorMessage="Error! Please Try Again" />
       ) : (
         <main className="bg-skin h-full min-h-screen pb-24">

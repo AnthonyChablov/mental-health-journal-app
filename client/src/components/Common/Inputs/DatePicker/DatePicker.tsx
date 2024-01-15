@@ -17,7 +17,7 @@ const DatePicker = () => {
   const formattedDate = date ? (
     formatDate(date) || "Invalid Date"
   ) : (
-    <span>Pick a date</span>
+    <span className="text-base">Pick a date</span>
   );
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const DatePicker = () => {
           <div className="mr-2 ">
             <ReactIcons type="calendar" color="gray" size={20} />
           </div>
-          {formattedDate}
+          <p className="text-base">{formattedDate}</p>
         </Button>
       </PopoverTrigger>
       <PopoverContent className=" p-0  w-full">

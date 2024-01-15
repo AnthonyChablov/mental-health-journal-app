@@ -47,12 +47,10 @@ const AddJournalDrawer = () => {
           <div className="max-w-3xl mx-auto">
             <SheetHeader className="">
               <SheetTitle className="text-2xl">Add a New Journal</SheetTitle>
-              <SheetDescription>
-                <p>
-                  Create a new journal entry to capture your thoughts,
-                  experiences, and memories. Give it a title and write about
-                  your day, goals, or anything that inspires you.
-                </p>
+              <SheetDescription className="text-md">
+                Create a new journal entry to capture your thoughts,
+                experiences, and memories. Give it a title and write about your
+                day, goals, or anything that inspires you.
               </SheetDescription>
             </SheetHeader>
             <Separator className="my-4" />

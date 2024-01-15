@@ -23,12 +23,12 @@ import { editJournal } from "@/apiClient/journalData";
 import { SelectInput } from "../../Inputs/SelectInput";
 import { TagInput } from "../../Inputs/TagInput";
 import useSWR from "swr";
-import { Tag } from "@/models/journalModels";
 import { useModalStore } from "@/store/useModalStore";
 import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import { useSession } from "next-auth/react";
 import { throttle } from "lodash";
+import { useDrawerStore } from "@/store/useDrawerStore";
 
 const formSchema = z.object({
   userId: z.string(),
@@ -64,6 +64,7 @@ const UpdateJournalForm = () => {
     setMood,
     setTags,
   } = useJournalStore();
+  const { setOpenDrawer } = useDrawerStore();
   const { toggleEditModal, setToggleEditModal } = useModalStore();
   const [decodedToken, setDecodedToken] = useState<DecodedToken | null>(null);
 
@@ -165,10 +166,11 @@ const UpdateJournalForm = () => {
             control={form.control}
             name="title"
             render={({ field }) => (
-              <FormItem className="text-left ">
+              <FormItem className="text-left text-md">
                 <FormLabel className="">Title</FormLabel>
                 <FormControl>
                   <Input
+                    className="text-md"
                     type="text"
                     placeholder={title}
                     value={title}
@@ -187,9 +189,10 @@ const UpdateJournalForm = () => {
             name="title"
             render={({ field }) => (
               <FormItem className="text-left">
-                <FormLabel>Content</FormLabel>
+                <FormLabel className="text-md">Content</FormLabel>
                 <FormControl>
                   <Textarea
+                    className="text-md"
                     placeholder={content}
                     onChange={(e) => {
                       setContent(e.target.value);
@@ -207,7 +210,9 @@ const UpdateJournalForm = () => {
               name="title"
               render={({ field }) => (
                 <FormItem className="flex flex-col text-left">
-                  <FormLabel className="mb-[0.4513em] mt-0">Date</FormLabel>
+                  <FormLabel className="mb-[0.4513em] mt-0 text-md">
+                    Date
+                  </FormLabel>
                   <FormControl>
                     <DatePicker />
                   </FormControl>
@@ -221,7 +226,7 @@ const UpdateJournalForm = () => {
               name="title"
               render={({ field }) => (
                 <FormItem className="flex-grow text-left ">
-                  <FormLabel>Mood</FormLabel>
+                  <FormLabel className="text-md">Mood</FormLabel>
                   <FormControl>
                     <SelectInput fitWidth={true} />
                   </FormControl>
@@ -237,7 +242,7 @@ const UpdateJournalForm = () => {
               name="title"
               render={({ field }) => (
                 <FormItem className="flex-grow text-left">
-                  <FormLabel>Tags</FormLabel>
+                  <FormLabel className="text-md">Tags</FormLabel>
                   <FormControl>
                     <TagInput
                       {...field}
@@ -265,6 +270,15 @@ const UpdateJournalForm = () => {
               )}
             />
           </div>
+          <Button
+            className="bg-transparent hover:underline text-md rounded-full p-6 shadow-none text-dark-purple hover:bg-transparent"
+            onClick={() => {
+              setOpenDrawer(false);
+            }}
+            type="button"
+          >
+            Cancel
+          </Button>
           {/* Submit button */}
           <Button
             className="bg-dark-purple hover:bg-dark-purple-brown text-md rounded-full w-full p-6 "
