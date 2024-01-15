@@ -103,16 +103,18 @@ const Drawer = () => {
                   </Button>
                 ))}
               </div>
-              <div className="absolute bottom-6 w-10/12 ">
+              <div className="absolute bottom-12 w-10/12 ">
                 <Separator className="my-5" />
                 <DisplayUserCard isClickable={true} />
                 <Button
                   variant="outline"
-                  className="mt-4 px-2 bg-transparent text-black shadow-none border-0 transition-all duration-300 hover:bg-slate-100 text-md "
+                  className="mt-4 px-2 bg-transparent text-black shadow-none border-0 transition-all duration-300 w-full hover:bg-slate-100 text-md "
                   onClick={handleSignOut}
                 >
-                  <ReactIcons type="logout" size={23} color="black" />
-                  <span className="ml-3 text-gray-900">Log Out</span>
+                  <div className="flex w-full items-start justify-start">
+                    <ReactIcons type="logout" size={23} color="black" />
+                    <span className="ml-3 text-gray-900 ">Log Out</span>
+                  </div>
                 </Button>
               </div>
             </div>

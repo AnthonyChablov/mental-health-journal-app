@@ -18,8 +18,6 @@ import Container from "../Utils/Container";
 export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
-  const menuItems = ["Login", "Register"];
-
   return (
     <div className="bg-skin ">
       <Navbar onMenuOpenChange={setIsMenuOpen} className=" bg-transparent ">
@@ -58,20 +56,28 @@ export default function NavBar() {
             </Button>
           </NavbarItem>
         </NavbarContent>
-        <NavbarMenu className="w-full ">
+        <NavbarMenu className="w-full text-center pt-6">
           <Container>
-            {menuItems.map((item, index) => (
-              <NavbarMenuItem key={`${item}-${index}`}>
-                <Link
-                  className=" text-xl font-playFairDisplay text-semibold text-dark-purple"
-                  href="#"
-                  size="lg"
-                  as={NextLink}
-                >
-                  {item}
-                </Link>
-              </NavbarMenuItem>
-            ))}
+            <NavbarItem>
+              <Button
+                as={Link}
+                href="./login"
+                variant="flat"
+                className="my-3 font-bold text-dark-purple hover:bg-transparent hover:underline  bg-transparent text-lg  "
+              >
+                Login
+              </Button>
+            </NavbarItem>
+            <NavbarItem>
+              <Button
+                as={Link}
+                href="./register"
+                variant="flat"
+                className="my-3 font-bold text-white bg-dark-purple hover:bg-dark-purple-brown text-lg flex items-center justify-centers"
+              >
+                Sign Up
+              </Button>
+            </NavbarItem>
           </Container>
         </NavbarMenu>
       </Navbar>
