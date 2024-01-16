@@ -155,7 +155,7 @@ const UpdateJournalForm = () => {
     <div>
       <Form {...form}>
         <form
-          className="space-y-5"
+          className="space-y-5 "
           onSubmit={(e) => {
             e.preventDefault();
             throttledOnFormSubmit();

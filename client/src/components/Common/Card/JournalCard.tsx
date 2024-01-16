@@ -13,6 +13,13 @@ import ReactIcons from "../Icons/ReactIcons";
 import { formatMood, formatDate } from "@/lib/utils";
 import { useModalStore } from "@/store/useModalStore";
 import { IJournalEntry } from "@/models/journalModels";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 interface IJournalCardProps {
   singleJournalData: IJournalEntry;
@@ -27,7 +34,7 @@ const JournalCard = ({ singleJournalData, mode }: IJournalCardProps) => {
 
   return (
     <>
-      <Card className="shadow-lg overflow-hidden rounded-3xl">
+      <Card className="shadow-lg overflow-hidden rounded-3xl ">
         <div className="bg-dark-purple text-white px-5 py-4 flex justify-between">
           <p
             className={` ${
@@ -77,26 +84,40 @@ const JournalCard = ({ singleJournalData, mode }: IJournalCardProps) => {
             </p>
           </div>
         </CardContent>
-        <CardFooter className="flex items-center justify-between mt-4 mb-2 ">
-          {/* Tags */}
-          <ul className="tags-list flex space-x-2 capitalize">
-            {singleJournalData?.tags?.map((tag, index) => (
-              <li
-                key={index}
-                className="tag-item bg-dark-purple text-white text-sm font-regular p-2 rounded"
-              >
-                {tag.text}
-              </li>
-            ))}
-          </ul>
+        <CardFooter className="flex flex-col items-center justify-between  pt-2">
+          <Carousel
+            opts={{
+              align: "start",
+            }}
+            className="w-full max-w-xs sm:max-w-lg md:max-w-2xl flex space-x-2 p-3"
+          >
+            <CarouselPrevious className="p-2" />
+            <CarouselContent className="ml-1 min-w-0 w-full space-x-2">
+              {/* Tags */}
+              {singleJournalData?.tags?.map((tag, index) => (
+                <CarouselItem
+                  key={index}
+                  className=" pl-1 w-full basis-full sm:basis-1/4 tag-item bg-dark-purple 
+                  text-white text-sm font-regular p-2 rounded tags-list flex space-x-2 capitalize"
+                >
+                  <p className="truncate w-fit"> {tag.text}</p>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+
+            <CarouselNext />
+          </Carousel>
           {/* Triggers Edit Journal Modal */}
           {mode === "journal" && (
-            <Button
-              className="text-dark-purple bg-dark-purple shadow-none hover:bg-dark-purple-brown py-5 px-2 w-fit rounded-full "
-              onClick={() => setToggleEditModal(true)}
-            >
-              <ReactIcons type="edit" size={25} color="white" />
-            </Button>
+            <div className="text-right w-full pt-10">
+              <Button
+                className="text-dark-purple bg-dark-purple shadow-none 
+                  hover:bg-dark-purple-brown py-5 px-2 w-fit rounded-full "
+                onClick={() => setToggleEditModal(true)}
+              >
+                <ReactIcons type="edit" size={25} color="white" />
+              </Button>
+            </div>
           )}
         </CardFooter>
       </Card>
