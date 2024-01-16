@@ -27,12 +27,12 @@ const DatePicker = () => {
 
   return (
     <Popover>
-      <PopoverTrigger asChild className="w-full">
+      <PopoverTrigger asChild className="w-full ">
         <Button
           variant={"outline"}
           className={cn(
-            "  justify-start text-left font-normal w-[280px] ",
-            !date && "text-muted-foreground"
+            "  justify-start text-left font-normal w-full sm:w-[280px] ",
+            !date && "text-muted-foreground "
           )}
         >
           <div className="mr-2 ">
@@ -41,7 +41,7 @@ const DatePicker = () => {
           <p className="text-base">{formattedDate}</p>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className=" p-0  w-full">
+      <PopoverContent className=" p-0 ">
         <Calendar
           mode="single"
           selected={date}

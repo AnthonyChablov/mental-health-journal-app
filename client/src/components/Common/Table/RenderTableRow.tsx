@@ -33,12 +33,12 @@ const RenderTableRow = ({ journalData }: RenderTableRowProps) => {
 
   return (
     <TableRow
-      className=" hover:bg-slate-100 cursor-pointer"
+      className=" hover:bg-slate-100 cursor-pointer text-base "
       onClick={() => {
         onClickHandeller();
       }}
     >
-      <TableCell className=" max-w-smfont-medium ">
+      <TableCell className=" max-w-sm font-medium">
         {journalData.title}
       </TableCell>
       <TableCell className=" max-w-sm truncate ">

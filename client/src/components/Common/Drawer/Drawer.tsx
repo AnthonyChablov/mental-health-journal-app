@@ -95,7 +95,7 @@ const Drawer = () => {
                           size={22}
                           color="#414a5a"
                         />
-                        <span className=" ml-3 text-md md:text-lg font-medium text-gray-700">
+                        <span className=" ml-3 text-lg font-medium text-gray-700">
                           {button.text}
                         </span>
                       </div>
@@ -111,9 +111,9 @@ const Drawer = () => {
                   className="mt-4 px-2 bg-transparent text-black shadow-none border-0 transition-all duration-300 w-full hover:bg-slate-100 text-md "
                   onClick={handleSignOut}
                 >
-                  <div className="flex w-full items-start justify-start">
+                  <div className="flex w-full items-center justify-start">
                     <ReactIcons type="logout" size={23} color="black" />
-                    <span className="ml-3 text-gray-900 ">Log Out</span>
+                    <span className="ml-3 text-gray-900 text-lg">Log Out</span>
                   </div>
                 </Button>
               </div>
