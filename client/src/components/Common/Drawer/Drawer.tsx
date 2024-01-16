@@ -18,6 +18,11 @@ import { useEffect } from "react";
 
 const buttons = [
   {
+    link: "/dashboard",
+    iconType: "home",
+    text: "Home",
+  },
+  {
     link: "/dashboard/journal",
     iconType: "journal",
     text: "Journals",
@@ -67,7 +72,7 @@ const Drawer = () => {
         </Button>
       </SheetTrigger>
       <SheetContent side={"left"} className="w-screen xs:w-96  ">
-        <div className="flex flex-col h-full justify-between overflow-y-scroll">
+        <div className="flex flex-col h-full justify-between overflow-y-auto">
           <div>
             <SheetTitle className=" font-playFairDisplay text-3xl text-dark-purple">
               Better.me
@@ -107,8 +112,7 @@ const Drawer = () => {
                 <Separator className="my-5" />
                 <DisplayUserCard isClickable={true} />
                 <Button
-                  variant="outline"
-                  className="mt-4 px-2 bg-transparent text-black shadow-none border-0 transition-all duration-300 w-full hover:bg-slate-100 text-md "
+                  className="mt-4 px-2 bg-transparent text-black shadow-none border-0  w-full hover:bg-slate-100 text-md "
                   onClick={handleSignOut}
                 >
                   <div className="flex w-full items-center justify-start">

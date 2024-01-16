@@ -10,32 +10,39 @@ import clientPromise from "@/lib/mongodb";
 export const authOptions: NextAuthOptions = {
   providers: [
     LinkedInProvider({
-      clientId: process.env.LINKEDIN_CLIENT_ID ?? "",
-      clientSecret: process.env.LINKEDIN_CLIENT_SECRET ?? "",
-      authorization: { params: { scope: "profile email openid" } },
+      clientId: process.env.LINKEDIN_CLIENT_ID,
+      clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
+      allowDangerousEmailAccountLinking: true,
+      authorization: {
+        params: { scope: "openid profile email" },
+      },
       issuer: "https://www.linkedin.com",
       jwks_endpoint: "https://www.linkedin.com/oauth/openid/jwks",
-      async profile(profile) {
+      profile(profile, tokens) {
+        const defaultImage =
+          "https://cdn-icons-png.flaticon.com/512/174/174857.png";
         return {
           id: profile.sub,
           name: profile.name,
-          firstname: profile.given_name,
-          lastname: profile.family_name,
           email: profile.email,
+          image: profile.picture ?? defaultImage,
         };
       },
     }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID ?? "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+      allowDangerousEmailAccountLinking: true,
     }),
     FacebookProvider({
       clientId: process.env.FACEBOOK_CLIENT_ID ?? "",
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET ?? "",
+      allowDangerousEmailAccountLinking: true,
     }),
     GitHubProvider({
       clientId: process.env.GITHUB_ID ?? "",
       clientSecret: process.env.GITHUB_SECRET ?? "",
+      allowDangerousEmailAccountLinking: true,
     }),
   ],
   callbacks: {
