@@ -90,18 +90,18 @@ const JournalCard = ({ singleJournalData, mode }: IJournalCardProps) => {
               opts={{
                 align: "start",
               }}
-              className="w-full max-w-xs xs:max-w-lg sm:max-w-2xl md:max-w-2xl flex space-x-2 p-3 pt-2 "
+              className="w-full flex justify-center items-center max-w-sm md:max-w-lg  space-x-2 p-3 pt-2 "
             >
               <CarouselPrevious className="p-2" />
-              <CarouselContent className="ml-1  w-full space-x-2 ">
+              <CarouselContent className="ml-1 w-fit space-x-2 ">
                 {/* Tags */}
                 {singleJournalData?.tags?.map((tag, index) => (
                   <CarouselItem
                     key={index}
-                    className=" pl-1 w-full basis-full xs:basis-2/4 sm:basis-1/4  tag-item bg-dark-purple 
-                  text-white text-sm font-regular p-2 rounded tags-list flex space-x-2 capitalize"
+                    className=" pl-1  basis-full tag-item bg-dark-purple 
+                  text-white text-sm font-regular p-2 rounded-xl tags-list flex space-x-2 capitalize max-w-24 w-24 sm:w-24 sm:basis-1/3"
                   >
-                    <p className="truncate w-fit"> {tag.text}</p>
+                    <p className="truncate w-24"> {tag.text}</p>
                   </CarouselItem>
                 ))}
               </CarouselContent>
