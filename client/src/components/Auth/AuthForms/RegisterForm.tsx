@@ -23,7 +23,9 @@ export function LoginForm() {
   /* Actions */
   const { toast } = useToast();
 
-  const handleRegister = (provider: "github" | "google" | "facebook") => {
+  const handleRegister = (
+    provider: "github" | "google" | "facebook" | "linkedin"
+  ) => {
     try {
       setIsLoading(true);
       signIn(provider);
@@ -52,17 +54,17 @@ export function LoginForm() {
         disabled={isLoading}
         className="bg-dark-purple hover:bg-dark-purple-brown text-white rounded-lg"
         onClick={() => {
-          handleRegister("facebook");
+          handleRegister("linkedin");
         }}
       >
         {isLoading ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
         ) : (
           <span className="mr-2">
-            <ReactIcons size={20} color="white" type="facebook" />
+            <ReactIcons size={20} color="white" type="linkedin" />
           </span>
         )}{" "}
-        <span className="text-base">Facebook</span>
+        <span className="text-base">LinkedIn</span>
       </Button>
       <Button
         type="button"
