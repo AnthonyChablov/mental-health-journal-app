@@ -112,8 +112,7 @@ const Drawer = () => {
                 <Separator className="my-5" />
                 <DisplayUserCard isClickable={true} />
                 <Button
-                  variant="outline"
-                  className="mt-4 px-2 bg-transparent text-black shadow-none border-0 transition-all duration-300 w-full hover:bg-slate-100 text-md "
+                  className="mt-4 px-2 bg-transparent text-black shadow-none border-0  w-full hover:bg-slate-100 text-md "
                   onClick={handleSignOut}
                 >
                   <div className="flex w-full items-center justify-start">
