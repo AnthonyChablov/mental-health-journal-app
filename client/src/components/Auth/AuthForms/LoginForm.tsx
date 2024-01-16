@@ -3,11 +3,12 @@ import React, { useState, useEffect } from "react";
 import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+/* import { Button } from "@/components/ui/button"; */
 import { Icons } from "@/components/Common/Icons/Icons";
 import { useToast } from "@/components/ui/use-toast";
 import ReactIcons from "@/components/Common/Icons/ReactIcons";
 import FormSeparator from "./FormSeparator";
+import { Button } from "@nextui-org/button";
 
 export function RegisterForm() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -45,10 +46,9 @@ export function RegisterForm() {
   return (
     <div className={cn("grid gap-6")}>
       <Button
-        variant="outline"
         type="button"
         disabled={isLoading}
-        className="bg-dark-purple hover:bg-dark-purple-brown text-white"
+        className="bg-dark-purple hover:bg-dark-purple-brown text-white rounded-lg"
         onClick={() => {
           handleSignIn("facebook");
         }}
@@ -60,13 +60,12 @@ export function RegisterForm() {
             <ReactIcons size={20} color="white" type="facebook" />
           </span>
         )}{" "}
-        <span>Facebook</span>
+        <span className="text-base">Facebook</span>
       </Button>
       <Button
-        variant="outline"
         type="button"
         disabled={isLoading}
-        className="bg-dark-purple hover:bg-dark-purple-brown text-white"
+        className="bg-dark-purple hover:bg-dark-purple-brown text-white rounded-lg"
         onClick={() => {
           handleSignIn("github");
         }}
@@ -78,24 +77,23 @@ export function RegisterForm() {
             <ReactIcons size={20} color="white" type="github" />
           </span>
         )}{" "}
-        <span>GitHub</span>
+        <span className="text-base">GitHub</span>
       </Button>
       <FormSeparator />
       <Button
-        variant="outline"
         type="button"
         disabled={isLoading}
-        className=" bg-dark-purple hover:bg-dark-purple-brown text-white"
+        className=" bg-dark-purple hover:bg-dark-purple-brown text-white rounded-lg "
         onClick={() => {
           handleSignIn("google");
         }}
       >
         {isLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+          <Icons.spinner className="mr-2 h-4 w-4 animate-spin " />
         ) : (
           <Icons.google className="mr-2 h-4 w-4" />
         )}{" "}
-        <span>Google</span>
+        <span className="text-base">Google</span>
       </Button>
     </div>
   );

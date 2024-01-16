@@ -1,15 +1,13 @@
-import React, { FormEvent, useState, useEffect } from "react";
-import axios from "axios";
-import { useSession, signIn, signOut } from "next-auth/react";
+import React, { useState, useEffect } from "react";
+import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+/* import { Button } from "@/components/ui/button";*/
 import { Icons } from "@/components/Common/Icons/Icons";
-import { Label } from "@radix-ui/react-label";
 import { useToast } from "@/components/ui/use-toast";
 import ReactIcons from "@/components/Common/Icons/ReactIcons";
-import { AxiosResponse } from "axios";
 import FormSeparator from "./FormSeparator";
+import { Button } from "@nextui-org/button";
 
 export function LoginForm() {
   /* State */
@@ -50,10 +48,9 @@ export function LoginForm() {
   return (
     <div className={cn("grid gap-6 ")}>
       <Button
-        variant="outline"
         type="button"
         disabled={isLoading}
-        className="bg-dark-purple hover:bg-dark-purple-brown text-white"
+        className="bg-dark-purple hover:bg-dark-purple-brown text-white rounded-lg"
         onClick={() => {
           handleRegister("facebook");
         }}
@@ -65,13 +62,12 @@ export function LoginForm() {
             <ReactIcons size={20} color="white" type="facebook" />
           </span>
         )}{" "}
-        <span>Facebook</span>
+        <span className="text-base">Facebook</span>
       </Button>
       <Button
-        variant="outline"
         type="button"
         disabled={isLoading}
-        className="bg-dark-purple hover:bg-dark-purple-brown text-white"
+        className="bg-dark-purple hover:bg-dark-purple-brown text-white rounded-lg"
         onClick={() => {
           handleRegister("github");
         }}
@@ -83,14 +79,13 @@ export function LoginForm() {
             <ReactIcons size={20} color="white" type="github" />
           </span>
         )}{" "}
-        <span>GitHub</span>
+        <span className="text-base">GitHub</span>
       </Button>
       <FormSeparator />
       <Button
-        variant="outline"
         type="button"
         disabled={isLoading}
-        className=" bg-dark-purple hover:bg-dark-purple-brown text-white"
+        className=" bg-dark-purple hover:bg-dark-purple-brown text-white rounded-lg"
         onClick={() => {
           handleRegister("google");
         }}
@@ -100,7 +95,7 @@ export function LoginForm() {
         ) : (
           <Icons.google className="mr-2 h-4 w-4" />
         )}{" "}
-        <span>Google</span>
+        <span className="text-base">Google</span>
       </Button>
     </div>
   );
