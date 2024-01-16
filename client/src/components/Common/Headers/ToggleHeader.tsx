@@ -9,7 +9,7 @@ interface IToggleHeader {
 
 const ToggleHeader = ({ title }: IToggleHeader) => {
   return (
-    <div className="flex my-3 justify-center items-center  fixed top-2 ">
+    <div className="    flex justify-between items-center  ">
       <Button
         size="icon"
         className=" bg-transparent shadow-none rounded-full hover:bg-light-purple  "
@@ -19,11 +19,20 @@ const ToggleHeader = ({ title }: IToggleHeader) => {
           <ReactIcons type="back" size={22} color="gray" />
         </Link>
       </Button>
-      <div className="fixed top-5 left-1/2 transform -translate-x-1/2  text-center text-black">
+      <div className=" text-center text-black">
         <p className="font-semibold text-xl text-dark-purple-brown font-playFairDisplay">
           {title}
         </p>
       </div>
+      <Button
+        size="icon"
+        className="opacity-0 transpa bg-transparent shadow-none rounded-full hover:bg-light-purple  "
+        asChild
+      >
+        <Link href="/dashboard/journal" className="font-semibold text-xl">
+          <ReactIcons type="back" size={22} color="gray" />
+        </Link>
+      </Button>
     </div>
   );
 };

@@ -34,8 +34,8 @@ const EditJournalModal = ({ displayTrigger }: IEditJournalModalProps) => {
             </Button>
           </DialogTrigger>
         )}
-        <DialogContent>
-          <DialogHeader>
+        <DialogContent className=" overflow-y-scroll max-h-screen ">
+          <DialogHeader className=" ">
             <DialogTitle className="mb-3">Edit Journal</DialogTitle>
             <DialogDescription>
               <UpdateJournalForm />

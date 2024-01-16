@@ -31,7 +31,7 @@ const Hero = ({ displayDate, header, subHeader }: IHero) => {
           <h1 className="pt-2 text-4xl md:text-5xl lg:text-6xl text-center font-playFairDisplay font-semibold  text-dark-purple max-w-xs md:max-w-lg mx-auto">
             {header}
           </h1>
-          <p className="pt-6  text-center text-sm font-semibold text-light-brown capitalize">
+          <p className="pt-5  text-center text-sm font-semibold text-light-brown capitalize">
             {subHeader}
           </p>
         </div>

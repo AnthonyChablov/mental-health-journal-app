@@ -20,7 +20,9 @@ export function RegisterForm() {
   const { data: session } = useSession();
   const { toast } = useToast();
 
-  const handleSignIn = (provider: "github" | "google" | "facebook") => {
+  const handleSignIn = (
+    provider: "github" | "google" | "facebook" | "linkedin"
+  ) => {
     try {
       setIsLoading(true);
       signIn(provider);
@@ -50,17 +52,17 @@ export function RegisterForm() {
         disabled={isLoading}
         className="bg-dark-purple hover:bg-dark-purple-brown text-white rounded-lg"
         onClick={() => {
-          handleSignIn("facebook");
+          handleSignIn("linkedin");
         }}
       >
         {isLoading ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
         ) : (
           <span className="mr-2">
-            <ReactIcons size={20} color="white" type="facebook" />
+            <ReactIcons size={20} color="white" type="linkedin" />
           </span>
         )}{" "}
-        <span className="text-base">Facebook</span>
+        <span className="text-base">LinkedIn</span>
       </Button>
       <Button
         type="button"

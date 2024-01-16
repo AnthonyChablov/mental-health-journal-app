@@ -65,10 +65,11 @@ const SingleJournalLayout = () => {
   }
 
   return (
-    <div className="min-h-screen bg-skin ">
-      <div className=" h-fit pt-20 mb-20 max-w-3xl mx-auto">
+    <div className="min-h-screen bg-skin h-full pb-24">
+      <div className=" h-fit pt-8 mb-20 max-w-3xl mx-auto">
         <Container>
           <ToggleHeader title="My Journal" />
+          <div className="pb-10"></div>
           <JournalCard singleJournalData={singleJournalData} mode="journal" />
         </Container>
       </div>

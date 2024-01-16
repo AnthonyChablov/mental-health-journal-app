@@ -66,44 +66,44 @@ const Drawer = () => {
           <ReactIcons type="menu" size={30} color="purple" />
         </Button>
       </SheetTrigger>
-
-      <SheetContent side={"left"} className="w-screen xs:w-96">
-        <SheetHeader className=" ">
-          <SheetTitle className=" font-playFairDisplay text-3xl text-dark-purple">
-            Better.me
-          </SheetTitle>
-          <div className="text-md text-gray-600 mt-2 font-regular">
-            Empowering your journey to wellness.
+      <SheetContent side={"left"} className="w-screen xs:w-96  ">
+        <div className="flex flex-col h-full justify-between overflow-y-scroll">
+          <div>
+            <SheetTitle className=" font-playFairDisplay text-3xl text-dark-purple">
+              Better.me
+            </SheetTitle>
+            <div className="text-md text-gray-600 mt-2 font-regular ">
+              Empowering your journey to wellness.
+            </div>
+            <Separator className="my-5" />
+            <div className="space-y-3 flex flex-col w-full ">
+              {buttons.map((button, index) => (
+                <Button
+                  key={index}
+                  size="icon"
+                  className={`bg-transparent shadow-none hover:bg-slate-100 w-full  px-2 py-5 flex items-center justify-start`}
+                  asChild
+                >
+                  <Link href={button.link} className=" w-fit">
+                    <div className="flex justify-center items-center">
+                      <ReactIcons
+                        type={button.iconType}
+                        size={22}
+                        color="#414a5a"
+                      />
+                      <span className=" ml-3 text-lg font-medium text-gray-700">
+                        {button.text}
+                      </span>
+                    </div>
+                  </Link>
+                </Button>
+              ))}
+            </div>
           </div>
-        </SheetHeader>
-        <div className="">
+          {/* Authentication button and logout */}
           {status === "authenticated" ? (
-            <div className="flex flex-col justify-start items-start ">
-              <Separator className="my-5" />
-              <div className="space-y-3 flex flex-col w-full">
-                {buttons.map((button, index) => (
-                  <Button
-                    key={index}
-                    size="icon"
-                    className={`bg-transparent shadow-none hover:bg-slate-100 w-full  px-2 py-5 flex items-center justify-start`}
-                    asChild
-                  >
-                    <Link href={button.link} className=" w-fit">
-                      <div className="flex justify-center items-center">
-                        <ReactIcons
-                          type={button.iconType}
-                          size={22}
-                          color="#414a5a"
-                        />
-                        <span className=" ml-3 text-lg font-medium text-gray-700">
-                          {button.text}
-                        </span>
-                      </div>
-                    </Link>
-                  </Button>
-                ))}
-              </div>
-              <div className="absolute bottom-8 w-10/12 ">
+            <div className="flex flex-col justify-between items-start pb-5">
+              <div className=" w-10/12 ">
                 <Separator className="my-5" />
                 <DisplayUserCard isClickable={true} />
                 <Button
