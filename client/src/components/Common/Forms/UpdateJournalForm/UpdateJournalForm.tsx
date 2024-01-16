@@ -166,11 +166,11 @@ const UpdateJournalForm = () => {
             control={form.control}
             name="title"
             render={({ field }) => (
-              <FormItem className="text-left text-md">
-                <FormLabel className="">Title</FormLabel>
+              <FormItem className="text-left ">
+                <FormLabel className="text-base">Title</FormLabel>
                 <FormControl>
                   <Input
-                    className="text-md"
+                    className="text-base"
                     type="text"
                     placeholder={title}
                     value={title}
@@ -189,10 +189,10 @@ const UpdateJournalForm = () => {
             name="title"
             render={({ field }) => (
               <FormItem className="text-left">
-                <FormLabel className="text-md">Content</FormLabel>
+                <FormLabel className="text-base">Content</FormLabel>
                 <FormControl>
                   <Textarea
-                    className="text-md"
+                    className="text-base"
                     placeholder={content}
                     onChange={(e) => {
                       setContent(e.target.value);
@@ -210,8 +210,8 @@ const UpdateJournalForm = () => {
               name="title"
               render={({ field }) => (
                 <FormItem className="flex flex-col text-left">
-                  <FormLabel className="my-1 text-md">Date</FormLabel>
-                  <FormControl>
+                  <FormLabel className="my-1 text-base">Date</FormLabel>
+                  <FormControl className="">
                     <DatePicker />
                   </FormControl>
                   <FormMessage />
@@ -224,7 +224,7 @@ const UpdateJournalForm = () => {
               name="title"
               render={({ field }) => (
                 <FormItem className="flex-grow text-left ">
-                  <FormLabel className="text-md">Mood</FormLabel>
+                  <FormLabel className="text-base">Mood</FormLabel>
                   <FormControl>
                     <SelectInput fitWidth={true} />
                   </FormControl>
@@ -240,13 +240,13 @@ const UpdateJournalForm = () => {
               name="title"
               render={({ field }) => (
                 <FormItem className="flex-grow text-left">
-                  <FormLabel className="text-md">Tags</FormLabel>
+                  <FormLabel className="text-base">Tags</FormLabel>
                   <FormControl>
                     <TagInput
                       {...field}
                       placeholder="Enter a topic"
                       tags={tags}
-                      className="sm:min-w-[450px] text-md"
+                      className="sm:min-w-[450px] text-base"
                       setTags={(newTags) => {
                         setTags(newTags);
 
@@ -269,16 +269,6 @@ const UpdateJournalForm = () => {
             />
           </div>
           <div className="w-full flex justify-center ">
-            <Button
-              className="bg-transparent hover:underline text-md rounded-full 
-                p-6 shadow-none text-dark-purple hover:bg-transparent"
-              onClick={() => {
-                setOpenDrawer(false);
-              }}
-              type="button"
-            >
-              Cancel
-            </Button>
             {/* Submit button */}
             <Button
               className="bg-dark-purple hover:bg-dark-purple-brown text-md rounded-full w-full p-6 "

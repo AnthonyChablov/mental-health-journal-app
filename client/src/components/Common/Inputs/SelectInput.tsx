@@ -24,12 +24,12 @@ export function SelectInput({ fitWidth }: ISelectInputProps) {
   };
   return (
     <Select onValueChange={handleMoodChange} value={mood}>
-      <SelectTrigger className={` w-full `}>
+      <SelectTrigger className={` w-full text-base `}>
         <SelectValue placeholder="Select a mood" />
       </SelectTrigger>
       <SelectContent className="p-0 m-0 ">
         <SelectGroup>
-          <SelectLabel className="p-0 m-0 text-md ">Mood</SelectLabel>
+          <SelectLabel className="p-0 m-0 text-base">Mood</SelectLabel>
           {moodObject.map((mood) => (
             <SelectItem key={mood.name} value={mood.name}>
               <p className="text-base">

@@ -47,7 +47,7 @@ export function formatDate(date: string | Date | undefined) {
 
   const daysOfWeek = ["SUN", "MON", "TUE", "WED", "THUR", "FRI", "SAT"];
   const months = [
-    "JANY",
+    "JAN",
     "FEB",
     "MAR",
     "APR",
