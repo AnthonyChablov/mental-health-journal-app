@@ -84,7 +84,7 @@ const ReportLayout = () => {
         displayDate={true}
       />
       <Container>
-        <Card className="px-6 py-7 grid gap-4 grid-cols-2 rounded-3xl">
+        <Card className="px-6 py-7 grid gap-4 grid-cols-1 sm:grid-cols-2 rounded-3xl ">
           {/* Render most popular mood */}
           {isJournalDataLoading ? (
             <SkeletonChartDisplay />
@@ -103,6 +103,7 @@ const ReportLayout = () => {
               mode="tag"
             />
           )}
+
           <Card className=" col-span-full">
             <div className="p-4 mt-2">
               {isJournalDataLoading ? (

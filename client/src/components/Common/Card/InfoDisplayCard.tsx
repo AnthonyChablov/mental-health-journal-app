@@ -27,7 +27,7 @@ const InfoDisplayCard = ({
   mood,
 }: IInfoDisplayCardProps) => {
   return (
-    <Card className="min-w-[200px] max-w-full py-2 pb-6 ">
+    <Card className="min-w-[200px] max-w-full w-full py-2 pb-6 ">
       <CardHeader className="flex flex-row items-center justify-between py-2 px-4">
         <CardTitle className="mt-[6px] text-sm">{title}</CardTitle>
         <ReactIcons color={"#6d527d"} size={18} type={icon} />
