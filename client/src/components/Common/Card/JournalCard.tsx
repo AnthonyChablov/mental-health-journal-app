@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -7,19 +7,33 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 import PopOverButton from "../Buttons/PopOverButton";
 import { Button } from "@/components/ui/button";
 import ReactIcons from "../Icons/ReactIcons";
 import { formatMood, formatDate } from "@/lib/utils";
 import { useModalStore } from "@/store/useModalStore";
-import { IJournalEntry } from "@/models/journalModels";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+import { IJournalEntry, Tag } from "@/models/journalModels";
+
+/* Carousel Config */
+const responsive = {
+  desktop: {
+    breakpoint: { max: 3000, min: 700 },
+    items: 3,
+    slidesToSlide: 3, // Number of slides to slide on a single swipe
+  },
+  tablet: {
+    breakpoint: { max: 700, min: 464 },
+    items: 2,
+    slidesToSlide: 2,
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 1,
+    slidesToSlide: 1,
+  },
+};
 
 interface IJournalCardProps {
   singleJournalData: IJournalEntry;
@@ -31,6 +45,10 @@ const JournalCard = ({ singleJournalData, mode }: IJournalCardProps) => {
   const { setToggleEditModal } = useModalStore();
   // Formatting
   const formattedMood = formatMood(singleJournalData?.mood);
+
+  useEffect(() => {
+    console.log(singleJournalData);
+  });
 
   return (
     <>
@@ -84,43 +102,35 @@ const JournalCard = ({ singleJournalData, mode }: IJournalCardProps) => {
             </p>
           </div>
         </CardContent>
-        {mode === "journal" && (
-          <CardFooter className="flex flex-col items-center justify-between sm:flex-row  ">
-            <Carousel
-              opts={{
-                align: "start",
-              }}
-              className="w-full flex justify-center items-center max-w-sm md:max-w-lg  space-x-2 p-3 pt-2 "
-            >
-              <CarouselPrevious className="p-2" />
-              <CarouselContent className="ml-1 w-fit space-x-2 ">
-                {/* Tags */}
-                {singleJournalData?.tags?.map((tag, index) => (
-                  <CarouselItem
-                    key={index}
-                    className=" pl-1  basis-full tag-item bg-dark-purple 
-                  text-white text-sm font-regular p-2 rounded-xl tags-list flex space-x-2 capitalize max-w-24 w-24 sm:w-24 sm:basis-1/3"
-                  >
-                    <p className="truncate w-24"> {tag.text}</p>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselNext />
-            </Carousel>
-            {/* Triggers Edit Journal Modal */}
-            {mode === "journal" && (
-              <div className="text-right w-full pt-10 sm:pt-0">
-                <Button
-                  className="text-dark-purple bg-dark-purple shadow-none 
-                  hover:bg-dark-purple-brown py-5 px-2 w-fit rounded-full "
-                  onClick={() => setToggleEditModal(true)}
-                >
-                  <ReactIcons type="edit" size={25} color="white" />
-                </Button>
+
+        <CardFooter className="flex flex-col items-center justify-between sm:flex-row  w-full">
+          <Carousel
+            responsive={responsive}
+            containerClass="carousel-container"
+            itemClass="carousel-item"
+            itemAriaLabel=""
+            className="z-10 w-full"
+          >
+            {singleJournalData?.tags?.map((tag, index: number) => (
+              <div
+                key={index}
+                className=" bg-dark-purple my-7 mx-2 p-2 text-white text-center rounded-2xl "
+              >
+                <p className="truncate w-full"> {tag.text}</p>
               </div>
-            )}
-          </CardFooter>
-        )}
+            ))}
+          </Carousel>
+          {/* Triggers Edit Journal Modal */}
+          <div className="text-right w-full sm:pt-0">
+            <Button
+              className="text-dark-purple bg-dark-purple shadow-none 
+                  hover:bg-dark-purple-brown py-5 px-2 w-fit rounded-full "
+              onClick={() => setToggleEditModal(true)}
+            >
+              <ReactIcons type="edit" size={25} color="white" />
+            </Button>
+          </div>
+        </CardFooter>
       </Card>
     </>
   );

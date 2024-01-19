@@ -9,6 +9,7 @@ import SkeletonCardDisplay from "../Loading/SkeletonCardDisplay";
 interface ICarouselDisplayProps {
   carouselItems: IJournalEntry[];
   isLoading: boolean;
+  mode: "journal" | "tag";
 }
 
 /* Carousel Config */

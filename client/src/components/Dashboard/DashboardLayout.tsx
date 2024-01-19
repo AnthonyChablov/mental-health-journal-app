@@ -27,7 +27,7 @@ const DashboardLayout = () => {
 
   // Actions
   const { data: session, status } = useSession();
-  const { toast } = useToast();
+  const { toast, dismiss } = useToast();
 
   // Fetch Journal Data
   const {
@@ -54,7 +54,7 @@ const DashboardLayout = () => {
         variant: "default",
         title: "Loading Your Journals",
         description: "Please wait while we retrieve your journal entries.",
-        action: <ToastAction altText="Cancel">Cancel</ToastAction>,
+        action: <ToastAction altText="Cancel">Close</ToastAction>,
       });
     }
     if (journalError) {
@@ -69,6 +69,7 @@ const DashboardLayout = () => {
     }
     if (!journalLoading && !journalError) {
       setIsLoading(false);
+      dismiss();
     }
   }, [journalLoading, journalError]);
 
@@ -116,6 +117,7 @@ const DashboardLayout = () => {
                 </Link>
               </div>
               <CarouselDisplay
+                mode={"journal"}
                 carouselItems={journalData}
                 isLoading={journalLoading}
               />
