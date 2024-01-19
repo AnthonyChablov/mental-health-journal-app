@@ -53,14 +53,6 @@ const SingleJournalLayout = () => {
 
   /* Toast */
   useEffect(() => {
-    if (singleJournalLoading) {
-      toast({
-        variant: "default",
-        title: "Loading Your Journals",
-        description: "Please wait while we retrieve your journal entries.",
-        action: <ToastAction altText="Cancel">Cancel</ToastAction>,
-      });
-    }
     if (singleJournalError) {
       toast({
         variant: "destructive",
