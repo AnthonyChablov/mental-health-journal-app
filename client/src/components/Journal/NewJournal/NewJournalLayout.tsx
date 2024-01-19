@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Container from "@/components/Common/Utils/Container";
 import { Button } from "@/components/ui/button";
@@ -19,26 +19,8 @@ const moodObject = [
 ];
 
 const NewJournalLayout = () => {
-  const {
-    userId,
-    title,
-    content,
-    date,
-    mood,
-    tags,
-    privacy,
-    setUserId,
-    setTitle,
-    setContent,
-    setDate,
-    setMood,
-    setTags,
-    setPrivacy,
-  } = useJournalStore();
+  const { setMood } = useJournalStore();
 
-  useEffect(() => {
-    console.log(title, content, date, mood, tags, privacy);
-  }, [title, content, date, mood, tags, privacy]);
   return (
     <section className="bg-skin">
       <Container>

@@ -25,10 +25,17 @@ import ReactIcons from "../Common/Icons/ReactIcons";
 import { useSession } from "next-auth/react";
 import LoadingLayout from "../Loading/LoadingLayout";
 import ErrorLayout from "../Error/ErrorLayout";
+import { useToast } from "../ui/use-toast";
+import { ToastAction } from "../ui/toast";
 
 const JournalLayout = () => {
+  // State
+  const { filterMode } = useJournalFilterStore();
+  const [searchQuery, setSearchQuery] = useState<string>("");
+
   // Actions
   const { data: session } = useSession();
+  const { toast } = useToast();
 
   // Fetch Journal Data
   const {
@@ -44,18 +51,30 @@ const JournalLayout = () => {
     }
   );
 
-  /* State */
-  const { filterMode } = useJournalFilterStore();
-  const [searchQuery, setSearchQuery] = useState<string>("");
-
-  useEffect(() => {
-    console.log(journalData, filterMode);
-  }, [journalData, filterMode]);
-
   // Filter the journalData based on the searchQuery
   const filteredData = journalData?.filter((entry: IJournalEntry) =>
     entry.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  useEffect(() => {
+    if (journalLoading) {
+      toast({
+        variant: "default",
+        title: "Loading Your Journals",
+        description: "Please wait while we retrieve your journal entries.",
+        action: <ToastAction altText="Cancel">Cancel</ToastAction>,
+      });
+    }
+    if (journalError) {
+      toast({
+        variant: "destructive",
+        title: "Error Retrieving Journals",
+        description:
+          "Oops! Something went wrong while trying to retrieve your journal entries. Please try again later.",
+        action: <ToastAction altText="Dismiss">Dismiss</ToastAction>,
+      });
+    }
+  }, [journalLoading, journalError]);
 
   return (
     <>

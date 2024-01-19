@@ -17,7 +17,8 @@ import CarouselDisplay from "../Common/Carousel/CarouselDisplay";
 import SkeletonChartDisplay from "../Common/Loading/SkeletonChartDisplay";
 import useMoodData from "@/hooks/useMoodData";
 import { useSession } from "next-auth/react";
-import { getSession } from "next-auth/react";
+import { useToast } from "@/components/ui/use-toast";
+import { ToastAction } from "../ui/toast";
 
 const DashboardLayout = () => {
   // State
@@ -26,6 +27,7 @@ const DashboardLayout = () => {
 
   // Actions
   const { data: session, status } = useSession();
+  const { toast, dismiss } = useToast();
 
   // Fetch Journal Data
   const {
@@ -48,18 +50,28 @@ const DashboardLayout = () => {
   useEffect(() => {
     if (journalLoading) {
       setIsLoading(true);
+      toast({
+        variant: "default",
+        title: "Loading Your Journals",
+        description: "Please wait while we retrieve your journal entries.",
+        action: <ToastAction altText="Cancel">Close</ToastAction>,
+      });
     }
     if (journalError) {
       setError(journalError);
+      toast({
+        variant: "destructive",
+        title: "Error Retrieving Journals",
+        description:
+          "Oops! Something went wrong while trying to retrieve your journal entries. Please try again later.",
+        action: <ToastAction altText="Dismiss">Dismiss</ToastAction>,
+      });
     }
     if (!journalLoading && !journalError) {
       setIsLoading(false);
+      dismiss();
     }
   }, [journalLoading, journalError]);
-
-  useEffect(() => {
-    console.log(session);
-  }, [session]);
 
   return (
     <div className="bg-skin h-full min-h-screen pb-24">
@@ -105,6 +117,7 @@ const DashboardLayout = () => {
                 </Link>
               </div>
               <CarouselDisplay
+                mode={"journal"}
                 carouselItems={journalData}
                 isLoading={journalLoading}
               />
