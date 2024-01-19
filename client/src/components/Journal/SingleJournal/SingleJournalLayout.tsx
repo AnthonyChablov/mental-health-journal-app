@@ -12,19 +12,21 @@ import { useModalStore } from "@/store/useModalStore";
 import EditJournalModal from "@/components/Common/Modal/EditJournalModal";
 import { useJournalStore } from "@/store/useJournalStore";
 import { useSession } from "next-auth/react";
+import { ToastAction } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/use-toast";
 
 const SingleJournalLayout = () => {
+  // State
+  const { toggleEditModal, setToggleEditModal } = useModalStore();
+  const { setTitle, setContent, setDate, setMood, setTags } = useJournalStore();
+
   // Router
   const params = useParams();
   const journalId = params.journalId;
 
   // Actions
   const { data: session } = useSession();
-
-  // State
-  const { toggleEditModal, setToggleEditModal } = useModalStore();
-  const { setUserId, setTitle, setContent, setDate, setMood, setTags } =
-    useJournalStore();
+  const { toast } = useToast();
 
   // Fetch Single Journal Data
   const {
@@ -42,7 +44,6 @@ const SingleJournalLayout = () => {
   );
 
   useEffect(() => {
-    console.log(singleJournalData);
     setTitle(singleJournalData?.title);
     setContent(singleJournalData?.content);
     setDate(singleJournalData?.date);
@@ -50,9 +51,26 @@ const SingleJournalLayout = () => {
     setTags(singleJournalData?.tags);
   }, [singleJournalData]);
 
+  /* Toast */
   useEffect(() => {
-    console.log(journalId);
-  }, [journalId]);
+    if (singleJournalLoading) {
+      toast({
+        variant: "default",
+        title: "Loading Your Journals",
+        description: "Please wait while we retrieve your journal entries.",
+        action: <ToastAction altText="Cancel">Cancel</ToastAction>,
+      });
+    }
+    if (singleJournalError) {
+      toast({
+        variant: "destructive",
+        title: "Error Retrieving Journals",
+        description:
+          "Oops! Something went wrong while trying to retrieve your journal entries. Please try again later.",
+        action: <ToastAction altText="Dismiss">Dismiss</ToastAction>,
+      });
+    }
+  }, [singleJournalLoading, singleJournalError]);
 
   if (singleJournalError) {
     return <div className="h-screen bg-skin pt-12">Error...</div>;
@@ -63,7 +81,6 @@ const SingleJournalLayout = () => {
       </div>
     );
   }
-
   return (
     <div className="min-h-screen bg-skin h-full pb-24">
       <div className=" h-fit pt-8 mb-20 max-w-3xl mx-auto">
